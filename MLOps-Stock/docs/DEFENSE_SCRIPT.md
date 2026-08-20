@@ -31,9 +31,9 @@ Nếu không muốn phụ thuộc thao tác Swagger, chạy `powershell -Executi
 
 ## 4. Số liệu phải nói đúng
 
-Walk-forward final trên FPT snapshot sử dụng 7 expanding folds, validation size 60 và gap 3. Naive có mean MAE `2352.01`, RMSE `3012.89`, sMAPE `2.68%`, Directional Accuracy `42.86%`, Strategy Sharpe `-1.42`. LightGBM có mean MAE `3503.25`, RMSE `4256.40`, sMAPE `4.10%`, Directional Accuracy `50.24%`, Strategy Sharpe `1.54`.[1]
+Walk-forward final trên FPT snapshot sử dụng 7 expanding folds, validation size 60 và gap 3. Benchmark bounded gồm bốn model: Naive có mean MAE `2352.01`, RMSE `3012.89`, Directional Accuracy `42.86%`; LightGBM có MAE `4205.20`, RMSE `4990.57`, Directional Accuracy `47.38%`; TFT có MAE `8441.87`, RMSE `9401.15`, Directional Accuracy `50.00%`; equal-weight Ensemble có MAE `5897.04`, RMSE `6723.20`, Directional Accuracy `48.33%`.[1]
 
-Cách diễn giải đúng là LightGBM có Directional Accuracy và strategy Sharpe tốt hơn trong snapshot này, nhưng Naive có MAE/RMSE tốt hơn. Vì vậy không được nói LightGBM thắng toàn diện. Walk-forward report hiện chưa phải benchmark TFT/Ensemble; TFT/Ensemble được chứng minh bằng holdout manifest, Docker serving, retraining gate và runtime smoke evidence.[2]
+Cách diễn giải đúng là không model nào thắng toàn diện: Naive tốt nhất trên MAE/RMSE, TFT có Directional Accuracy cao nhất trong run bounded một epoch, còn equal-weight Ensemble chưa chứng minh ưu thế tổng thể. Đây là ablation result hợp lệ; không được nói Ensemble luôn tốt hơn.[2]
 
 Automated retraining run đã tạo candidate version `2` cho `stock-ensemble-FPT-t3`. MAE giảm từ `0.2872670182790942` xuống `0.2867988409553559`, RMSE giảm từ `0.3548542435466494` xuống `0.35435845756971923`, Directional Accuracy giữ ở `46.875`; evaluation gate passed và candidate được promote.[3] Các MAE/RMSE này thuộc scaled target holdout space, không được so sánh trực tiếp với MAE giá trong walk-forward.
 
@@ -41,7 +41,7 @@ Automated retraining run đã tạo candidate version `2` cho `stock-ensemble-FP
 
 ### Hội đồng: “Ensemble có luôn tốt hơn model đơn không?”
 
-Không. Ensemble là giả thuyết cần kiểm chứng. Trong implementation, TFT và LightGBM tạo component predictions, meta-learner học cách kết hợp trong target space được ghi ở manifest. Evidence hiện có xác nhận pipeline và retraining gate; walk-forward benchmark chính thức hiện mới bao gồm Naive và LightGBM, nên tôi không tuyên bố Ensemble luôn tốt hơn.
+Không. Ensemble là giả thuyết cần kiểm chứng. Trong implementation, TFT và LightGBM tạo component predictions, meta-learner học cách kết hợp trong target space được ghi ở manifest. Benchmark bounded mới đã chạy đủ Naive/LightGBM/TFT/equal-weight Ensemble; kết quả không cho thấy Ensemble thắng toàn diện. Vì vậy hệ thống giữ evaluation gate và không mặc định promote chỉ vì candidate là Ensemble.
 
 ### Hội đồng: “PSI critical có nghĩa là concept drift không?”
 
@@ -69,6 +69,6 @@ Không nên gọi như vậy. Code sử dụng một TFT skeleton nghiên cứu 
 
 ## References
 
-[1]: ../artifacts/evaluation/FPT_walk_forward_final.json "Final leakage-aware walk-forward report"
+[1]: ../artifacts/evaluation/FPT_walk_forward_ensemble_final.json "Final bounded walk-forward report for Naive, LightGBM, TFT and Ensemble"
 [2]: ../docs/DEFENSE_GAP_ANALYSIS.md "Defense gap analysis and evidence matrix"
 [3]: ../artifacts/retraining_guard_evidence.json "Champion evaluation gate regression evidence"

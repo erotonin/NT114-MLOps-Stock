@@ -58,3 +58,9 @@ Không nói hệ thống dự đoán chính xác giá, không nói đảm bảo 
 ## 7. Checklist trước ngày bảo vệ
 
 Chạy `python -m pytest -q` và lưu kết quả 28 passed. Chạy `python scripts/smoke_test.py` trên Compose stack. Kiểm tra `docker-compose ps` có đủ project services. Mở Dashboard, Ensemble Swagger và Control Swagger. Chuẩn bị sẵn `IMPLEMENTATION_STATUS.md`, `SETUP.md`, `DEFENSE_NOTES.md`, `FPT_walk_forward.json`, `FPT_drift_replay.json`, `final_smoke_output.txt` và `retraining_guard_evidence.json`. Cuối cùng, tắt background retraining jobs không cần thiết và giữ một snapshot backup của `models/`, `data/`, `artifacts/control_plane.sqlite3` trước buổi demo.
+
+## Update: TFT/Ensemble walk-forward evaluator
+
+The project now includes `scripts/run_walk_forward_ensemble.py`, which evaluates Naive, LightGBM, TFT and an equal-weight Ensemble on the same seven expanding folds with gap 3 and a 60-step temporal window. The final report is stored at `artifacts/evaluation/FPT_walk_forward_ensemble_final.json`.
+
+The benchmark is intentionally labeled **bounded** because TFT uses one CPU epoch per fold to keep the acceptance run reproducible on a laptop. Results are now available for defense, but they should not be presented as a tuned or production-quality TFT study. In the current run, Naive remains strongest on MAE/RMSE, while TFT reaches the highest Directional Accuracy among the four at 50.00%; the equal-weight Ensemble does not dominate all metrics. This is a valid negative/ablation result and supports the thesis claim that model lifecycle and evaluation gates are necessary rather than assuming Ensemble superiority.

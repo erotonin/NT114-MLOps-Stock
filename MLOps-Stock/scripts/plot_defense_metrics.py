@@ -6,10 +6,10 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[1]
-report = json.loads((ROOT / "artifacts/evaluation/FPT_walk_forward_final.json").read_text(encoding="utf-8"))
+report = json.loads((ROOT / "artifacts/evaluation/FPT_walk_forward_ensemble_final.json").read_text(encoding="utf-8"))
 models = report["models"]
-names = ["Naive", "LightGBM"]
-keys = ["naive", "lightgbm"]
+names = ["Naive", "LightGBM", "TFT", "Equal-weight\nEnsemble"]
+keys = ["naive", "lightgbm", "tft", "equal_weight_ensemble"]
 metrics = [
     ("mean_mae", "Mean MAE", "#2563eb"),
     ("mean_rmse", "Mean RMSE", "#059669"),
@@ -31,7 +31,7 @@ for ax, (metric, title, color) in zip(axes.ravel(), metrics):
     if metric == "mean_strategy_sharpe":
         ax.axhline(0, color="black", linewidth=0.8)
 
-fig.text(0.5, 0.025, "Source: artifacts/evaluation/FPT_walk_forward_final.json. Benchmark includes Naive and LightGBM only.", ha="center", fontsize=8)
+fig.text(0.5, 0.025, "Source: artifacts/evaluation/FPT_walk_forward_ensemble_final.json. Bounded one-epoch TFT benchmark.", ha="center", fontsize=8)
 out = ROOT / "artifacts/evaluation/defense_metrics_comparison.png"
 out.parent.mkdir(parents=True, exist_ok=True)
 fig.savefig(out, dpi=180)

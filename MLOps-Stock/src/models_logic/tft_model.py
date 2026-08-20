@@ -73,9 +73,9 @@ class TFTSkeleton(nn.Module):
         
         # Input processing via True VSN
         # Reshape for VSN: [batch * seq, num_features, 1 (input_size)]
-        x_reshaped = x.view(batch * seq, feat, 1)
+        x_reshaped = x.reshape(batch * seq, feat, 1)
         x_vsn = self.vsn(x_reshaped) # Output: [batch * seq, d_model]
-        x = x_vsn.view(batch, seq, self.d_model) # Back to sequence: [batch, seq, d_model]
+        x = x_vsn.reshape(batch, seq, self.d_model) # Back to sequence: [batch, seq, d_model]
         
         # Symbol embedding integration
         if not isinstance(symbol_idx, torch.Tensor):
