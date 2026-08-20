@@ -145,3 +145,33 @@ Trong kiến trúc Hybrid Cloud, K3s/private cluster giữ training, dữ liệu
 Nếu API trả lỗi model chưa train, kiểm tra `models/{TICKER}_artifact_manifest.json` và bốn artifact scaler/TFT/LightGBM/meta-learner. Nếu API cố kết nối `localhost:5000` dù đã có artifact local, đặt `LOCAL_MODELS_DIR` tuyệt đối vào thư mục `models`.
 
 Nếu Docker build fail ở TFT, kiểm tra RAM và cache pip. Nếu ArgoCD OutOfSync, kiểm tra image tag, namespace, service account, PVC và logs của pod. Nếu drift luôn là `insufficient_sample`, tăng cửa sổ dữ liệu hoặc giảm threshold chỉ trong môi trường replay; không hạ threshold tùy tiện trên production.
+
+## 12. Windows Docker Compose verified flow
+
+Trên Windows Docker Desktop, dùng trực tiếp Compose plugin nếu lệnh `docker compose` không được nhận diện:
+
+```powershell
+Set-Location 'C:\Users\Admin\Desktop\NT114\MLOps-Stock'
+& 'C:\Program Files\Docker\cli-plugins\docker-compose.exe' up -d
+& 'C:\Program Files\Docker\cli-plugins\docker-compose.exe' ps
+```
+
+Compose mặc định chạy **local-offline mode**: MLflow được đặt dưới profile tùy chọn `mlflow`, còn các service inference đọc artifact từ thư mục `models/` được mount vào container. Cách này phù hợp cho demo bảo vệ và không phụ thuộc việc kéo image MLflow từ GHCR. Khi cần bật MLflow server, chạy:
+
+```powershell
+& 'C:\Program Files\Docker\cli-plugins\docker-compose.exe' --profile mlflow up -d
+```
+
+Không xóa volume `control_data` nếu muốn giữ prediction logs, drift events, retraining jobs và registry audit. Dừng stack bằng:
+
+```powershell
+& 'C:\Program Files\Docker\cli-plugins\docker-compose.exe' down
+```
+
+Smoke test đã được lưu tại `artifacts/smoke_evidence.txt` và `artifacts/control_smoke_evidence.txt`. Contract đúng của prediction graph là `GET /fetch/FPT`, sau đó `POST /predict/tft` và `POST /predict/lgbm` với JSON `{ticker, features}`, rồi `GET /predict/FPT` trên Ensemble API. Các endpoint `/health` chỉ được cung cấp bởi Monitor và Control API; Data/TFT/LightGBM/Ensemble dùng `/docs` hoặc route nghiệp vụ tương ứng.
+
+Nếu Docker build inference image bị pip resolver loop, kiểm tra requirements của image đó không chứa `s3fs`, `mlflow` hoặc `boto3` nếu service chỉ phục vụ local artifacts. MLflow và các dependency training được lazy-load hoặc giữ ở training/control worker khi cần; không thêm lại chúng vào inference image nếu không có yêu cầu triển khai artifact qua MLflow.
+
+Nếu `python -m pytest -q` trên Windows host báo thiếu `httpx` từ FastAPI TestClient, đó là thiếu dependency của môi trường host; chạy test trong virtual environment của project hoặc cài đầy đủ `requirements.txt`. Docker runtime smoke test vẫn là evidence độc lập và đã được thực hiện trên Compose stack.
+
+> Cảnh báo: dự báo trong smoke test là kết quả minh họa từ artifact local, không phải khuyến nghị mua/bán và không nên dùng để đặt lệnh tự động.

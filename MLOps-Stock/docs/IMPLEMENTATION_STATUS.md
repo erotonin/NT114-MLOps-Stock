@@ -52,3 +52,15 @@ The GitOps repository contains Helm templates and values for Control API and Mon
 ## Known limitations
 
 The local registry is filesystem-backed and SQLite-backed for portability; production should use MLflow Model Registry/PostgreSQL/object storage. The current TFT is a research skeleton rather than a full industrial TFT implementation. Sentiment, online learning, production A/B testing and high-availability disaster recovery are not part of the verified MVP. Kubernetes rendering could not be executed in the sandbox because Helm and Docker are not installed; the manifests were edited consistently with the existing chart conventions and must be linted in the user's cluster/CI.
+
+## Docker Compose acceptance evidence — 2026-08-20
+
+All project images were built successfully on Windows Docker Desktop 29.6.1: `data-api` (529 MB), `lgbm-api` (726 MB), `ensemble-api` (590 MB), `monitor-api` (776 MB), `tft-api` (1.86 GB), `control-api` (656 MB) and `dashboard-ui` (243 MB). The dashboard Dockerfile was corrected to copy only `services/dashboard_ui/requirements.txt`; otherwise the root training requirements could accidentally pull `torch`, MLflow and `s3fs`.
+
+The full local-offline Compose stack started successfully with eight project containers plus Redis. MLflow remains available under the optional `mlflow` profile because the GHCR image pull was slow on the laptop; local inference uses the verified FPT artifacts mounted from `models/`. Control and Monitor were reachable at their health endpoints, and Dashboard returned HTTP 200.
+
+The recorded prediction path is in `artifacts/smoke_evidence.txt`: Data API returned HTTP 200 with 122 close observations; TFT returned `91865.71875`; LightGBM returned `70749.73788562209`; Ensemble returned HTTP 200 with current price `68800.0`, ensemble prediction `72646.32186951733`, model version `local-fpt`, feature version `local-snapshot`, and decision `SELL`. Dashboard returned HTTP 200. These values demonstrate a functioning service graph, not predictive performance or investment advice.
+
+The Control API evidence is in `artifacts/control_smoke_evidence.txt` and the live policy check. Health returned `status=ok`; viewer access to `/models` returned HTTP 200; a two-feature PSI shift with two consecutive critical checks returned policy decision `severity=critical`, `action=retrain`, and policy version `v1`.
+
+The host-level `python -m pytest -q` command on the Windows Python installation was not accepted because the host FastAPI TestClient environment lacked `httpx`; this is an environment dependency issue rather than a Docker runtime failure. The sandbox verification remains **28 passed**, and the Docker acceptance evidence above was collected independently on the target laptop.

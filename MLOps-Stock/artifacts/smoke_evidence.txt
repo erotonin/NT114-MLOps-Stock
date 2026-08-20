@@ -1,0 +1,6 @@
+﻿TIMESTAMP=2026-08-20T20:25:07.1940603+07:00
+DATA_STATUS=200 CLOSE_COUNT=122
+TFT={"model":"Temporal Fusion Transformer","predicted_t3":91865.71875,"model_version":"local-fpt","feature_version":"local-snapshot","horizon":3}
+LGBM={"model":"LightGBM","predicted_t3":70749.73788562209,"model_version":"local-fpt","feature_version":"local-snapshot","horizon":3}
+ENSEMBLE={"ticker":"FPT","current_price":68800.0,"model_version":"local-fpt","feature_version":"local-snapshot","horizon":3,"predicted_t3":72646.32186951733,"predicted_t3_tft":91865.71875,"predicted_t3_lgbm":70749.73788562209,"expected_return_pct":-16.09369874352792,"decision":"SELL","metrics":{"confidence":0.46735462906309044,"reason":"Negative expected edge after costs and uncertainty adjustment","uncertainty_pct":30.69183265171208}}
+DASHBOARD_STATUS=200
