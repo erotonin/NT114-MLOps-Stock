@@ -4,6 +4,4 @@ pandas
 numpy
 lightgbm
 joblib
-mlflow
-boto3
 scikit-learn

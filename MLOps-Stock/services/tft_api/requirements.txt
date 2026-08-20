@@ -5,6 +5,4 @@ pandas
 numpy
 torch
 joblib
-mlflow
-boto3
 scikit-learn
