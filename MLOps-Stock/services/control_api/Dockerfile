@@ -7,7 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 RUN useradd --create-home --uid 10001 appuser
 COPY services/control_api/requirements.txt /tmp/requirements.txt
-RUN pip install --no-cache-dir -r /tmp/requirements.txt
+RUN pip install --no-cache-dir --timeout 300 --retries 10 -r /tmp/requirements.txt
 COPY src /app/src
 COPY services/control_api /app/services/control_api
 RUN mkdir -p /app/artifacts /app/models /app/data && chown -R appuser:appuser /app
