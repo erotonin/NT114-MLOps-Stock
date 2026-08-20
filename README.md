@@ -22,7 +22,22 @@ python -m src.training.final_ensemble_train --symbol FPT
 .\scripts\start_local.sh
 ```
 
-Trên Windows, nếu shell không chạy file `.sh`, có thể dùng Git Bash/WSL hoặc chạy từng service theo `MLOps-Stock/docs/SETUP.md`.
+Trên Windows, cách khuyến nghị là mở PowerShell tại thư mục `MLOps-Stock` và chạy:
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+.\scripts\start_local.ps1
+```
+
+Dừng stack bằng:
+
+```powershell
+.\scripts\stop_local.ps1
+```
+
+Nếu Docker Compose không được nhận diện qua `docker compose`, script sẽ tự dùng binary tại `C:\Program Files\Docker\cli-plugins\docker-compose.exe`.
+
+Git Bash/WSL vẫn có thể dùng `scripts/start_local.sh`; hướng dẫn chi tiết nằm trong `MLOps-Stock/docs/SETUP.md`.
 
 Dashboard: `http://127.0.0.1:8081`.
 
