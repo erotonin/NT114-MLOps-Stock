@@ -30,6 +30,11 @@ services:
     volumes:
       - ./src:/app/src:ro
       - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
 
   tft-api:
@@ -46,6 +51,11 @@ services:
       - ./src:/app/src:ro
       - ./models:/app/models:ro
       - model_cache:/app/models-cache
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8002/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
 
   lgbm-api:
@@ -62,6 +72,11 @@ services:
       - ./src:/app/src:ro
       - ./models:/app/models:ro
       - model_cache:/app/models-cache
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8003/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
 
   ensemble-api:
@@ -89,6 +104,11 @@ services:
       - tft-api
       - lgbm-api
       - redis
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
 
   control-api:

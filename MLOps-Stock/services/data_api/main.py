@@ -11,6 +11,11 @@ import math
 
 app = FastAPI(title="Data Service API")
 
+
+@app.get("/health")
+def health() -> Dict[str, str]:
+    return {"status": "ok", "service": "data-api"}
+
 @app.get("/fetch/{ticker}")
 def fetch_data(ticker: str, days: int = 200) -> Dict[str, Any]:
     try:

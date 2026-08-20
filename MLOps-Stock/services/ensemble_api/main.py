@@ -20,6 +20,11 @@ redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=Tr
 app = FastAPI(title="Ensemble API Gateway")
 control_store = EventStore(os.getenv("CONTROL_DB_PATH", "artifacts/control_plane.sqlite3"))
 
+
+@app.get("/health")
+def health() -> dict[str, str]:
+    return {"status": "ok", "service": "ensemble-api"}
+
 # URLs của các Microservices
 DATA_URL = os.getenv("DATA_SERVICE_URL", "http://localhost:8001/fetch/{}")
 TFT_URL = os.getenv("TFT_SERVICE_URL", "http://localhost:8002/predict/tft")

@@ -13,6 +13,11 @@ from src.models_logic.model_loader import download_model_artifacts, load_manifes
 
 app = FastAPI(title="TFT Inference Service")
 
+
+@app.get("/health")
+def health() -> Dict[str, str]:
+    return {"status": "ok", "service": "tft-api"}
+
 class DataPayload(BaseModel):
     ticker: str
     features: Dict[str, List[float]]

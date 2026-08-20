@@ -15,10 +15,10 @@ if ($LASTEXITCODE -ne 0) { throw "docker-compose.yml validation failed." }
 & $compose ps
 
 $readiness = @(
-    @{ Name = "Data API"; Url = "http://127.0.0.1:8001/docs" },
-    @{ Name = "TFT API"; Url = "http://127.0.0.1:8002/docs" },
-    @{ Name = "LightGBM API"; Url = "http://127.0.0.1:8003/docs" },
-    @{ Name = "Ensemble API"; Url = "http://127.0.0.1:8080/docs" },
+    @{ Name = "Data API"; Url = "http://127.0.0.1:8001/health" },
+    @{ Name = "TFT API"; Url = "http://127.0.0.1:8002/health" },
+    @{ Name = "LightGBM API"; Url = "http://127.0.0.1:8003/health" },
+    @{ Name = "Ensemble API"; Url = "http://127.0.0.1:8080/health" },
     @{ Name = "Monitor API"; Url = "http://127.0.0.1:8084/health" },
     @{ Name = "Control API"; Url = "http://127.0.0.1:8085/health" },
     @{ Name = "Dashboard"; Url = "http://127.0.0.1:8081/" }
