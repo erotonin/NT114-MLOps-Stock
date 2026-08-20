@@ -9,6 +9,7 @@ services:
     restart: unless-stopped
 
   mlflow:
+    profiles: ["mlflow"]
     image: ghcr.io/mlflow/mlflow:v3.15.1
     command: >-
       mlflow server --host 0.0.0.0 --port 5000
@@ -39,12 +40,12 @@ services:
       - "8002:8002"
     environment:
       MLFLOW_TRACKING_URI: http://mlflow:5000
+      LOCAL_MODELS_DIR: /app/models
       MODELS_CACHE_DIR: /app/models-cache
     volumes:
       - ./src:/app/src:ro
+      - ./models:/app/models:ro
       - model_cache:/app/models-cache
-    depends_on:
-      - mlflow
     restart: unless-stopped
 
   lgbm-api:
@@ -55,12 +56,12 @@ services:
       - "8003:8003"
     environment:
       MLFLOW_TRACKING_URI: http://mlflow:5000
+      LOCAL_MODELS_DIR: /app/models
       MODELS_CACHE_DIR: /app/models-cache
     volumes:
       - ./src:/app/src:ro
+      - ./models:/app/models:ro
       - model_cache:/app/models-cache
-    depends_on:
-      - mlflow
     restart: unless-stopped
 
   ensemble-api:
@@ -76,9 +77,11 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       MLFLOW_TRACKING_URI: http://mlflow:5000
+      LOCAL_MODELS_DIR: /app/models
       MODELS_CACHE_DIR: /app/models-cache
     volumes:
       - ./src:/app/src:ro
+      - ./models:/app/models:ro
       - model_cache:/app/models-cache
       - control_data:/app/artifacts
     depends_on:
@@ -107,8 +110,6 @@ services:
       - ./data:/app/data
       - ./models:/app/models
       - control_data:/app/artifacts
-    depends_on:
-      - mlflow
     restart: unless-stopped
 
   monitor-api:
