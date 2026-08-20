@@ -25,7 +25,11 @@ from src.mlops_control.retraining import RetrainingService
 from src.mlops_control.store import EventStore
 
 app = FastAPI(title="MLOps Stock Control Plane", version="1.0.0")
-_allowed_origins = [item.strip() for item in os.getenv("CONTROL_ALLOWED_ORIGINS", "*").split(",") if item.strip()]
+_allowed_origins = [
+    item.strip()
+    for item in os.getenv("CONTROL_ALLOWED_ORIGINS", "http://127.0.0.1:8081,http://localhost:8081").split(",")
+    if item.strip()
+]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_allowed_origins,
