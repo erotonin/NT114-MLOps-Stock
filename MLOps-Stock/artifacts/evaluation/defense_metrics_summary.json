@@ -1,0 +1,720 @@
+﻿{
+    "symbol":  "FPT",
+    "target":  "close_t_plus_3",
+    "fold_count":  7,
+    "walk_forward_models":  {
+                                "naive":  {
+                                              "folds":  [
+                                                            {
+                                                                "fold":  1,
+                                                                "mae":  3329.848697916667,
+                                                                "rmse":  4349.752593955131,
+                                                                "mape":  3.315594219418138,
+                                                                "smape":  3.302547665832293,
+                                                                "sample_size":  60,
+                                                                "directional_accuracy":  36.666666666666664,
+                                                                "strategy_return":  -0.3980556403901254,
+                                                                "strategy_sharpe":  -2.7147207167334577
+                                                            },
+                                                            {
+                                                                "fold":  2,
+                                                                "mae":  1828.5126302083333,
+                                                                "rmse":  2512.5497534899505,
+                                                                "mape":  1.7884637619456851,
+                                                                "smape":  1.7847071510435857,
+                                                                "sample_size":  60,
+                                                                "directional_accuracy":  56.666666666666664,
+                                                                "strategy_return":  0.03336672488326298,
+                                                                "strategy_sharpe":  0.5522479120175895
+                                                            },
+                                                            {
+                                                                "fold":  3,
+                                                                "mae":  2713.98671875,
+                                                                "rmse":  3437.329941974542,
+                                                                "mape":  2.8380791140847847,
+                                                                "smape":  2.8431690472282645,
+                                                                "sample_size":  60,
+                                                                "directional_accuracy":  40.0,
+                                                                "strategy_return":  -0.13991092470078903,
+                                                                "strategy_sharpe":  -0.7981130603006639
+                                                            },
+                                                            {
+                                                                "fold":  4,
+                                                                "mae":  1965.3947916666666,
+                                                                "rmse":  2515.119929575548,
+                                                                "mape":  2.024400060362749,
+                                                                "smape":  2.02992455241167,
+                                                                "sample_size":  60,
+                                                                "directional_accuracy":  50.0,
+                                                                "strategy_return":  0.14460433588201616,
+                                                                "strategy_sharpe":  1.593188403874325
+                                                            },
+                                                            {
+                                                                "fold":  5,
+                                                                "mae":  2719.2115885416665,
+                                                                "rmse":  3518.28357655866,
+                                                                "mape":  3.2292357647413783,
+                                                                "smape":  3.1766083781570456,
+                                                                "sample_size":  60,
+                                                                "directional_accuracy":  33.33333333333333,
+                                                                "strategy_return":  -0.6255577513016206,
+                                                                "strategy_sharpe":  -6.681171238732584
+                                                            },
+                                                            {
+                                                                "fold":  6,
+                                                                "mae":  1630.4255208333334,
+                                                                "rmse":  2039.689977264404,
+                                                                "mape":  2.231187587758114,
+                                                                "smape":  2.2356240746278644,
+                                                                "sample_size":  60,
+                                                                "directional_accuracy":  43.333333333333336,
+                                                                "strategy_return":  -0.06597947744439914,
+                                                                "strategy_sharpe":  -0.4209923945876
+                                                            },
+                                                            {
+                                                                "fold":  7,
+                                                                "mae":  2276.6666666666665,
+                                                                "rmse":  2717.5356483402384,
+                                                                "mape":  3.3531090144661158,
+                                                                "smape":  3.360508727288187,
+                                                                "sample_size":  30,
+                                                                "directional_accuracy":  40.0,
+                                                                "strategy_return":  -0.12885268411639084,
+                                                                "strategy_sharpe":  -1.4785015395313155
+                                                            }
+                                                        ],
+                                              "sample_size":  390,
+                                              "mean_mae":  2352.0066592261905,
+                                              "std_mae":  557.021962192721,
+                                              "mean_rmse":  3012.8944887369253,
+                                              "std_rmse":  732.4363852562341,
+                                              "mean_mape":  2.6828670746824237,
+                                              "std_mape":  0.6105884601726811,
+                                              "mean_smape":  2.676155656655559,
+                                              "std_smape":  0.603018079158912,
+                                              "mean_sample_size":  55.714285714285715,
+                                              "std_sample_size":  10.497813183356477,
+                                              "mean_directional_accuracy":  42.85714285714285,
+                                              "std_directional_accuracy":  7.438333024673004,
+                                              "mean_strategy_return":  -0.16862648816972084,
+                                              "std_strategy_return":  0.24298197177584438,
+                                              "mean_strategy_sharpe":  -1.4211518048562437,
+                                              "std_strategy_sharpe":  2.4989558798567155
+                                          },
+                                "lightgbm":  {
+                                                 "folds":  [
+                                                               {
+                                                                   "fold":  1,
+                                                                   "mae":  4164.499335228295,
+                                                                   "rmse":  5222.296058028289,
+                                                                   "mape":  4.30302605362235,
+                                                                   "smape":  4.171940036888356,
+                                                                   "sample_size":  60,
+                                                                   "directional_accuracy":  55.00000000000001,
+                                                                   "strategy_return":  0.254033823095569,
+                                                                   "strategy_sharpe":  1.7062070485271728
+                                                               },
+                                                               {
+                                                                   "fold":  2,
+                                                                   "mae":  1918.0737527905262,
+                                                                   "rmse":  2448.854799925893,
+                                                                   "mape":  1.8717660109414742,
+                                                                   "smape":  1.8664693682835138,
+                                                                   "sample_size":  60,
+                                                                   "directional_accuracy":  63.33333333333333,
+                                                                   "strategy_return":  0.5187305837061087,
+                                                                   "strategy_sharpe":  4.97885200915703
+                                                               },
+                                                               {
+                                                                   "fold":  3,
+                                                                   "mae":  3715.19874454852,
+                                                                   "rmse":  4659.074656136825,
+                                                                   "mape":  3.9724701943213288,
+                                                                   "smape":  3.8537251863715443,
+                                                                   "sample_size":  60,
+                                                                   "directional_accuracy":  48.333333333333336,
+                                                                   "strategy_return":  0.05883041352067786,
+                                                                   "strategy_sharpe":  0.6983763082212181
+                                                               },
+                                                               {
+                                                                   "fold":  4,
+                                                                   "mae":  1922.506571191842,
+                                                                   "rmse":  2475.4329525100165,
+                                                                   "mape":  1.9873840040266697,
+                                                                   "smape":  1.980748187732262,
+                                                                   "sample_size":  60,
+                                                                   "directional_accuracy":  53.333333333333336,
+                                                                   "strategy_return":  0.3634608518652245,
+                                                                   "strategy_sharpe":  3.430437072223684
+                                                               },
+                                                               {
+                                                                   "fold":  5,
+                                                                   "mae":  5696.849607676284,
+                                                                   "rmse":  6832.815866701983,
+                                                                   "mape":  7.170669675080085,
+                                                                   "smape":  6.8099968244679285,
+                                                                   "sample_size":  60,
+                                                                   "directional_accuracy":  43.333333333333336,
+                                                                   "strategy_return":  -0.12863574874377692,
+                                                                   "strategy_sharpe":  -0.5907243098836162
+                                                               },
+                                                               {
+                                                                   "fold":  6,
+                                                                   "mae":  2618.2062244852027,
+                                                                   "rmse":  3025.254079923738,
+                                                                   "mape":  3.6351199459356187,
+                                                                   "smape":  3.556543377261665,
+                                                                   "sample_size":  60,
+                                                                   "directional_accuracy":  48.333333333333336,
+                                                                   "strategy_return":  0.20846291472701584,
+                                                                   "strategy_sharpe":  2.020408643044352
+                                                               },
+                                                               {
+                                                                   "fold":  7,
+                                                                   "mae":  4487.441461689659,
+                                                                   "rmse":  5131.083060157215,
+                                                                   "mape":  6.74489791722504,
+                                                                   "smape":  6.452419515361199,
+                                                                   "sample_size":  30,
+                                                                   "directional_accuracy":  40.0,
+                                                                   "strategy_return":  -0.12885268411639084,
+                                                                   "strategy_sharpe":  -1.4785015395313155
+                                                               }
+                                                           ],
+                                                 "sample_size":  390,
+                                                 "mean_mae":  3503.2536710871896,
+                                                 "std_mae":  1312.4416195253555,
+                                                 "mean_rmse":  4256.401639054851,
+                                                 "std_rmse":  1533.1049166682703,
+                                                 "mean_mape":  4.240761971593224,
+                                                 "std_mape":  1.926787469500203,
+                                                 "mean_smape":  4.098834642338067,
+                                                 "std_smape":  1.8015473483575342,
+                                                 "mean_sample_size":  55.714285714285715,
+                                                 "std_sample_size":  10.497813183356477,
+                                                 "mean_directional_accuracy":  50.23809523809524,
+                                                 "std_directional_accuracy":  7.206069500200741,
+                                                 "mean_strategy_return":  0.16371859343634684,
+                                                 "std_strategy_return":  0.2261983712711864,
+                                                 "mean_strategy_sharpe":  1.5378650331083608,
+                                                 "std_strategy_sharpe":  2.0708007034227367
+                                             }
+                            },
+    "drift_replay_check_count":  19,
+    "drift_retrain_decisions":  18,
+    "drift_first_checks":  [
+                               {
+                                   "reference_end":  "2024-06-05 00:00:00",
+                                   "current_end":  "2024-07-17 00:00:00",
+                                   "summary":  {
+                                                   "metric":  "psi",
+                                                   "total_features":  13,
+                                                   "evaluated_features":  13,
+                                                   "critical_features":  [
+                                                                             "open",
+                                                                             "high",
+                                                                             "low",
+                                                                             "close",
+                                                                             "volume",
+                                                                             "sma_10",
+                                                                             "sma_20",
+                                                                             "rsi",
+                                                                             "macd",
+                                                                             "macd_signal",
+                                                                             "bb_upper",
+                                                                             "bb_lower",
+                                                                             "log_return"
+                                                                         ],
+                                                   "warning_features":  [
+
+                                                                        ],
+                                                   "share_drifted":  1.0,
+                                                   "dataset_severity":  "critical",
+                                                   "features":  [
+                                                                    {
+                                                                        "feature":  "open",
+                                                                        "metric":  "psi",
+                                                                        "value":  19.639690247887437,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "high",
+                                                                        "metric":  "psi",
+                                                                        "value":  19.646702286820446,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "low",
+                                                                        "metric":  "psi",
+                                                                        "value":  19.639690247887437,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "close",
+                                                                        "metric":  "psi",
+                                                                        "value":  19.64038549832918,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "volume",
+                                                                        "metric":  "psi",
+                                                                        "value":  11.573607455367377,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "sma_10",
+                                                                        "metric":  "psi",
+                                                                        "value":  19.639690247887437,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "sma_20",
+                                                                        "metric":  "psi",
+                                                                        "value":  19.639690247887437,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "rsi",
+                                                                        "metric":  "psi",
+                                                                        "value":  4.179693106176494,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "macd",
+                                                                        "metric":  "psi",
+                                                                        "value":  14.881183936502982,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "macd_signal",
+                                                                        "metric":  "psi",
+                                                                        "value":  17.140358166652064,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "bb_upper",
+                                                                        "metric":  "psi",
+                                                                        "value":  19.639690247887437,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "bb_lower",
+                                                                        "metric":  "psi",
+                                                                        "value":  19.639690247887437,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "log_return",
+                                                                        "metric":  "psi",
+                                                                        "value":  6.377434822504952,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    }
+                                                                ]
+                                               },
+                                   "decision":  {
+                                                    "severity":  "critical_pending",
+                                                    "action":  "alert",
+                                                    "reason":  "critical signal has not persisted for the required checks",
+                                                    "policy_version":  "v1",
+                                                    "details":  null
+                                                }
+                               },
+                               {
+                                   "reference_end":  "2024-07-17 00:00:00",
+                                   "current_end":  "2024-08-28 00:00:00",
+                                   "summary":  {
+                                                   "metric":  "psi",
+                                                   "total_features":  13,
+                                                   "evaluated_features":  13,
+                                                   "critical_features":  [
+                                                                             "open",
+                                                                             "high",
+                                                                             "low",
+                                                                             "close",
+                                                                             "volume",
+                                                                             "sma_10",
+                                                                             "sma_20",
+                                                                             "rsi",
+                                                                             "macd",
+                                                                             "macd_signal",
+                                                                             "bb_upper",
+                                                                             "bb_lower"
+                                                                         ],
+                                                   "warning_features":  [
+                                                                            "log_return"
+                                                                        ],
+                                                   "share_drifted":  1.0,
+                                                   "dataset_severity":  "critical",
+                                                   "features":  [
+                                                                    {
+                                                                        "feature":  "open",
+                                                                        "metric":  "psi",
+                                                                        "value":  14.661979125345356,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "high",
+                                                                        "metric":  "psi",
+                                                                        "value":  14.853827299559704,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "low",
+                                                                        "metric":  "psi",
+                                                                        "value":  14.67941125246263,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "close",
+                                                                        "metric":  "psi",
+                                                                        "value":  14.63249074945862,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "volume",
+                                                                        "metric":  "psi",
+                                                                        "value":  2.293009567888938,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "sma_10",
+                                                                        "metric":  "psi",
+                                                                        "value":  17.20434933730635,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "sma_20",
+                                                                        "metric":  "psi",
+                                                                        "value":  16.927202413150145,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "rsi",
+                                                                        "metric":  "psi",
+                                                                        "value":  4.854071337422539,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "macd",
+                                                                        "metric":  "psi",
+                                                                        "value":  17.04077834959575,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "macd_signal",
+                                                                        "metric":  "psi",
+                                                                        "value":  11.277564904441592,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "bb_upper",
+                                                                        "metric":  "psi",
+                                                                        "value":  16.927202413150145,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "bb_lower",
+                                                                        "metric":  "psi",
+                                                                        "value":  16.927202413150145,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "log_return",
+                                                                        "metric":  "psi",
+                                                                        "value":  0.17072893085129323,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "warning",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    }
+                                                                ]
+                                               },
+                                   "decision":  {
+                                                    "severity":  "critical",
+                                                    "action":  "retrain",
+                                                    "reason":  "persistent drift or performance degradation passed retraining policy",
+                                                    "policy_version":  "v1",
+                                                    "details":  {
+                                                                    "critical_features":  12,
+                                                                    "performance":  {
+
+                                                                                    }
+                                                                }
+                                                }
+                               },
+                               {
+                                   "reference_end":  "2024-08-28 00:00:00",
+                                   "current_end":  "2024-10-09 00:00:00",
+                                   "summary":  {
+                                                   "metric":  "psi",
+                                                   "total_features":  13,
+                                                   "evaluated_features":  13,
+                                                   "critical_features":  [
+                                                                             "open",
+                                                                             "high",
+                                                                             "low",
+                                                                             "close",
+                                                                             "volume",
+                                                                             "sma_10",
+                                                                             "sma_20",
+                                                                             "rsi",
+                                                                             "macd",
+                                                                             "macd_signal",
+                                                                             "bb_upper",
+                                                                             "bb_lower",
+                                                                             "log_return"
+                                                                         ],
+                                                   "warning_features":  [
+
+                                                                        ],
+                                                   "share_drifted":  1.0,
+                                                   "dataset_severity":  "critical",
+                                                   "features":  [
+                                                                    {
+                                                                        "feature":  "open",
+                                                                        "metric":  "psi",
+                                                                        "value":  14.67051215081627,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "high",
+                                                                        "metric":  "psi",
+                                                                        "value":  14.732445753493332,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "low",
+                                                                        "metric":  "psi",
+                                                                        "value":  14.851512779956726,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "close",
+                                                                        "metric":  "psi",
+                                                                        "value":  14.81744385254924,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "volume",
+                                                                        "metric":  "psi",
+                                                                        "value":  4.253981816530938,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "sma_10",
+                                                                        "metric":  "psi",
+                                                                        "value":  17.654867588599462,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "sma_20",
+                                                                        "metric":  "psi",
+                                                                        "value":  17.204349337306347,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "rsi",
+                                                                        "metric":  "psi",
+                                                                        "value":  4.461667983531274,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "macd",
+                                                                        "metric":  "psi",
+                                                                        "value":  17.086328702514603,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "macd_signal",
+                                                                        "metric":  "psi",
+                                                                        "value":  17.04077834959575,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "bb_upper",
+                                                                        "metric":  "psi",
+                                                                        "value":  14.732445753493334,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "bb_lower",
+                                                                        "metric":  "psi",
+                                                                        "value":  15.392350481570162,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    },
+                                                                    {
+                                                                        "feature":  "log_return",
+                                                                        "metric":  "psi",
+                                                                        "value":  4.359116547293262,
+                                                                        "threshold_warning":  0.1,
+                                                                        "threshold_critical":  0.25,
+                                                                        "severity":  "critical",
+                                                                        "reference_size":  120,
+                                                                        "current_size":  30
+                                                                    }
+                                                                ]
+                                               },
+                                   "decision":  {
+                                                    "severity":  "critical",
+                                                    "action":  "retrain",
+                                                    "reason":  "persistent drift or performance degradation passed retraining policy",
+                                                    "policy_version":  "v1",
+                                                    "details":  {
+                                                                    "critical_features":  13,
+                                                                    "performance":  {
+
+                                                                                    }
+                                                                }
+                                                }
+                               }
+                           ]
+}

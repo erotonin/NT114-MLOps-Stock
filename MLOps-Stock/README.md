@@ -62,6 +62,7 @@ Mở Dashboard tại `http://127.0.0.1:8081`. API documentation nằm tại `htt
 | [`docs/RUNBOOK.md`](docs/RUNBOOK.md) | Drift, alert, retrain, promotion, rollback, backup và incident |
 | [`docs/DEFENSE_NOTES.md`](docs/DEFENSE_NOTES.md) | Lý thuyết, câu hỏi phản biện và giới hạn cần trình bày |
 | [`docs/DEFENSE_GAP_ANALYSIS.md`](docs/DEFENSE_GAP_ANALYSIS.md) | Ma trận yêu cầu/evidence, số liệu bảo vệ và kịch bản demo 7–10 phút |
+| [`docs/DEFENSE_METRICS.md`](docs/DEFENSE_METRICS.md) | Bảng metrics walk-forward và drift replay final trên FPT snapshot |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Kiến trúc logical, lifecycle và Hybrid Cloud |
 | [`scripts/run_walk_forward.py`](scripts/run_walk_forward.py) | Benchmark leakage-aware trên dữ liệu thật |
 

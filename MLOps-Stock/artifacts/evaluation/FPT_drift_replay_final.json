@@ -1,0 +1,3219 @@
+{
+  "symbol": "FPT",
+  "reference_size": 120,
+  "current_size": 30,
+  "checks": [
+    {
+      "reference_end": "2024-06-05 00:00:00",
+      "current_end": "2024-07-17 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 19.639690247887437,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 19.646702286820446,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 19.639690247887437,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 19.64038549832918,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 11.573607455367377,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 19.639690247887437,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 19.639690247887437,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 4.179693106176494,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 14.881183936502982,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 17.140358166652064,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 19.639690247887437,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 19.639690247887437,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 6.377434822504952,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical_pending",
+        "action": "alert",
+        "reason": "critical signal has not persisted for the required checks",
+        "policy_version": "v1",
+        "details": null
+      }
+    },
+    {
+      "reference_end": "2024-07-17 00:00:00",
+      "current_end": "2024-08-28 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower"
+        ],
+        "warning_features": [
+          "log_return"
+        ],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 14.661979125345356,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 14.853827299559704,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 14.67941125246263,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 14.63249074945862,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 2.293009567888938,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 17.20434933730635,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 16.927202413150145,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 4.854071337422539,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 17.04077834959575,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 11.277564904441592,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 16.927202413150145,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 16.927202413150145,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 0.17072893085129323,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "warning",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 12,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2024-08-28 00:00:00",
+      "current_end": "2024-10-09 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 14.67051215081627,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 14.732445753493332,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 14.851512779956726,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 14.81744385254924,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 4.253981816530938,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 17.654867588599462,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 17.204349337306347,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 4.461667983531274,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 17.086328702514603,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 17.04077834959575,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 14.732445753493334,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 15.392350481570162,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 4.359116547293262,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 13,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2024-10-09 00:00:00",
+      "current_end": "2024-11-20 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 11.001654073437555,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 10.803794565702617,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 10.818978370132076,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 10.39212367706524,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 0.4386306301085547,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 19.64038549832918,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 19.639690247887437,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 4.36302876241545,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 11.063992996630942,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 12.836020733781345,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 14.753912554352967,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 19.639690247887437,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 2.280698699280231,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 13,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2024-11-20 00:00:00",
+      "current_end": "2025-01-01 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 11.547744363828386,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 13.527177506540173,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 11.547744363828386,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 15.068356046647352,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 2.189625923073173,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 15.142219057763153,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 15.16398189421881,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 4.51636445003436,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 4.998364073738399,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 4.75433941519658,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 15.226410011842791,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 10.672258132609805,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 2.197854592260128,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 13,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2025-01-01 00:00:00",
+      "current_end": "2025-02-12 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 16.927202413150145,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 16.927202413150145,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 16.913693885693913,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 17.02770290233801,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 0.2659322678845107,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 17.04077834959575,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 19.639690247887437,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 2.286918297296127,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 2.1516447805434975,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 6.191034877198528,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 17.00270291709545,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 19.639690247887437,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 2.373932604829587,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 13,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2025-02-12 00:00:00",
+      "current_end": "2025-03-26 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 14.915526777315137,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 14.811417517719708,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 14.881183936502982,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 14.892580108880649,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 2.6933903532058436,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 10.75097200599252,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 12.604503234239326,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 15.226410011842793,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 10.864898745706265,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 10.85973930422697,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 2.2826139393746465,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 13,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2025-03-26 00:00:00",
+      "current_end": "2025-05-07 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 19.64546488221558,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 6.647405423474854,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 6.402076963262791,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 14.851512779956728,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 2.428048936382024,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 13,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2025-05-07 00:00:00",
+      "current_end": "2025-06-18 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 15.068996902889564,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 15.031503007648375,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 17.49027672278593,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 15.078621895422549,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 4.261396203435132,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 17.28062836245847,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 16.905654006505284,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 2.426338282655627,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 10.675162350833462,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 10.686012236273157,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 14.670512150816274,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 2.8709291701754664,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 13,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2025-06-18 00:00:00",
+      "current_end": "2025-07-30 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 12.504039755520326,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 12.405402283795247,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 12.879801494612261,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 12.445908828647863,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 8.247507647747069,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 14.393357274205645,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 14.546184133686094,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 10.675162350833462,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 12.741325178427871,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 12.629758612683547,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 14.717113945574035,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 0.28824662307024534,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 13,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2025-07-30 00:00:00",
+      "current_end": "2025-09-10 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 8.501209511030213,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 8.674341368196663,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 8.581893115913125,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 8.711574543064451,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 2.6107390726570294,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 8.415735439418121,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 14.72316854758338,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 6.415243771730738,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 8.797734355384849,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 8.539575547368477,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 14.779107266418293,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 12.629758612683549,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 2.2144748311362834,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 13,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2025-09-10 00:00:00",
+      "current_end": "2025-10-22 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 6.583468172342542,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 8.761159217361564,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 4.854071337422539,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 4.84306935727672,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 4.365459765181742,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 6.646473325386305,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 8.219863263149513,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 4.366682992202026,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 14.679411252462632,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 14.72316854758338,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 12.903495697739967,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 4.1472185213697585,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 2.2617832592751306,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 13,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2025-10-22 00:00:00",
+      "current_end": "2025-12-03 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower"
+        ],
+        "warning_features": [
+          "log_return"
+        ],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 10.552100377818595,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 8.765721442846997,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 10.747494137311334,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 6.635444923398713,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 2.353405965123664,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 12.540335325863454,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 14.608865427142202,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 8.022841473897369,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 4.490609934800289,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 2.997313362608268,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 10.626500021865393,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 12.814019546181566,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 0.19442865000915868,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "warning",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 12,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2025-12-03 00:00:00",
+      "current_end": "2026-01-14 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 10.9760796726163,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 12.836020733781343,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 12.575073400851526,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 11.444477558250625,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 6.255193102353901,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 17.04077834959575,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 4.333446273372293,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 8.609548730012555,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 14.811417517719708,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 17.086328702514603,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 2.725134843023736,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 13,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2026-01-14 00:00:00",
+      "current_end": "2026-02-25 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower"
+        ],
+        "warning_features": [
+          "log_return"
+        ],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 4.364375609308318,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 2.4478438851222366,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 4.04235965663946,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 2.4270548516281414,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 0.48600687272878457,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 6.562925866196489,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 6.427384655873215,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 6.5112552611106675,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 2.92528814243516,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 5.067388405324866,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 7.133297290184209,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 8.245407637611455,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 0.20691505759519857,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "warning",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 12,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2026-02-25 00:00:00",
+      "current_end": "2026-04-08 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 19.909941109626118,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 19.644769631773837,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 19.642481030805836,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 19.64038549832918,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 3.980484022730001,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 17.37321403035094,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 11.547744363828386,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 8.391637298572961,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 17.20434933730635,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 8.576188618462233,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 15.231880502338406,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 2.4330005116060756,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 13,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2026-04-08 00:00:00",
+      "current_end": "2026-05-20 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower"
+        ],
+        "warning_features": [
+          "log_return"
+        ],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 17.092645491005868,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 17.0033981675372,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 17.043569132514154,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 17.207130339073334,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 4.249960967229674,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 6.294418522014293,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 15.16398189421881,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 15.226410011842793,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 17.04077834959575,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 0.22975849494616796,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "warning",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 12,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2026-05-20 00:00:00",
+      "current_end": "2026-07-01 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 12.58113277053315,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 12.473932210696393,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 12.40390867743095,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 12.521002676901514,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 0.45386944768768117,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 14.75391255435297,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 4.361277676468892,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 12.408292947020515,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 14.653812633681845,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 17.654867588599462,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 16.913693885693913,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 0.31456371578326137,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 13,
+          "performance": {}
+        }
+      }
+    },
+    {
+      "reference_end": "2026-07-01 00:00:00",
+      "current_end": "2026-08-12 00:00:00",
+      "summary": {
+        "metric": "psi",
+        "total_features": 13,
+        "evaluated_features": 13,
+        "critical_features": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "sma_10",
+          "sma_20",
+          "rsi",
+          "macd",
+          "macd_signal",
+          "bb_upper",
+          "bb_lower",
+          "log_return"
+        ],
+        "warning_features": [],
+        "share_drifted": 1.0,
+        "dataset_severity": "critical",
+        "features": [
+          {
+            "feature": "open",
+            "metric": "psi",
+            "value": 14.92685337978817,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "high",
+            "metric": "psi",
+            "value": 14.968866316846846,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "low",
+            "metric": "psi",
+            "value": 15.015219771324594,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "close",
+            "metric": "psi",
+            "value": 13.102880402326372,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "volume",
+            "metric": "psi",
+            "value": 2.7531023728710164,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_10",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "sma_20",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "rsi",
+            "metric": "psi",
+            "value": 2.1054349689935346,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd",
+            "metric": "psi",
+            "value": 6.167929971340213,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "macd_signal",
+            "metric": "psi",
+            "value": 10.288493953040012,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_upper",
+            "metric": "psi",
+            "value": 19.639690247887433,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "bb_lower",
+            "metric": "psi",
+            "value": 15.067763523282187,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          },
+          {
+            "feature": "log_return",
+            "metric": "psi",
+            "value": 0.36612279293466066,
+            "threshold_warning": 0.1,
+            "threshold_critical": 0.25,
+            "severity": "critical",
+            "reference_size": 120,
+            "current_size": 30
+          }
+        ]
+      },
+      "decision": {
+        "severity": "critical",
+        "action": "retrain",
+        "reason": "persistent drift or performance degradation passed retraining policy",
+        "policy_version": "v1",
+        "details": {
+          "critical_features": 13,
+          "performance": {}
+        }
+      }
+    }
+  ]
+}
