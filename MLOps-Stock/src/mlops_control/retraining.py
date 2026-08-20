@@ -37,8 +37,11 @@ class RetrainingService:
             project_root = Path(os.getenv("PROJECT_ROOT", Path(__file__).resolve().parents[2]))
             data_dir = project_root / "data"
             models_dir = project_root / "models"
+            artifact_root = project_root / "artifacts" / "mlflow"
+            artifact_root.mkdir(parents=True, exist_ok=True)
             if not os.getenv("MLFLOW_TRACKING_URI") or os.getenv("MLFLOW_TRACKING_URI", "").startswith("file:"):
                 os.environ["MLFLOW_TRACKING_URI"] = f"sqlite:///{project_root / 'mlflow.db'}"
+            os.environ.setdefault("MLFLOW_ARTIFACT_ROOT", str(artifact_root))
             job = self.store.get_job(job_id)
             if job is None:
                 raise RuntimeError(f"Retrain job {job_id} disappeared")

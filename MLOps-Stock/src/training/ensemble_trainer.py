@@ -224,7 +224,12 @@ def train_ensemble(symbol="FPT", epochs=50, window_size=60, data_dir="data", mod
     if tracking_uri.startswith("file:") and os.getenv("MLFLOW_ALLOW_FILE_STORE", "false").lower() != "true":
         tracking_uri = f"sqlite:///{os.path.abspath('mlflow.db')}"
     mlflow.set_tracking_uri(tracking_uri)
-    mlflow.set_experiment("stock_ensemble_training")
+    experiment_name = "stock_ensemble_training"
+    if mlflow.get_experiment_by_name(experiment_name) is None:
+        artifact_root = os.getenv("MLFLOW_ARTIFACT_ROOT")
+        if artifact_root:
+            mlflow.create_experiment(experiment_name, artifact_location=artifact_root)
+    mlflow.set_experiment(experiment_name)
     with mlflow.start_run(run_name=f"train_{sym}_{random.randint(1000,9999)}"):
         mlflow.log_param("symbol", sym)
         mlflow.log_param("epochs", epochs)

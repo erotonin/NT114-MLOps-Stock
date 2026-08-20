@@ -104,11 +104,12 @@ services:
       RETRAIN_EPOCHS: 5
       TFT_WINDOW_SIZE: 60
       LOCAL_MODELS_DIR: /app/models
-      MLFLOW_TRACKING_URI: http://mlflow:5000
+      MLFLOW_OFFLINE: "1"
     volumes:
       - ./src:/app/src:ro
       - ./data:/app/data
       - ./models:/app/models
+      - ./mlflow.db:/app/mlflow.db
       - control_data:/app/artifacts
     restart: unless-stopped
 
