@@ -1,0 +1,53 @@
+{
+  "symbol": "FPT",
+  "features": [
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "sma_10",
+    "sma_20",
+    "rsi",
+    "macd",
+    "macd_signal",
+    "bb_upper",
+    "bb_lower",
+    "log_return"
+  ],
+  "method": {
+    "lightgbm": "normalized gain/split feature_importances_ from trained local artifact",
+    "tft": "mean variable-selection softmax weights across 60-step windows"
+  },
+  "lightgbm": {
+    "open": 0.0,
+    "high": 0.0,
+    "low": 0.0,
+    "close": 0.0,
+    "volume": 0.0,
+    "sma_10": 0.0,
+    "sma_20": 0.0,
+    "rsi": 0.0,
+    "macd": 0.0,
+    "macd_signal": 0.0,
+    "bb_upper": 0.0,
+    "bb_lower": 0.0,
+    "log_return": 0.0
+  },
+  "tft_variable_selection": {
+    "open": 0.06226634234189987,
+    "high": 0.0499226450920105,
+    "low": 0.061047401279211044,
+    "close": 0.06829804182052612,
+    "volume": 0.15541371703147888,
+    "sma_10": 0.04827407747507095,
+    "sma_20": 0.06262577325105667,
+    "rsi": 0.09500566869974136,
+    "macd": 0.07807116955518723,
+    "macd_signal": 0.08209647238254547,
+    "bb_upper": 0.04524506255984306,
+    "bb_lower": 0.0715542584657669,
+    "log_return": 0.12018564343452454
+  },
+  "window_count": 633
+}
