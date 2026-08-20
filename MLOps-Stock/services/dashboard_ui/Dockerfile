@@ -10,11 +10,11 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # Layer 1: Dependencies (cached mạnh — chỉ rebuild khi requirements thay đổi)
-COPY requirements.txt .
+COPY services/dashboard_ui/requirements.txt .
 RUN pip install --no-cache-dir --timeout 300 --retries 10 -r requirements.txt
 
 # Layer 2: Source code (thay đổi thường xuyên — rebuild nhanh)
-COPY . /app/
+COPY services/dashboard_ui/ /app/
 
 # Security: Non-root user
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
