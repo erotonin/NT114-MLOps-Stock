@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import threading
 from pathlib import Path
 from typing import Any
@@ -46,9 +47,30 @@ class RetrainingService:
             if job is None:
                 raise RuntimeError(f"Retrain job {job_id} disappeared")
             epochs = int(job["payload"].get("epochs", 5))
+            model_name = f"stock-ensemble-{symbol}-t{horizon}"
+            manifest_path = models_dir / f"{symbol}_artifact_manifest.json"
+            backup_dir = project_root / "artifacts" / "retraining_backups" / job_id
+            baseline_manifest = None
+            baseline_metrics = None
+            if manifest_path.exists():
+                try:
+                    baseline_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+                    baseline_metrics = {
+                        "mae": float(baseline_manifest["mae"]),
+                        "rmse": float(baseline_manifest["rmse"]),
+                        "directional_acc": float(baseline_manifest["directional_acc"]),
+                    }
+                    backup_dir.mkdir(parents=True, exist_ok=True)
+                    for artifact_name in baseline_manifest.get("artifacts", []):
+                        source = models_dir / artifact_name
+                        if source.exists():
+                            shutil.copy2(source, backup_dir / artifact_name)
+                    shutil.copy2(manifest_path, backup_dir / manifest_path.name)
+                except (KeyError, TypeError, ValueError, json.JSONDecodeError):
+                    baseline_manifest = None
+                    baseline_metrics = None
             download_all([symbol], data_dir=str(data_dir))
             train_ensemble(symbol=symbol, epochs=epochs, window_size=int(os.getenv("TFT_WINDOW_SIZE", "60")), data_dir=str(data_dir), models_dir=str(models_dir))
-            manifest_path = models_dir / f"{symbol}_artifact_manifest.json"
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
             manifest.setdefault("meta_input_space", "scaled_target")
             manifest.setdefault("model_version", f"retrain-{job_id[:8]}")
@@ -59,7 +81,16 @@ class RetrainingService:
                 "rmse": float(manifest.get("rmse", 0.0)),
                 "directional_acc": float(manifest.get("directional_acc", 0.0)),
             }
-            model_name = f"stock-ensemble-{symbol}-t{horizon}"
+            champion = self.registry.get_champion(model_name)
+            if champion is None and baseline_metrics is not None and baseline_manifest is not None:
+                baseline = self.registry.register(
+                    model_name=model_name,
+                    metrics=baseline_metrics,
+                    artifact_path=str(manifest_path),
+                    metadata={"ticker": symbol, "horizon": horizon, "trigger": "existing_local_artifact", "manifest": baseline_manifest},
+                    actor="retraining-worker",
+                )
+                champion = self.registry.promote(model_name, baseline["version"], actor="retraining-worker", reason="seeded_from_existing_local_artifact")
             candidate = self.registry.register(
                 model_name=model_name,
                 metrics=metrics,
@@ -67,15 +98,18 @@ class RetrainingService:
                 metadata={"ticker": symbol, "horizon": horizon, "trigger": "retraining", "manifest": manifest},
                 actor="retraining-worker",
             )
-            champion = self.registry.get_champion(model_name)
             gate = evaluation_gate(metrics, champion.get("metrics") if champion else None)
             if gate["passed"]:
                 self.registry.promote(model_name, candidate["version"], actor="retraining-worker", reason=gate["reason"])
                 status = "promoted"
             else:
                 self.registry.reject(model_name, candidate["version"], actor="retraining-worker", reason=gate["reason"])
+                if backup_dir.exists():
+                    for backup_file in backup_dir.iterdir():
+                        if backup_file.name != "":
+                            shutil.copy2(backup_file, models_dir / backup_file.name)
                 status = "rejected"
-            self.store.update_job(job_id, status, {"candidate": candidate, "gate": gate})
+            self.store.update_job(job_id, status, {"candidate": candidate, "gate": gate, "baseline_metrics": baseline_metrics})
         except Exception as exc:  # worker boundary: persist failure for operators
             self.store.update_job(job_id, "failed", {"error": str(exc)})
 

@@ -29,9 +29,9 @@
     "log_return"
   ],
   "window_size": 60,
-  "tft_best_val_loss": 2.034716486930847,
-  "mae": 0.27092613761969564,
-  "rmse": 0.3406740858608926,
+  "tft_best_val_loss": 2.0942707856496177,
+  "mae": 0.2867988409553559,
+  "rmse": 0.35435845756971923,
   "directional_acc": 46.875,
   "validation_samples": 32
 }
