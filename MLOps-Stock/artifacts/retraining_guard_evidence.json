@@ -1,0 +1,90 @@
+{
+    "id":  "f933f84c-e150-4c41-9d83-6e0e8b33c295",
+    "ticker":  "FPT",
+    "horizon":  3,
+    "trigger_type":  "manual",
+    "status":  "promoted",
+    "created_at":  "2026-08-20T15:00:37.818400+00:00",
+    "updated_at":  "2026-08-20T15:00:51.996827+00:00",
+    "payload":  {
+                    "epochs":  1,
+                    "candidate":  {
+                                      "version":  "2",
+                                      "model_name":  "stock-ensemble-FPT-t3",
+                                      "status":  "candidate",
+                                      "metrics":  {
+                                                      "mae":  0.2867988409553559,
+                                                      "rmse":  0.35435845756971923,
+                                                      "directional_acc":  46.875
+                                                  },
+                                      "artifact_path":  "/app/models/FPT_artifact_manifest.json",
+                                      "metadata":  {
+                                                       "ticker":  "FPT",
+                                                       "horizon":  3,
+                                                       "trigger":  "retraining",
+                                                       "manifest":  {
+                                                                        "symbol":  "FPT",
+                                                                        "run_type":  "stacking_ensemble",
+                                                                        "horizon":  3,
+                                                                        "model_version":  "local-fpt",
+                                                                        "code_commit":  "working-tree",
+                                                                        "data_version":  "local-snapshot",
+                                                                        "meta_input_space":  "scaled_target",
+                                                                        "artifacts":  [
+                                                                                          "FPT_scaler_x.pkl",
+                                                                                          "FPT_scaler_y.pkl",
+                                                                                          "FPT_tft_model.pt",
+                                                                                          "FPT_lgbm_model.pkl",
+                                                                                          "FPT_meta_learner.pkl"
+                                                                                      ],
+                                                                        "features":  [
+                                                                                         "open",
+                                                                                         "high",
+                                                                                         "low",
+                                                                                         "close",
+                                                                                         "volume",
+                                                                                         "sma_10",
+                                                                                         "sma_20",
+                                                                                         "rsi",
+                                                                                         "macd",
+                                                                                         "macd_signal",
+                                                                                         "bb_upper",
+                                                                                         "bb_lower",
+                                                                                         "log_return"
+                                                                                     ],
+                                                                        "window_size":  60,
+                                                                        "tft_best_val_loss":  2.0942707856496177,
+                                                                        "mae":  0.2867988409553559,
+                                                                        "rmse":  0.35435845756971923,
+                                                                        "directional_acc":  46.875,
+                                                                        "validation_samples":  32
+                                                                    }
+                                                   },
+                                      "created_at":  "2026-08-20T15:00:51.995855+00:00"
+                                  },
+                    "gate":  {
+                                 "passed":  true,
+                                 "reason":  "candidate satisfies metric gate",
+                                 "checks":  {
+                                                "mae_ok":  true,
+                                                "rmse_ok":  true,
+                                                "directional_accuracy_ok":  true
+                                            },
+                                 "candidate":  {
+                                                   "mae":  0.2867988409553559,
+                                                   "rmse":  0.35435845756971923,
+                                                   "directional_acc":  46.875
+                                               },
+                                 "champion":  {
+                                                  "mae":  0.2872670182790942,
+                                                  "rmse":  0.3548542435466494,
+                                                  "directional_acc":  46.875
+                                              }
+                             },
+                    "baseline_metrics":  {
+                                             "mae":  0.2872670182790942,
+                                             "rmse":  0.3548542435466494,
+                                             "directional_acc":  46.875
+                                         }
+                }
+}

@@ -80,3 +80,9 @@ A manual retraining request was executed through `POST /retrain` with role `anal
 The final job `e3594d60-d655-46e8-bc03-f04e82f0606b` reached **promoted**. Candidate model `stock-ensemble-FPT-t3` received registry version `1`, with MAE `0.2872670182790942`, RMSE `0.3548542435466494`, and Directional Accuracy `46.875`; the evaluation gate passed because no champion existed. Raw polling output is stored in `artifacts/retraining_final_evidence.txt`.
 
 This is stronger evidence than a mocked endpoint response: the worker downloaded data, trained TFT/LightGBM/meta-learner artifacts, logged the offline MLflow run, registered the candidate and executed the promotion gate. The run used one epoch for a bounded regression check, not as the final research training configuration.
+
+## Champion gate and artifact safety regression — 2026-08-20
+
+A second bounded retraining run was executed after a champion already existed. Candidate version `2` for `stock-ensemble-FPT-t3` was compared against champion version `1`: MAE improved from `0.2872670182790942` to `0.2867988409553559`, RMSE improved from `0.3548542435466494` to `0.35435845756971923`, and Directional Accuracy remained `46.875`. The evaluation gate returned `passed=true` and the candidate was promoted.
+
+The retraining worker now snapshots existing artifacts before training, seeds the registry from an existing local manifest when no champion exists, and restores the snapshot when a candidate is rejected. This prevents a rejected model from silently replacing the artifact used by local inference. Raw evidence is stored in `artifacts/retraining_guard_evidence.json`.
