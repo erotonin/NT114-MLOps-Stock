@@ -21,6 +21,7 @@ from prometheus_client import Gauge, generate_latest
 from starlette.responses import Response
 
 from src.data_pipeline.yahoo_data import YahooData
+from src.mlops_control.alerts import emit_alert
 from src.mlops_control.drift import dataframe_drift_summary, feature_drift_report
 from src.mlops_control.policy import DriftPolicyConfig, evaluate_policy
 from src.mlops_control.retraining import get_retraining_service
@@ -78,6 +79,7 @@ def compute_drift(symbol: str) -> dict[str, Any] | None:
         result = {"symbol": symbol, "summary": summary, "performance": performance, "decision": decision.as_dict()}
         if decision.action in {"alert", "retrain"}:
             store.add_drift_event(symbol, decision.severity, decision.action, result)
+            emit_alert({"ticker": symbol, "severity": decision.severity, "action": decision.action, "reason": decision.reason, "source": "monitor-api", "details": result})
         if decision.action == "retrain":
             retraining.start(symbol, horizon=3, trigger_type="drift")
         return result
@@ -136,6 +138,11 @@ def get_drift(ticker: str) -> dict[str, Any]:
 @app.get("/events")
 def events(ticker: str | None = None, limit: int = 100) -> list[dict[str, Any]]:
     return store.list_drift_events(ticker=ticker, limit=min(limit, 1000))
+
+
+@app.get("/alerts/health")
+def alert_health() -> dict[str, Any]:
+    return {"status": "ok", "mode": "webhook" if os.getenv("ALERT_WEBHOOK_URL") else "local_jsonl", "path": os.getenv("ALERT_LOG_PATH", "artifacts/alerts.jsonl")}
 
 
 if __name__ == "__main__":
