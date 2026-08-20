@@ -13,8 +13,12 @@ import os
 import shutil
 from pathlib import Path
 
-import mlflow
-from mlflow.tracking import MlflowClient
+try:
+    import mlflow
+    from mlflow.tracking import MlflowClient
+except ImportError:  # MLflow is optional for lightweight offline inference images.
+    mlflow = None
+    MlflowClient = object
 
 
 CACHE_DIR = os.getenv("MODELS_CACHE_DIR", "/tmp/models")
@@ -56,6 +60,12 @@ def download_model_artifacts(symbol: str) -> str:
     manifest_path = os.path.join(artifacts_dir, f"{sym}_artifact_manifest.json")
     if os.path.exists(manifest_path):
         return artifacts_dir
+
+    if mlflow is None:
+        raise RuntimeError(
+            "MLflow is not installed and no local model artifacts were found. "
+            "Mount LOCAL_MODELS_DIR or install the training/MLflow dependencies."
+        )
 
     tracking_uri = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
     mlflow.set_tracking_uri(tracking_uri)
