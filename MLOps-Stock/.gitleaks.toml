@@ -1,0 +1,30 @@
+# =============================================================================
+# Gitleaks Configuration — Tùy chỉnh quét Secret cho project MLOps-Stock
+# Dùng bởi pre-commit hook (local) và GitHub Actions (CI).
+# =============================================================================
+title = "MLOps-Stock Gitleaks Config"
+
+# ── Allowlist ─────────────────────────────────────────────────────────────────
+# Bỏ qua các file/path không chứa secret thực sự (false positives).
+[allowlist]
+  description = "Global allowlist"
+  paths = [
+    '''\.github/workflows/.*\.yml$''',     # Workflow dùng ${{ secrets.* }}, không phải plaintext
+    '''venv/''',
+    '''\.venv/''',
+    '''node_modules/''',
+    '''\.git/''',
+  ]
+
+# ── Bổ sung rules cho MinIO/MLflow defaults ──────────────────────────────────
+# Cho phép các giá trị default dùng trong dev/test (minioadmin, localhost).
+# KHÔNG cho phép nếu giá trị trùng với pattern production key thật.
+[[rules]]
+  id = "allow-minio-defaults"
+  description = "Ignore default MinIO credentials used in development docker-compose"
+  regex = '''minioadmin'''
+  [rules.allowlist]
+    paths = [
+      '''docker-compose\.yml$''',
+      '''kfp_pipeline\.py$''',
+    ]

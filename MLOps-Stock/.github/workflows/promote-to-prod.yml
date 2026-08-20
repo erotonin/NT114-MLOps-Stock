@@ -1,0 +1,115 @@
+name: "6. Promote Dev Images to Prod"
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: promote-to-prod-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  promote:
+    name: Create PR to Promote Dev Tags to Prod
+    runs-on: [self-hosted, k3s, mlops]
+
+    steps:
+      - name: Checkout Manifest Repo
+        uses: actions/checkout@v4
+        with:
+          repository: Quackusarle/NT114_manifests
+          token: ${{ secrets.MANIFEST_REPO_PAT }}
+          path: manifests
+          ref: main
+
+      - name: Copy Dev Tags to Prod Values
+        id: promote
+        run: |
+          cd manifests/argocd/apps/mlops-stock
+
+          if [ ! -f values-dev.yaml ] || [ ! -f values-prod.yaml ]; then
+            echo "values-dev.yaml or values-prod.yaml is missing"
+            exit 1
+          fi
+
+          curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /tmp/yq
+          chmod +x /tmp/yq
+
+          CHANGED=false
+          for service in dataApi tftApi lgbmApi ensembleApi dashboardUi monitorApi; do
+            DEV_TAG=$(/tmp/yq ".${service}.image.tag" values-dev.yaml)
+            PROD_TAG=$(/tmp/yq ".${service}.image.tag" values-prod.yaml)
+            if [ -z "${DEV_TAG}" ] || [ "${DEV_TAG}" = "null" ]; then
+              echo "Missing dev tag for ${service}, skipping"
+              continue
+            fi
+            if [ "${DEV_TAG}" != "${PROD_TAG}" ]; then
+              /tmp/yq -i ".${service}.image.tag = \"${DEV_TAG}\"" values-prod.yaml
+              echo "Promoted ${service}: ${PROD_TAG} → ${DEV_TAG}"
+              CHANGED=true
+            else
+              echo "${service} already up-to-date: ${PROD_TAG}"
+            fi
+          done
+
+          echo "changed=${CHANGED}" >> $GITHUB_OUTPUT
+          git diff -- values-prod.yaml
+
+      - name: Create PR for Production Promotion
+        if: steps.promote.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.MANIFEST_REPO_PAT }}
+        run: |
+          cd manifests
+          SHA_SHORT=$(echo ${{ github.sha }} | cut -c1-7)
+          BRANCH="promote/sha-${SHA_SHORT}"
+
+          git config user.name "GitHub Actions GitOps"
+          git config user.email "actions@github.com"
+
+          # Tạo nhánh mới, commit và push
+          git checkout -b "${BRANCH}"
+          git add argocd/apps/mlops-stock/values-prod.yaml
+          git commit -m "chore: promote dev image tags to prod (sha-${SHA_SHORT})"
+          git push origin "${BRANCH}"
+
+          # Tạo PR qua GitHub API
+          HTTP_STATUS=$(curl -s -o /tmp/pr_response.json -w "%{http_code}" \
+            -X POST \
+            -H "Authorization: token ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/Quackusarle/NT114_manifests/pulls \
+            -d "{
+              \"title\": \"Promote to Prod: sha-${SHA_SHORT}\",
+              \"body\": \"## Automated Production Promotion\n\nThis PR copies image tags from \`values-dev.yaml\` to \`values-prod.yaml\`.\n\n**Source commit:** \`${{ github.sha }}\`\n**Triggered by:** \`${{ github.actor }}\`\n\n> Review the tag changes and merge to deploy to production.\",
+              \"head\": \"${BRANCH}\",
+              \"base\": \"main\"
+            }")
+
+          if [ "${HTTP_STATUS}" -ge 200 ] && [ "${HTTP_STATUS}" -lt 300 ]; then
+            PR_URL=$(cat /tmp/pr_response.json | grep -o '"html_url": "[^"]*"' | head -1 | cut -d'"' -f4)
+            echo "PR created: ${PR_URL}"
+            echo "pr_url=${PR_URL}" >> $GITHUB_OUTPUT
+          else
+            echo "Failed to create PR (HTTP ${HTTP_STATUS})"
+            cat /tmp/pr_response.json
+            exit 1
+          fi
+
+      - name: Skip - No Changes
+        if: steps.promote.outputs.changed != 'true'
+        run: echo "Prod values already match dev tags. No PR needed."
+
+      - name: Job Summary
+        if: always()
+        run: |
+          echo "## Promote to Prod" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.promote.outputs.changed }}" == "true" ]; then
+            echo "Created PR on manifest repo to promote dev image tags to production." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "No changes needed — prod values already match dev tags." >> $GITHUB_STEP_SUMMARY
+          fi

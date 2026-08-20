@@ -1,0 +1,72 @@
+name: "1. Data Ingestion & Versioning"
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # 0:00 Chủ Nhật
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-and-version-data:
+    name: Fetch Data & Save to AWS S3
+    runs-on: [self-hosted, k3s, mlops]
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.15'
+
+      - name: Install Dependencies & DVC
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r .github/requirements.txt
+
+      - name: Download Latest Data
+        run: |
+          python src/data_pipeline/download_latest.py
+
+      - name: Configure DVC with AWS S3
+        run: |
+          dvc remote modify --local myaws access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          dvc remote modify --local myaws secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          dvc remote modify --local myaws session_token ${{ secrets.AWS_SESSION_TOKEN }}
+
+      - name: Push Data to AWS S3
+        run: |
+          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
+          export AWS_REGION=us-east-1
+          
+          dvc add data/
+          dvc push
+
+      - name: Commit .dvc and Tag Version
+        run: |
+          git config --global user.name "Data-Bot"
+          git config --global user.email "bot@mlops.local"
+          git add data.dvc .dvc/config .gitignore
+          
+          # Lấy ngày hiện tại
+          TODAY=$(date +'%Y-%m-%d')
+          
+          # Commit thay đổi
+          git commit -m "Auto-fetch data for $TODAY" || echo "Không có data mới"
+          
+          # Đánh dấu (Tag) phiên bản dữ liệu
+          git tag -a "data-$TODAY" -m "Phiên bản dữ liệu chứng khoán ngày $TODAY" || true
+          
+          # Pull rebase trước khi push để tránh rejected
+          git pull --rebase origin main
+          
+          # Push code và Push Tag
+          git push origin main
+          git push origin "data-$TODAY"

@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mlflow-svc
+  namespace: argocd
+  finalizers:
+    - argocd.argoproj.io/finalizer
+spec:
+  project: default
+  source:
+    repoURL: https://community-charts.github.io/helm-charts
+    chart: mlflow
+    targetRevision: "1.8.1"
+    helm:
+      valuesObject:
+        backendStore:
+          postgres:
+            enabled: true
+            host: postgres-svc.mlops-infra.svc.cluster.local
+            port: 5432
+            database: mlflow
+            user: mlflow
+            password: "SuperSecretPassword123"
+        artifactRoot:
+          defaultArtifactRoot: "s3://stock-models-dacn/mlflow-artifacts"
+          s3:
+            enabled: false
+
+        extraEnvVars:
+          MLFLOW_S3_IGNORE_TLS: "true"
+          MLFLOW_REQUIRE_TRUSTED_HOSTS: "false"
+        service:
+          type: ClusterIP
+          port: 5000
+          annotations:
+            tailscale.com/expose: "true"
+        ingress:
+          enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: mlops-infra
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

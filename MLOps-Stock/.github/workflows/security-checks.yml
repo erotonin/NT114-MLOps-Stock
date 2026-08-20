@@ -1,0 +1,199 @@
+name: "0. Security Checks"
+
+on:
+  workflow_call:
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  secret-scan:
+    name: "Secret Scanning (Gitleaks)"
+    runs-on: [self-hosted, k3s, mlops]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cache Gitleaks
+        id: cache-gitleaks
+        uses: actions/cache@v4
+        with:
+          path: gitleaks
+          key: ${{ runner.os }}-gitleaks-8.24.3
+
+      - name: Run Gitleaks
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ ! -f "gitleaks" ]; then
+            curl -sL https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz | tar xz
+          fi
+          ./gitleaks detect --source . -v --config .gitleaks.toml --report-format sarif --report-path gitleaks-results.sarif
+
+      - name: Upload Gitleaks SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'gitleaks-results.sarif'
+          category: 'gitleaks'
+
+  sast-scan:
+    name: "SAST (Semgrep)"
+    runs-on: [self-hosted, k3s, mlops]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run Semgrep with custom rules
+        run: |
+          semgrep scan \
+            --config .semgrep.yml \
+            --config "p/python" \
+            --config "p/security-audit" \
+            --error \
+            --verbose \
+            --exclude="venv" \
+            --exclude="tests" \
+            --exclude=".git" \
+            --json --json-output=semgrep-results.json \
+            .
+
+      - name: Upload SAST results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-results
+          path: semgrep-results.json
+          retention-days: 30
+
+  dependency-scan:
+    name: "Dependency Scan (Trivy FS)"
+    runs-on: [self-hosted, k3s, mlops]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy Filesystem Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          cache: false
+          cache-dir: /tmp/trivy-cache
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '1'
+
+      - name: Trivy SARIF Report (for GitHub Security tab)
+        if: always()
+        uses: aquasecurity/trivy-action@master
+        with:
+          cache: false
+          cache-dir: /tmp/trivy-cache
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-fs-results.sarif'
+          severity: 'HIGH,CRITICAL'
+
+      - name: Upload Trivy results to GitHub Security
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-fs-results.sarif'
+
+  unit-tests:
+    name: "Unit Tests & Coverage"
+    runs-on: [self-hosted, k3s, mlops]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov pytest-html
+
+      - name: Run Tests with Coverage
+        run: |
+          pytest tests/ \
+            --cov=src \
+            --cov=services \
+            --cov-report=xml:coverage.xml \
+            --cov-report=html:htmlcov \
+            --cov-report=term-missing \
+            --junitxml=test-results.xml \
+            -v
+
+      - name: Upload Coverage Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            coverage.xml
+            htmlcov/
+            test-results.xml
+          retention-days: 30
+
+      - name: Post Coverage Summary
+        if: always()
+        run: |
+          echo "## Test Results" >> $GITHUB_STEP_SUMMARY
+          if [ -f coverage.xml ]; then
+            COVERAGE=$(python -c "import xml.etree.ElementTree as ET; tree=ET.parse('coverage.xml'); print(f\"{float(tree.getroot().attrib['line-rate'])*100:.1f}%\")" 2>/dev/null || echo "N/A")
+            echo "Code Coverage: ${COVERAGE}" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  security-gate:
+    name: "Security Gate"
+    runs-on: [self-hosted, k3s, mlops]
+    needs: [secret-scan, sast-scan, dependency-scan, unit-tests]
+    if: always()
+    steps:
+      - name: Check all security jobs passed
+        run: |
+          echo "Security Gate - Final Verdict"
+          echo "Secret Scan:     ${{ needs.secret-scan.result }}"
+          echo "SAST Scan:       ${{ needs.sast-scan.result }}"
+          echo "Dependency Scan: ${{ needs.dependency-scan.result }}"
+          echo "Unit Tests:      ${{ needs.unit-tests.result }}"
+          
+          if [[ "${{ needs.secret-scan.result }}" == "failure" ]]; then
+            echo "Secret leak detected."
+            exit 1
+          fi
+          if [[ "${{ needs.unit-tests.result }}" == "failure" ]]; then
+            echo "Unit tests failed."
+            exit 1
+          fi
+          if [[ "${{ needs.sast-scan.result }}" == "failure" ]]; then
+            echo "SAST found security issues."
+            exit 1
+          fi
+          if [[ "${{ needs.dependency-scan.result }}" == "failure" ]]; then
+            echo "Dependency vulnerabilities found."
+          fi
+          
+          echo "All security checks passed."

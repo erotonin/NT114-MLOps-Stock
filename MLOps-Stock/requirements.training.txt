@@ -1,0 +1,13 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+numpy
+pandas
+yfinance
+torch
+lightgbm
+joblib
+scipy
+scikit-learn
+mlflow
+boto3
+s3fs
+kfp

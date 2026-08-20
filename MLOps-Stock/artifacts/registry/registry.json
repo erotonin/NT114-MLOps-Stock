@@ -1,0 +1,305 @@
+{
+  "models": {
+    "stock-ensemble-FPT-t3": {
+      "versions": [
+        {
+          "version": "1",
+          "model_name": "stock-ensemble-FPT-t3",
+          "status": "previous_champion",
+          "metrics": {
+            "mae": 0.274586042936974,
+            "rmse": 0.34463917556718604,
+            "directional_acc": 46.875
+          },
+          "artifact_path": "models/FPT_artifact_manifest.json",
+          "metadata": {
+            "ticker": "FPT",
+            "horizon": 3,
+            "trigger": "retraining",
+            "manifest": {
+              "symbol": "FPT",
+              "run_type": "stacking_ensemble",
+              "horizon": 3,
+              "model_version": "local-fpt",
+              "code_commit": "working-tree",
+              "data_version": "local-snapshot",
+              "artifacts": [
+                "FPT_scaler_x.pkl",
+                "FPT_scaler_y.pkl",
+                "FPT_tft_model.pt",
+                "FPT_lgbm_model.pkl",
+                "FPT_meta_learner.pkl"
+              ],
+              "features": [
+                "open",
+                "high",
+                "low",
+                "close",
+                "volume",
+                "sma_10",
+                "sma_20",
+                "rsi",
+                "macd",
+                "macd_signal",
+                "bb_upper",
+                "bb_lower",
+                "log_return"
+              ],
+              "window_size": 60,
+              "tft_best_val_loss": 2.0347065528233848,
+              "mae": 0.274586042936974,
+              "rmse": 0.34463917556718604,
+              "directional_acc": 46.875,
+              "validation_samples": 32
+            }
+          },
+          "created_at": "2026-08-20T06:52:41.353213+00:00",
+          "promoted_at": "2026-08-20T06:52:41.353664+00:00",
+          "promotion_reason": "no champion exists"
+        },
+        {
+          "version": "2",
+          "model_name": "stock-ensemble-FPT-t3",
+          "status": "previous_champion",
+          "metrics": {
+            "mae": 0.27469247847453226,
+            "rmse": 0.34475564654790464,
+            "directional_acc": 46.875
+          },
+          "artifact_path": "models/FPT_artifact_manifest.json",
+          "metadata": {
+            "ticker": "FPT",
+            "horizon": 3,
+            "trigger": "retraining",
+            "manifest": {
+              "symbol": "FPT",
+              "run_type": "stacking_ensemble",
+              "horizon": 3,
+              "model_version": "local-fpt",
+              "code_commit": "working-tree",
+              "data_version": "local-snapshot",
+              "artifacts": [
+                "FPT_scaler_x.pkl",
+                "FPT_scaler_y.pkl",
+                "FPT_tft_model.pt",
+                "FPT_lgbm_model.pkl",
+                "FPT_meta_learner.pkl"
+              ],
+              "features": [
+                "open",
+                "high",
+                "low",
+                "close",
+                "volume",
+                "sma_10",
+                "sma_20",
+                "rsi",
+                "macd",
+                "macd_signal",
+                "bb_upper",
+                "bb_lower",
+                "log_return"
+              ],
+              "window_size": 60,
+              "tft_best_val_loss": 2.034706473350525,
+              "mae": 0.27469247847453226,
+              "rmse": 0.34475564654790464,
+              "directional_acc": 46.875,
+              "validation_samples": 32
+            }
+          },
+          "created_at": "2026-08-20T06:54:30.802839+00:00",
+          "promoted_at": "2026-08-20T06:54:30.803496+00:00",
+          "promotion_reason": "candidate satisfies metric gate"
+        },
+        {
+          "version": "3",
+          "model_name": "stock-ensemble-FPT-t3",
+          "status": "previous_champion",
+          "metrics": {
+            "mae": 0.27652994101224176,
+            "rmse": 0.346767303688969,
+            "directional_acc": 46.875
+          },
+          "artifact_path": "models/FPT_artifact_manifest.json",
+          "metadata": {
+            "ticker": "FPT",
+            "horizon": 3,
+            "trigger": "retraining",
+            "manifest": {
+              "symbol": "FPT",
+              "run_type": "stacking_ensemble",
+              "horizon": 3,
+              "model_version": "local-fpt",
+              "code_commit": "working-tree",
+              "data_version": "local-snapshot",
+              "meta_input_space": "scaled_target",
+              "artifacts": [
+                "FPT_scaler_x.pkl",
+                "FPT_scaler_y.pkl",
+                "FPT_tft_model.pt",
+                "FPT_lgbm_model.pkl",
+                "FPT_meta_learner.pkl"
+              ],
+              "features": [
+                "open",
+                "high",
+                "low",
+                "close",
+                "volume",
+                "sma_10",
+                "sma_20",
+                "rsi",
+                "macd",
+                "macd_signal",
+                "bb_upper",
+                "bb_lower",
+                "log_return"
+              ],
+              "window_size": 60,
+              "tft_best_val_loss": 2.0347166458765664,
+              "mae": 0.27652994101224176,
+              "rmse": 0.346767303688969,
+              "directional_acc": 46.875,
+              "validation_samples": 32
+            }
+          },
+          "created_at": "2026-08-20T07:00:28.000225+00:00",
+          "promoted_at": "2026-08-20T07:00:28.000975+00:00",
+          "promotion_reason": "candidate satisfies metric gate"
+        },
+        {
+          "version": "4",
+          "model_name": "stock-ensemble-FPT-t3",
+          "status": "champion",
+          "metrics": {
+            "mae": 0.27092613761969564,
+            "rmse": 0.3406740858608926,
+            "directional_acc": 46.875
+          },
+          "artifact_path": "/home/ubuntu/stock_project/MLOps-Stock/models/FPT_artifact_manifest.json",
+          "metadata": {
+            "ticker": "FPT",
+            "horizon": 3,
+            "trigger": "retraining",
+            "manifest": {
+              "symbol": "FPT",
+              "run_type": "stacking_ensemble",
+              "horizon": 3,
+              "model_version": "local-fpt",
+              "code_commit": "working-tree",
+              "data_version": "local-snapshot",
+              "meta_input_space": "scaled_target",
+              "artifacts": [
+                "FPT_scaler_x.pkl",
+                "FPT_scaler_y.pkl",
+                "FPT_tft_model.pt",
+                "FPT_lgbm_model.pkl",
+                "FPT_meta_learner.pkl"
+              ],
+              "features": [
+                "open",
+                "high",
+                "low",
+                "close",
+                "volume",
+                "sma_10",
+                "sma_20",
+                "rsi",
+                "macd",
+                "macd_signal",
+                "bb_upper",
+                "bb_lower",
+                "log_return"
+              ],
+              "window_size": 60,
+              "tft_best_val_loss": 2.034716486930847,
+              "mae": 0.27092613761969564,
+              "rmse": 0.3406740858608926,
+              "directional_acc": 46.875,
+              "validation_samples": 32
+            }
+          },
+          "created_at": "2026-08-20T07:03:25.139746+00:00",
+          "promoted_at": "2026-08-20T07:03:25.140610+00:00",
+          "promotion_reason": "candidate satisfies metric gate"
+        }
+      ],
+      "champion": "4"
+    }
+  },
+  "audit": [
+    {
+      "event_id": "9765788f-0e4c-4443-908d-f5c3edcff6b4",
+      "timestamp": "2026-08-20T06:52:41.353262+00:00",
+      "action": "register_candidate",
+      "actor": "retraining-worker",
+      "model_name": "stock-ensemble-FPT-t3",
+      "version": "1"
+    },
+    {
+      "event_id": "ef1cf819-a19a-4003-a3fa-e0697cb339ed",
+      "timestamp": "2026-08-20T06:52:41.353690+00:00",
+      "action": "promote",
+      "actor": "retraining-worker",
+      "model_name": "stock-ensemble-FPT-t3",
+      "version": "1",
+      "previous": null,
+      "reason": "no champion exists"
+    },
+    {
+      "event_id": "7ffd3354-5b66-4b20-8a86-7c8e0822d11b",
+      "timestamp": "2026-08-20T06:54:30.802886+00:00",
+      "action": "register_candidate",
+      "actor": "retraining-worker",
+      "model_name": "stock-ensemble-FPT-t3",
+      "version": "2"
+    },
+    {
+      "event_id": "30614a0c-2fd8-4824-8596-bc165534a72c",
+      "timestamp": "2026-08-20T06:54:30.803524+00:00",
+      "action": "promote",
+      "actor": "retraining-worker",
+      "model_name": "stock-ensemble-FPT-t3",
+      "version": "2",
+      "previous": "1",
+      "reason": "candidate satisfies metric gate"
+    },
+    {
+      "event_id": "58616acd-4740-4b8e-9e65-271542a21de9",
+      "timestamp": "2026-08-20T07:00:28.000275+00:00",
+      "action": "register_candidate",
+      "actor": "retraining-worker",
+      "model_name": "stock-ensemble-FPT-t3",
+      "version": "3"
+    },
+    {
+      "event_id": "1a785093-a702-4385-bf36-db466e88913d",
+      "timestamp": "2026-08-20T07:00:28.001003+00:00",
+      "action": "promote",
+      "actor": "retraining-worker",
+      "model_name": "stock-ensemble-FPT-t3",
+      "version": "3",
+      "previous": "2",
+      "reason": "candidate satisfies metric gate"
+    },
+    {
+      "event_id": "084f1dcd-3ec1-44f9-aa6d-97534582f6ff",
+      "timestamp": "2026-08-20T07:03:25.139793+00:00",
+      "action": "register_candidate",
+      "actor": "retraining-worker",
+      "model_name": "stock-ensemble-FPT-t3",
+      "version": "4"
+    },
+    {
+      "event_id": "b3ab8188-26c8-45a6-9356-a03f14b13eba",
+      "timestamp": "2026-08-20T07:03:25.140634+00:00",
+      "action": "promote",
+      "actor": "retraining-worker",
+      "model_name": "stock-ensemble-FPT-t3",
+      "version": "4",
+      "previous": "3",
+      "reason": "candidate satisfies metric gate"
+    }
+  ]
+}

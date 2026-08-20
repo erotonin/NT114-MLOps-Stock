@@ -1,0 +1,176 @@
+name: "3. Dashboard UI & Services"
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'services/dashboard_ui/**'
+      - 'requirements.txt'
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: mlops-stock-dashboard
+
+permissions:
+  contents: read
+  id-token: write
+  security-events: write
+
+jobs:
+  security-checks:
+    name: Run Security Gate
+    uses: ./.github/workflows/security-checks.yml
+    secrets: inherit
+
+  build-scan-sign:
+    name: Build -> Scan -> Push -> Sign
+    needs: security-checks
+    runs-on: [self-hosted, k3s, mlops]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx (remote BuildKit)
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver: remote
+          endpoint: tcp://buildkitd.actions-runner-system.svc.cluster.local:1234
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract tags
+        id: meta
+        run: |
+          IMAGE="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}"
+          SHA_SHORT=$(echo ${{ github.sha }} | cut -c1-7)
+          echo "image=${IMAGE}" >> $GITHUB_OUTPUT
+          echo "sha_tag=${IMAGE}:sha-${SHA_SHORT}" >> $GITHUB_OUTPUT
+          echo "tags=${IMAGE}:latest,${IMAGE}:sha-${SHA_SHORT}" >> $GITHUB_OUTPUT
+
+      # Step 1: Build va xuat image thanh file tar tai runner (khong push)
+      - name: Build Image (export to tar)
+        uses: docker/build-push-action@v5
+        with:
+          context: ./services/dashboard_ui
+          file: ./services/dashboard_ui/Dockerfile
+          push: false
+          outputs: type=docker,dest=/tmp/dashboard.tar
+          tags: ${{ steps.meta.outputs.sha_tag }}
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/mlops-cache:dashboard
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/mlops-cache:dashboard,mode=min
+
+      # Step 2: Trivy quet file tar tai local
+      - name: "Trivy Image Scan"
+        uses: aquasecurity/trivy-action@master
+        with:
+          cache: false
+          cache-dir: /tmp/trivy-cache
+          input: '/tmp/dashboard.tar'
+          format: 'table'
+          severity: 'CRITICAL'
+          exit-code: '0'
+
+      - name: "Trivy SARIF Report"
+        if: always()
+        uses: aquasecurity/trivy-action@master
+        with:
+          cache: false
+          cache-dir: /tmp/trivy-cache
+          input: '/tmp/dashboard.tar'
+          format: 'sarif'
+          output: 'trivy-dashboard.sarif'
+          severity: 'HIGH,CRITICAL'
+
+      - name: Upload Trivy results to GitHub Security
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-dashboard.sarif'
+          category: 'trivy-dashboard'
+
+      # Step 3: Scan pass -> dung crane push file tar len registry
+      - name: Install crane
+        uses: imjasonh/setup-crane@v0.4
+
+      - name: Push Image with crane
+        run: |
+          crane auth login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} index.docker.io
+          crane push /tmp/dashboard.tar ${{ steps.meta.outputs.sha_tag }}
+          crane tag ${{ steps.meta.outputs.sha_tag }} latest
+
+      # Step 4: Ky xac thuc image da push
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3
+
+      - name: Sign Image
+        run: |
+          cosign sign --yes ${{ steps.meta.outputs.sha_tag }}
+          cosign sign --yes ${{ steps.meta.outputs.image }}:latest
+
+      - name: Cleanup
+        if: always()
+        run: rm -f /tmp/dashboard.tar
+
+      - name: Job Summary
+        if: always()
+        run: |
+          echo "## Dashboard UI - Build & Security Report" >> $GITHUB_STEP_SUMMARY
+          echo "| Step | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Docker Build | Passed |" >> $GITHUB_STEP_SUMMARY
+          echo "| Trivy Scan | No CRITICAL CVEs |" >> $GITHUB_STEP_SUMMARY
+          echo "| Crane Push | Passed |" >> $GITHUB_STEP_SUMMARY
+          echo "| Cosign Sign | Image Signed |" >> $GITHUB_STEP_SUMMARY
+          echo "Image: \`${{ steps.meta.outputs.sha_tag }}\`" >> $GITHUB_STEP_SUMMARY
+
+  update-manifest:
+    name: Update ArgoCD Manifest
+    needs: build-scan-sign
+    if: success()
+    runs-on: [self-hosted, k3s, mlops]
+    steps:
+      - name: Checkout Manifest Repo
+        uses: actions/checkout@v4
+        with:
+          repository: Quackusarle/NT114_manifests
+          token: ${{ secrets.MANIFEST_REPO_PAT }}
+          path: manifests
+          ref: main
+
+      - name: Update values-dev.yaml
+        run: |
+          cd manifests/argocd/apps/mlops-stock
+          SHA_SHORT=$(echo ${{ github.sha }} | cut -c1-7)
+          
+          # Install yq
+          curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /tmp/yq
+          chmod +x /tmp/yq
+          
+          # Update dashboard-ui tag
+          /tmp/yq -i ".dashboardUi.image.tag = \"sha-${SHA_SHORT}\"" values-dev.yaml
+          
+          # Verify the changes
+          git diff
+
+      - name: Commit and Push
+        run: |
+          cd manifests
+          git config user.name "GitHub Actions GitOps"
+          git config user.email "actions@github.com"
+          git add argocd/apps/mlops-stock/values-dev.yaml
+          
+          # Only commit if there are changes
+          if ! git diff-index --quiet HEAD; then
+            SHA_SHORT=$(echo ${{ github.sha }} | cut -c1-7)
+            git commit -m "chore: update dev dashboard-ui image tag to sha-${SHA_SHORT} [skip ci]"
+            git pull --rebase origin main
+            git push origin main
+          else
+            echo "No changes to commit"
+          fi

@@ -1,0 +1,277 @@
+name: "4. Model Services Pipeline"
+
+on:
+  push:
+    branches: [dev]
+    paths: ['services/lgbm_api/**', 'services/tft_api/**', 'services/ensemble_api/**', 'services/data_api/**', 'services/monitor_api/**', 'services/control_api/**', 'src/**', 'requirements.txt']
+  workflow_dispatch:
+    inputs:
+      service:
+        description: 'Service to build'
+        required: true
+        type: choice
+        default: 'all'
+        options: ['all', 'lgbm_api', 'tft_api', 'ensemble_api', 'data_api', 'monitor_api', 'control_api']
+
+permissions:
+  contents: read
+  id-token: write
+  security-events: write
+
+jobs:
+  security-checks:
+    name: Run Security Gate
+    uses: ./.github/workflows/security-checks.yml
+    secrets: inherit
+
+  detect-changes:
+    name: Detect Changed Services
+    needs: security-checks
+    runs-on: [self-hosted, k3s, mlops]
+    outputs:
+      lgbm_api: ${{ steps.filter.outputs.lgbm_api }}
+      tft_api: ${{ steps.filter.outputs.tft_api }}
+      ensemble_api: ${{ steps.filter.outputs.ensemble_api }}
+      data_api: ${{ steps.filter.outputs.data_api }}
+      monitor_api: ${{ steps.filter.outputs.monitor_api }}
+      control_api: ${{ steps.filter.outputs.control_api }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            lgbm_api:
+              - 'services/lgbm_api/**'
+              - 'src/**'
+              - 'requirements.txt'
+            tft_api:
+              - 'services/tft_api/**'
+              - 'src/**'
+              - 'requirements.txt'
+            ensemble_api:
+              - 'services/ensemble_api/**'
+              - 'src/**'
+              - 'requirements.txt'
+            data_api:
+              - 'services/data_api/**'
+              - 'src/**'
+              - 'requirements.txt'
+            monitor_api:
+              - 'services/monitor_api/**'
+              - 'src/**'
+              - 'requirements.txt'
+            control_api:
+              - 'services/control_api/**'
+              - 'src/**'
+              - 'requirements.txt'
+
+  build-scan-push:
+    name: Build -> Scan -> Push -> Sign ${{ matrix.service }}
+    runs-on: [self-hosted, k3s, mlops]
+    needs: detect-changes
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: lgbm_api
+            image_suffix: lgbm-api
+            should_build: ${{ needs.detect-changes.outputs.lgbm_api == 'true' || github.event.inputs.service == 'lgbm_api' || (github.event.inputs.service == 'all' && github.event_name == 'workflow_dispatch') }}
+          - service: tft_api
+            image_suffix: tft-api
+            should_build: ${{ needs.detect-changes.outputs.tft_api == 'true' || github.event.inputs.service == 'tft_api' || (github.event.inputs.service == 'all' && github.event_name == 'workflow_dispatch') }}
+          - service: ensemble_api
+            image_suffix: ensemble-api
+            should_build: ${{ needs.detect-changes.outputs.ensemble_api == 'true' || github.event.inputs.service == 'ensemble_api' || (github.event.inputs.service == 'all' && github.event_name == 'workflow_dispatch') }}
+          - service: data_api
+            image_suffix: data-api
+            should_build: ${{ needs.detect-changes.outputs.data_api == 'true' || github.event.inputs.service == 'data_api' || (github.event.inputs.service == 'all' && github.event_name == 'workflow_dispatch') }}
+          - service: monitor_api
+            image_suffix: monitor-api
+            should_build: ${{ needs.detect-changes.outputs.monitor_api == 'true' || github.event.inputs.service == 'monitor_api' || (github.event.inputs.service == 'all' && github.event_name == 'workflow_dispatch') }}
+          - service: control_api
+            image_suffix: control-api
+            should_build: ${{ needs.detect-changes.outputs.control_api == 'true' || github.event.inputs.service == 'control_api' || (github.event.inputs.service == 'all' && github.event_name == 'workflow_dispatch') }}
+
+    steps:
+      - name: Skip check
+        if: ${{ matrix.should_build != true && matrix.should_build != 'true' }}
+        run: echo "Skipping ${{ matrix.service }} - no changes detected"
+
+      - name: Checkout Code
+        if: ${{ matrix.should_build == true || matrix.should_build == 'true' }}
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        if: ${{ matrix.should_build == true || matrix.should_build == 'true' }}
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver: remote
+          endpoint: tcp://buildkitd.actions-runner-system.svc.cluster.local:1234
+
+      - name: Login to Docker Hub
+        if: ${{ matrix.should_build == true || matrix.should_build == 'true' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract tags
+        if: ${{ matrix.should_build == true || matrix.should_build == 'true' }}
+        id: meta
+        run: |
+          IMAGE="${{ secrets.DOCKERHUB_USERNAME }}/mlops-stock-${{ matrix.image_suffix }}"
+          SHA_SHORT=$(echo ${{ github.sha }} | cut -c1-7)
+          echo "image=${IMAGE}" >> $GITHUB_OUTPUT
+          echo "sha_tag=${IMAGE}:sha-${SHA_SHORT}" >> $GITHUB_OUTPUT
+
+      - name: Build ${{ matrix.service }} (export to tar)
+        if: ${{ matrix.should_build == true || matrix.should_build == 'true' }}
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./services/${{ matrix.service }}/Dockerfile
+          push: false
+          outputs: type=docker,dest=/tmp/${{ matrix.service }}.tar
+          tags: ${{ steps.meta.outputs.sha_tag }}
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/mlops-cache:${{ matrix.service }}
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/mlops-cache:${{ matrix.service }},mode=min
+
+      - name: Trivy Image Scan - ${{ matrix.service }}
+        if: ${{ matrix.should_build == true || matrix.should_build == 'true' }}
+        uses: aquasecurity/trivy-action@master
+        with:
+          cache: false
+          cache-dir: /tmp/trivy-cache
+          input: '/tmp/${{ matrix.service }}.tar'
+          format: 'table'
+          severity: 'CRITICAL'
+          exit-code: '0'
+
+      - name: Trivy SARIF Report - ${{ matrix.service }}
+        if: ${{ (matrix.should_build == true || matrix.should_build == 'true') && always() }}
+        uses: aquasecurity/trivy-action@master
+        with:
+          cache: false
+          cache-dir: /tmp/trivy-cache
+          input: '/tmp/${{ matrix.service }}.tar'
+          format: 'sarif'
+          output: 'trivy-${{ matrix.service }}.sarif'
+          severity: 'HIGH,CRITICAL'
+
+      - name: Upload Trivy SARIF
+        if: ${{ (matrix.should_build == true || matrix.should_build == 'true') && always() }}
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-${{ matrix.service }}.sarif'
+          category: 'trivy-${{ matrix.service }}'
+
+      - name: Generate SBOM
+        if: ${{ matrix.should_build == true || matrix.should_build == 'true' }}
+        uses: aquasecurity/trivy-action@master
+        with:
+          cache: false
+          cache-dir: /tmp/trivy-cache
+          input: '/tmp/${{ matrix.service }}.tar'
+          format: 'cyclonedx'
+          output: 'sbom-${{ matrix.service }}.json'
+
+      # Step 3: Crane push len registry
+      - name: Install crane
+        if: ${{ matrix.should_build == true || matrix.should_build == 'true' }}
+        uses: imjasonh/setup-crane@v0.4
+
+      - name: Push with crane
+        if: ${{ matrix.should_build == true || matrix.should_build == 'true' }}
+        run: |
+          crane auth login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} index.docker.io
+          crane push /tmp/${{ matrix.service }}.tar ${{ steps.meta.outputs.sha_tag }}
+          crane tag ${{ steps.meta.outputs.sha_tag }} latest
+
+      # Step 4: Cosign sign
+      - name: Install Cosign
+        if: ${{ matrix.should_build == true || matrix.should_build == 'true' }}
+        uses: sigstore/cosign-installer@v3
+
+      - name: Sign ${{ matrix.service }} image and attest SBOM
+        if: ${{ matrix.should_build == true || matrix.should_build == 'true' }}
+        run: |
+          cosign sign --yes ${{ steps.meta.outputs.sha_tag }}
+          cosign sign --yes ${{ steps.meta.outputs.image }}:latest
+          cosign attest --yes --predicate sbom-${{ matrix.service }}.json --type cyclonedx ${{ steps.meta.outputs.sha_tag }}
+
+      - name: Cleanup
+        if: always()
+        run: rm -f /tmp/${{ matrix.service }}.tar
+
+
+
+  update-manifest:
+    name: Update ArgoCD Manifests
+    needs: [detect-changes, build-scan-push]
+    if: success() && (needs.detect-changes.outputs.lgbm_api == 'true' || needs.detect-changes.outputs.tft_api == 'true' || needs.detect-changes.outputs.ensemble_api == 'true' || needs.detect-changes.outputs.data_api == 'true' || needs.detect-changes.outputs.monitor_api == 'true' || needs.detect-changes.outputs.control_api == 'true' || github.event_name == 'workflow_dispatch')
+    runs-on: [self-hosted, k3s, mlops]
+    steps:
+      - name: Checkout Manifest Repo
+        uses: actions/checkout@v4
+        with:
+          repository: Quackusarle/NT114_manifests
+          token: ${{ secrets.MANIFEST_REPO_PAT }}
+          path: manifests
+          ref: main
+
+      - name: Update values-dev.yaml
+        run: |
+          cd manifests/argocd/apps/mlops-stock
+          SHA_SHORT=$(echo ${{ github.sha }} | cut -c1-7)
+          
+          # Install yq
+          curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /tmp/yq
+          chmod +x /tmp/yq
+          
+          # Update tags using yq
+          if [ "${{ needs.detect-changes.outputs.lgbm_api }}" == "true" ] || [ "${{ github.event.inputs.service }}" == "all" ] || [ "${{ github.event.inputs.service }}" == "lgbm_api" ]; then
+            /tmp/yq -i ".lgbmApi.image.tag = \"sha-${SHA_SHORT}\"" values-dev.yaml
+          fi
+          
+          if [ "${{ needs.detect-changes.outputs.tft_api }}" == "true" ] || [ "${{ github.event.inputs.service }}" == "all" ] || [ "${{ github.event.inputs.service }}" == "tft_api" ]; then
+            /tmp/yq -i ".tftApi.image.tag = \"sha-${SHA_SHORT}\"" values-dev.yaml
+          fi
+          
+          if [ "${{ needs.detect-changes.outputs.ensemble_api }}" == "true" ] || [ "${{ github.event.inputs.service }}" == "all" ] || [ "${{ github.event.inputs.service }}" == "ensemble_api" ]; then
+            /tmp/yq -i ".ensembleApi.image.tag = \"sha-${SHA_SHORT}\"" values-dev.yaml
+          fi
+          
+          if [ "${{ needs.detect-changes.outputs.data_api }}" == "true" ] || [ "${{ github.event.inputs.service }}" == "all" ] || [ "${{ github.event.inputs.service }}" == "data_api" ]; then
+            /tmp/yq -i ".dataApi.image.tag = \"sha-${SHA_SHORT}\"" values-dev.yaml
+          fi
+          
+          if [ "${{ needs.detect-changes.outputs.monitor_api }}" == "true" ] || [ "${{ github.event.inputs.service }}" == "all" ] || [ "${{ github.event.inputs.service }}" == "monitor_api" ]; then
+            /tmp/yq -i ".monitorApi.image.tag = \"sha-${SHA_SHORT}\"" values-dev.yaml
+          fi
+
+          if [ "${{ needs.detect-changes.outputs.control_api }}" == "true" ] || [ "${{ github.event.inputs.service }}" == "all" ] || [ "${{ github.event.inputs.service }}" == "control_api" ]; then
+            /tmp/yq -i ".controlApi.image.tag = \"sha-${SHA_SHORT}\"" values-dev.yaml
+          fi
+          
+          # Verify the changes
+          git diff
+
+      - name: Commit and Push
+        run: |
+          cd manifests
+          git config user.name "GitHub Actions GitOps"
+          git config user.email "actions@github.com"
+          git add argocd/apps/mlops-stock/values-dev.yaml
+          
+          # Only commit if there are changes
+          if ! git diff-index --quiet HEAD; then
+            SHA_SHORT=$(echo ${{ github.sha }} | cut -c1-7)
+            git commit -m "chore: update dev model services image tags to sha-${SHA_SHORT} [skip ci]"
+            
+            # Kéo code mới nhất về trước khi push để tránh lỗi rejected
+            git pull --rebase origin main
+            git push origin main
+          else
+            echo "No changes to commit"
+          fi

@@ -1,0 +1,78 @@
+components:
+  comp-for-loop-1:
+    dag:
+      tasks:
+        train-stock-model:
+          cachingOptions:
+            enableCache: true
+          componentRef:
+            name: comp-train-stock-model
+          inputs:
+            parameters:
+              symbol:
+                componentInputParameter: pipelinechannel--symbols-loop-item
+          taskInfo:
+            name: train-stock-model
+    inputDefinitions:
+      parameters:
+        pipelinechannel--symbols:
+          parameterType: LIST
+        pipelinechannel--symbols-loop-item:
+          parameterType: STRING
+  comp-train-stock-model:
+    executorLabel: exec-train-stock-model
+    inputDefinitions:
+      parameters:
+        symbol:
+          parameterType: STRING
+deploymentSpec:
+  executors:
+    exec-train-stock-model:
+      container:
+        args:
+        - --symbol
+        - '{{$.inputs.parameters[''symbol'']}}'
+        command:
+        - python
+        - src/training/final_ensemble_train.py
+        env:
+        - name: MLFLOW_TRACKING_URI
+          value: http://mlflow-local.mlops-infra.svc.cluster.local:5000
+        - name: MLFLOW_S3_ENDPOINT_URL
+          value: http://minio-svc.mlops-infra.svc.cluster.local:9000
+        - name: AWS_ACCESS_KEY_ID
+          value: minioadmin
+        - name: AWS_SECRET_ACCESS_KEY
+          value: nammoadidaphat
+        image: stock-trainer:latest
+pipelineInfo:
+  description: Trains the ensemble models for multiple stock symbols concurrently.
+  name: stock-prediction-training-pipeline
+root:
+  dag:
+    tasks:
+      for-loop-1:
+        componentRef:
+          name: comp-for-loop-1
+        inputs:
+          parameters:
+            pipelinechannel--symbols:
+              componentInputParameter: symbols
+        parameterIterator:
+          itemInput: pipelinechannel--symbols-loop-item
+          items:
+            inputParameter: pipelinechannel--symbols
+        taskInfo:
+          name: for-loop-1
+  inputDefinitions:
+    parameters:
+      symbols:
+        defaultValue:
+        - VNM
+        - VCB
+        - HPG
+        - FPT
+        isOptional: true
+        parameterType: LIST
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.16.0

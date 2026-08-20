@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLOps Stock Control Center</title>
+    <style>
+        :root { --bg:#08111f; --panel:#101d31; --panel2:#13243d; --border:#263b5b; --text:#e6eef9; --muted:#91a4bf; --blue:#55c2ff; --green:#37d39b; --yellow:#f6c85f; --red:#ff7385; }
+        * { box-sizing: border-box; }
+        body { margin:0; color:var(--text); background:radial-gradient(circle at 10% 0%,#163558 0,#08111f 42%,#050a12 100%); font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif; min-height:100vh; }
+        .shell { max-width:1400px; margin:auto; padding:28px; }
+        header { display:flex; justify-content:space-between; gap:20px; align-items:flex-start; margin-bottom:24px; }
+        h1 { margin:0; font-size:clamp(1.8rem,4vw,3rem); letter-spacing:-.04em; }
+        h2 { margin:0 0 14px; font-size:1.05rem; }
+        p { color:var(--muted); }
+        .subtitle { margin:8px 0 0; max-width:720px; }
+        .badge { border:1px solid var(--border); border-radius:999px; padding:8px 12px; color:var(--green); background:#0d2430; white-space:nowrap; font-size:.85rem; }
+        .toolbar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:16px 0 24px; }
+        input,select,button { border-radius:10px; border:1px solid var(--border); background:#0b1728; color:var(--text); padding:10px 12px; }
+        button { cursor:pointer; background:var(--blue); color:#04101c; font-weight:700; border:none; }
+        button.secondary { background:#1b304d; color:var(--text); border:1px solid var(--border); }
+        button.danger { background:#642c3b; color:#fff; }
+        .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+        .wide { grid-column:1/-1; }
+        .card { background:linear-gradient(145deg,rgba(19,36,61,.96),rgba(10,22,39,.95)); border:1px solid var(--border); border-radius:16px; padding:18px; box-shadow:0 14px 34px rgba(0,0,0,.18); }
+        .metric { font-size:2rem; font-weight:800; margin:12px 0; }
+        .metric.blue { color:var(--blue); }
+        .metric.green { color:var(--green); }
+        .metric.yellow { color:var(--yellow); }
+        .row { display:flex; justify-content:space-between; gap:12px; padding:9px 0; border-bottom:1px solid rgba(145,164,191,.15); }
+        .row:last-child { border-bottom:0; }
+        .muted { color:var(--muted); }
+        .status { display:inline-block; border-radius:999px; padding:4px 8px; font-size:.76rem; text-transform:uppercase; }
+        .stable { color:var(--green); background:#0f3a32; }
+        .warning { color:var(--yellow); background:#493c16; }
+        .critical,.failed,rejected { color:var(--red); background:#4c202d; }
+        .table-wrap { overflow:auto; }
+        table { width:100%; border-collapse:collapse; font-size:.9rem; }
+        th,td { text-align:left; padding:10px; border-bottom:1px solid rgba(145,164,191,.15); white-space:nowrap; }
+        th { color:var(--muted); font-weight:500; }
+        .error { border:1px solid #7f3346; background:#371724; color:#ffb8c3; padding:14px; border-radius:12px; margin:16px 0; }
+        .hint { font-size:.8rem; color:var(--muted); }
+        a { color:var(--blue); }
+    </style>
+</head>
+<body>
+<div class="shell">
+    <header>
+        <div>
+            <h1>MLOps Stock Control Center</h1>
+            <p class="subtitle">Ensemble LightGBM–TFT, dự báo T+3, model registry, drift monitoring và retraining có kiểm soát.</p>
+        </div>
+        <div class="badge">Control plane connected</div>
+    </header>
+
+    <div class="toolbar">
+        <form action="/predict" method="get">
+            <input name="ticker" value="FPT" placeholder="Ticker, ví dụ FPT" maxlength="10" required>
+            <button type="submit">Chạy dự đoán</button>
+        </form>
+        <select id="role" title="Demo role">
+            <option value="viewer">viewer</option>
+            <option value="analyst">analyst</option>
+            <option value="admin">admin</option>
+        </select>
+        <button class="secondary" onclick="refreshControlPlane()">Làm mới monitoring</button>
+        <span class="hint">Role chỉ phục vụ demo local; production cần authentication thật.</span>
+    </div>
+
+    {% if error %}<div class="error">{{ error }}</div>{% endif %}
+
+    <section class="grid">
+        {% for symbol, data in predictions.items() %}
+        <article class="card">
+            <h2>{{ symbol }} — Prediction</h2>
+            <div class="metric blue">{{ data.predicted_price }} VND</div>
+            <div class="row"><span class="muted">Giá hiện tại</span><strong>{{ data.current_price }}</strong></div>
+            <div class="row"><span class="muted">Horizon</span><strong>T+3</strong></div>
+            <div class="row"><span class="muted">Model version</span><strong>{{ data.model_version }}</strong></div>
+            <div class="row"><span class="muted">Expected return</span><strong>{{ data.expected_return_pct }}%</strong></div>
+            <div class="row"><span class="muted">Uncertainty</span><strong>{{ data.uncertainty_pct }}%</strong></div>
+            <div class="row"><span class="muted">Decision</span><strong>{{ data.action }}</strong></div>
+            <p class="hint">{{ data.reason }}</p>
+        </article>
+        {% endfor %}
+
+        <article class="card">
+            <h2>Performance gần nhất</h2>
+            <div id="performance"><span class="muted">Đang tải...</span></div>
+        </article>
+        <article class="card">
+            <h2>Drift status</h2>
+            <div id="drift"><span class="muted">Đang tải...</span></div>
+        </article>
+        <article class="card">
+            <h2>Model registry</h2>
+            <div id="models"><span class="muted">Đang tải...</span></div>
+        </article>
+
+        <article class="card wide">
+            <h2>Retraining control</h2>
+            <div class="toolbar">
+                <input id="retrainTicker" value="FPT" maxlength="10">
+                <select id="retrainTrigger"><option>manual</option><option>drift</option><option>scheduled</option></select>
+                <button onclick="triggerRetrain()">Trigger retrain</button>
+                <span id="retrainMessage" class="hint"></span>
+            </div>
+            <div id="jobs" class="table-wrap"></div>
+        </article>
+
+        <article class="card wide">
+            <h2>Drift events và audit</h2>
+            <div id="events" class="table-wrap"></div>
+        </article>
+    </section>
+</div>
+<script>
+const CONTROL_API = {{ control_api_url | tojson }};
+const roleHeader = () => ({'X-Role': document.getElementById('role').value});
+const fmt = v => v === null || v === undefined ? '-' : (typeof v === 'number' ? v.toFixed(3) : v);
+async function getJson(path) {
+    const res = await fetch(CONTROL_API + path, {headers: roleHeader()});
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+}
+function rows(items) { return items.map(x => `<div class="row"><span>${x.label}</span><strong>${x.value}</strong></div>`).join(''); }
+async function refreshControlPlane() {
+    try {
+        const [perf, drift, models, jobs, events] = await Promise.all([
+            getJson('/performance?ticker=FPT'), getJson('/drift/events?ticker=FPT&limit=8'),
+            getJson('/models'), getJson('/retrain/jobs?limit=8'), getJson('/audit?limit=8')
+        ]);
+        document.getElementById('performance').innerHTML = rows([
+            {label:'Sample size',value:fmt(perf.sample_size)}, {label:'MAE',value:fmt(perf.mae)},
+            {label:'Directional accuracy',value:perf.directional_accuracy === null ? '-' : fmt(perf.directional_accuracy)+'%'}
+        ]);
+        document.getElementById('drift').innerHTML = drift.length ? drift.slice(0,4).map(e => `<div class="row"><span>${e.ticker}</span><span class="status ${e.severity}">${e.severity}</span></div>`).join('') : '<span class="muted">Chưa có drift event</span>';
+        document.getElementById('models').innerHTML = models.length ? models.map(m => `<div class="row"><span>${m.model_name}</span><strong>${m.champion || 'no champion'} · ${m.version_count} versions</strong></div>`).join('') : '<span class="muted">Chưa có model trong registry</span>';
+        document.getElementById('jobs').innerHTML = jobs.length ? `<table><tr><th>Job</th><th>Ticker</th><th>Trigger</th><th>Status</th><th>Updated</th></tr>${jobs.map(j => `<tr><td>${j.id.slice(0,8)}</td><td>${j.ticker}</td><td>${j.trigger_type}</td><td><span class="status ${j.status}">${j.status}</span></td><td>${j.updated_at}</td></tr>`).join('')}</table>` : '<span class="muted">Chưa có retraining job</span>';
+        document.getElementById('events').innerHTML = events.length ? `<table><tr><th>Time</th><th>Ticker</th><th>Severity</th><th>Action</th></tr>${events.map(e => `<tr><td>${e.created_at}</td><td>${e.ticker}</td><td><span class="status ${e.severity}">${e.severity}</span></td><td>${e.action}</td></tr>`).join('')}</table>` : '<span class="muted">Chưa có audit/drift event</span>';
+    } catch (err) {
+        document.getElementById('drift').innerHTML = `<span class="status warning">Control API unavailable</span><p class="hint">${err}</p>`;
+    }
+}
+async function triggerRetrain() {
+    const ticker = document.getElementById('retrainTicker').value.toUpperCase();
+    const trigger_type = document.getElementById('retrainTrigger').value;
+    const message = document.getElementById('retrainMessage');
+    try {
+        const res = await fetch(CONTROL_API + '/retrain', {method:'POST', headers:{'Content-Type':'application/json', ...roleHeader()}, body:JSON.stringify({ticker, horizon:3, trigger_type})});
+        if (!res.ok) throw new Error(await res.text());
+        const job = await res.json(); message.textContent = `Đã tạo job ${job.id.slice(0,8)} với trạng thái ${job.status}`; await refreshControlPlane();
+    } catch(err) { message.textContent = `Không thể trigger: ${err}`; }
+}
+refreshControlPlane();
+setInterval(refreshControlPlane, 30000);
+</script>
+</body>
+</html>

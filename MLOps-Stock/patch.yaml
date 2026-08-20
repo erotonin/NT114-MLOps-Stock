@@ -1,0 +1,6 @@
+data:
+  executor: |
+    imagePullPolicy: IfNotPresent
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 8737

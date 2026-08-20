@@ -1,0 +1,5 @@
+[core]
+    remote = myaws
+['remote "myaws"']
+    url = s3://stock-models-dacn/dvc-data
+    region = us-east-1

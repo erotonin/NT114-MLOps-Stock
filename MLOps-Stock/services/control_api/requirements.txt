@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+pandas
+numpy
+pydantic
+yfinance
+torch
+lightgbm
+joblib
+scikit-learn
+scipy
+mlflow

@@ -1,0 +1,155 @@
+services:
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v3.15.1
+    command: >-
+      mlflow server --host 0.0.0.0 --port 5000
+      --backend-store-uri sqlite:////mlflow/mlflow.db
+      --default-artifact-root /mlflow/artifacts
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow_data:/mlflow
+    restart: unless-stopped
+
+  data-api:
+    build:
+      context: .
+      dockerfile: services/data_api/Dockerfile
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./src:/app/src:ro
+      - ./data:/app/data
+    restart: unless-stopped
+
+  tft-api:
+    build:
+      context: .
+      dockerfile: services/tft_api/Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      MODELS_CACHE_DIR: /app/models-cache
+    volumes:
+      - ./src:/app/src:ro
+      - model_cache:/app/models-cache
+    depends_on:
+      - mlflow
+    restart: unless-stopped
+
+  lgbm-api:
+    build:
+      context: .
+      dockerfile: services/lgbm_api/Dockerfile
+    ports:
+      - "8003:8003"
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      MODELS_CACHE_DIR: /app/models-cache
+    volumes:
+      - ./src:/app/src:ro
+      - model_cache:/app/models-cache
+    depends_on:
+      - mlflow
+    restart: unless-stopped
+
+  ensemble-api:
+    build:
+      context: .
+      dockerfile: services/ensemble_api/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      DATA_SERVICE_URL: http://data-api:8001/fetch/{}
+      TFT_SERVICE_URL: http://tft-api:8002/predict/tft
+      LGBM_SERVICE_URL: http://lgbm-api:8003/predict/lgbm
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      MODELS_CACHE_DIR: /app/models-cache
+    volumes:
+      - ./src:/app/src:ro
+      - model_cache:/app/models-cache
+      - control_data:/app/artifacts
+    depends_on:
+      - data-api
+      - tft-api
+      - lgbm-api
+      - redis
+    restart: unless-stopped
+
+  control-api:
+    build:
+      context: .
+      dockerfile: services/control_api/Dockerfile
+    ports:
+      - "8085:8085"
+    environment:
+      CONTROL_DB_PATH: /app/artifacts/control_plane.sqlite3
+      REGISTRY_PATH: /app/artifacts/registry/registry.json
+      CONTROL_ALLOWED_ORIGINS: http://localhost:8081
+      RETRAIN_EPOCHS: 5
+      TFT_WINDOW_SIZE: 60
+      LOCAL_MODELS_DIR: /app/models
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+    volumes:
+      - ./src:/app/src:ro
+      - ./data:/app/data
+      - ./models:/app/models
+      - control_data:/app/artifacts
+    depends_on:
+      - mlflow
+    restart: unless-stopped
+
+  monitor-api:
+    build:
+      context: .
+      dockerfile: services/monitor_api/Dockerfile
+    ports:
+      - "8084:8084"
+    environment:
+      CONTROL_DB_PATH: /app/artifacts/control_plane.sqlite3
+      MONITOR_SYMBOLS: VNM,FPT,VCB,HPG
+      CHECK_INTERVAL_SECONDS: 3600
+      DRIFT_MIN_SAMPLES: 20
+    volumes:
+      - ./src:/app/src:ro
+      - ./data:/app/data
+      - ./models:/app/models
+      - control_data:/app/artifacts
+    depends_on:
+      - control-api
+    restart: unless-stopped
+
+  dashboard-ui:
+    build:
+      context: .
+      dockerfile: services/dashboard_ui/Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      ENSEMBLE_API_URL: http://ensemble-api:8080/predict/{}
+      CONTROL_PUBLIC_URL: http://localhost:8085
+    volumes:
+      - ./services/dashboard_ui/templates:/app/templates:ro
+      - ./services/dashboard_ui/static:/app/static:ro
+    depends_on:
+      - ensemble-api
+      - control-api
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+  mlflow_data:
+  model_cache:
+  control_data:

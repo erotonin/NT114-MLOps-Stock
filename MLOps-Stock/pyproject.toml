@@ -1,0 +1,69 @@
+# =============================================================================
+# Cấu hình chung cho các công cụ Python trong project MLOps-Stock
+# =============================================================================
+
+# ── Bandit (SAST nhẹ cho Python) ──────────────────────────────────────────────
+[tool.bandit]
+exclude_dirs = ["tests", "venv", ".venv"]
+# Bỏ qua một số rules không liên quan:
+# B101: assert used (cho phép dùng trong test/validation)
+# B603: subprocess without shell (đã kiểm soát qua Semgrep)
+skips = ["B101", "B603"]
+
+# ── Ruff (Linter + Formatter) ────────────────────────────────────────────────
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+exclude = ["venv", ".venv", "migrations", "__pycache__"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "S",    # flake8-bandit (security)
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+]
+ignore = [
+    "S101",  # assert used — cần cho tests
+    "S301",  # pickle — sẽ xử lý bằng Semgrep/ModelScan
+    "S603",  # subprocess — đã có Semgrep rule
+    "E501",  # line too long — dùng formatter thay thế
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S"]  # Tắt security rules trong tests
+
+# ── Pytest ────────────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+addopts = "-v --tb=short"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
+
+# ── Coverage ──────────────────────────────────────────────────────────────────
+[tool.coverage.run]
+source = ["src", "services"]
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "venv/*",
+    "*/migrations/*",
+]
+
+[tool.coverage.report]
+# Ngưỡng coverage tối thiểu — fail nếu dưới mức này
+fail_under = 60
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if __name__ == .__main__.",
+    "raise NotImplementedError",
+]

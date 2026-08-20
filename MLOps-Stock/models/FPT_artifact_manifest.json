@@ -1,0 +1,37 @@
+{
+  "symbol": "FPT",
+  "run_type": "stacking_ensemble",
+  "horizon": 3,
+  "model_version": "local-fpt",
+  "code_commit": "working-tree",
+  "data_version": "local-snapshot",
+  "meta_input_space": "scaled_target",
+  "artifacts": [
+    "FPT_scaler_x.pkl",
+    "FPT_scaler_y.pkl",
+    "FPT_tft_model.pt",
+    "FPT_lgbm_model.pkl",
+    "FPT_meta_learner.pkl"
+  ],
+  "features": [
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "sma_10",
+    "sma_20",
+    "rsi",
+    "macd",
+    "macd_signal",
+    "bb_upper",
+    "bb_lower",
+    "log_return"
+  ],
+  "window_size": 60,
+  "tft_best_val_loss": 2.034716486930847,
+  "mae": 0.27092613761969564,
+  "rmse": 0.3406740858608926,
+  "directional_acc": 46.875,
+  "validation_samples": 32
+}

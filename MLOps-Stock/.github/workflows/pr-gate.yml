@@ -1,0 +1,63 @@
+name: "PR Security Gate"
+
+on:
+  pull_request:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+  pull-requests: read
+  security-events: write
+
+jobs:
+  security-checks:
+    name: "PR Checks"
+    uses: ./.github/workflows/security-checks.yml
+    secrets: inherit
+
+  sonarqube-analysis:
+    name: "SonarQube PR Scan"
+    needs: security-checks
+    runs-on: [self-hosted, k3s, mlops]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download Coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
+          path: .
+
+      - name: Cache SonarScanner
+        id: cache-sonar
+        uses: actions/cache@v4
+        with:
+          path: sonar-scanner-5.0.1.3006-linux
+          key: ${{ runner.os }}-sonar-scanner-5.0.1.3006
+
+      - name: Install and Run SonarQube PR Scanner
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: "http://sonarqube-sonarqube.mlops-infra.svc.cluster.local:9000"
+        run: |
+          if [ ! -d "sonar-scanner-5.0.1.3006-linux" ]; then
+            echo "Downloading SonarScanner CLI..."
+            curl -sL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip -o sonar-scanner.zip
+            unzip -q sonar-scanner.zip
+          else
+            echo "Using cached SonarScanner CLI..."
+          fi
+          export PATH=$PATH:$PWD/sonar-scanner-5.0.1.3006-linux/bin
+
+          sonar-scanner \
+            -Dsonar.host.url="${SONAR_HOST_URL}" \
+            -Dsonar.login="${SONAR_TOKEN}"
+
+      - name: Post Summary
+        run: |
+          echo "## PR Quality Gate" >> $GITHUB_STEP_SUMMARY
+          echo "Security checks passed and SonarQube PR scan completed." >> $GITHUB_STEP_SUMMARY

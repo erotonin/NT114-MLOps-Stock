@@ -1,0 +1,20 @@
+name: "0.1 Feature Branch Scan"
+
+on:
+  push:
+    branches:
+      - 'feat/**'
+
+concurrency:
+  group: feature-scan-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  security-checks:
+    name: "Feature Branch Security Scan"
+    uses: ./.github/workflows/security-checks.yml
+    secrets: inherit

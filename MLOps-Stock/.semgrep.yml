@@ -1,0 +1,62 @@
+rules:
+  - id: ban-pickle-load
+    patterns:
+      - pattern-either:
+          - pattern: pickle.load(...)
+          - pattern: pickle.loads(...)
+          - pattern: joblib.load(...)
+    message: >
+      Su dung pickle.load hoac joblib.load co nguy co RCE.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [python]
+      confidence: HIGH
+
+  - id: ban-eval-exec
+    patterns:
+      - pattern-either:
+          - pattern: eval(...)
+          - pattern: exec(...)
+    message: >
+      Su dung eval() hoac exec() co nguy co code injection.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+
+  - id: hardcoded-password-assignment
+    patterns:
+      - pattern: |
+          $VAR = "..."
+    metavariable-regex:
+      metavariable: $VAR
+      regex: (?i)(password|passwd|secret|api_key|apikey|token|access_key)
+    message: >
+      Phat hien gia tri credential bi hardcode.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+
+  - id: subprocess-shell-true
+    pattern: subprocess.call(..., shell=True, ...)
+    message: >
+      Su dung subprocess voi shell=True co nguy co command injection.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+
+  - id: unsafe-torch-load
+    patterns:
+      - pattern: torch.load(...)
+      - pattern-not: torch.load(..., weights_only=True, ...)
+    message: >
+      Su dung torch.load() khong co weights_only=True co nguy co RCE.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [pytorch]

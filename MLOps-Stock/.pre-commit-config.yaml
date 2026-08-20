@@ -1,0 +1,44 @@
+# =============================================================================
+# Pre-commit Hooks — Shift-Left Security
+# Chặn lỗi bảo mật ngay từ máy Developer trước khi code được push lên GitHub.
+# Cài đặt: pip install pre-commit && pre-commit install
+# =============================================================================
+repos:
+  # ── Secret Scanning ────────────────────────────────────────────────────────
+  # Quét toàn bộ staged files để phát hiện hardcode token, API keys, passwords.
+  # ZERO TOLERANCE: Luôn chặn (block) nếu phát hiện secret.
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.2
+    hooks:
+      - id: gitleaks
+
+  # ── Python Linter (Ruff) ───────────────────────────────────────────────────
+  # Ruff thay thế Flake8 + isort + pyupgrade, nhanh gấp 10-100x.
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.6
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+
+  # ── Python SAST nhẹ (Bandit) ───────────────────────────────────────────────
+  # Phát hiện lỗi bảo mật Python cơ bản: eval(), exec(), hardcoded passwords,
+  # insecure deserialization (pickle.loads), weak crypto, v.v.
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.8.3
+    hooks:
+      - id: bandit
+        args: [-c, pyproject.toml]
+        additional_dependencies: ["bandit[toml]"]
+
+  # ── Trailing Whitespace & File Fixes ───────────────────────────────────────
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--unsafe]
+      - id: check-added-large-files
+        args: [--maxkb=5000]
+      - id: detect-private-key

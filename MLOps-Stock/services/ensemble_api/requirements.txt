@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+numpy
+joblib
+httpx
+mlflow
+boto3
+s3fs
+redis
+scikit-learn

@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitor-api
+  labels:
+    app: monitor-api
+    {{- include "mlops-stock.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.monitorApi.autoscaling.enabled }}
+  replicas: {{ .Values.monitorApi.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      app: monitor-api
+  template:
+    metadata:
+      labels:
+        app: monitor-api
+    spec:
+      serviceAccountName: {{ include "mlops-stock.serviceAccountName" . }}
+      containers:
+        - name: monitor-api
+          image: "{{ .Values.monitorApi.image.repository }}:{{ .Values.monitorApi.image.tag }}"
+          imagePullPolicy: {{ .Values.monitorApi.image.pullPolicy }}
+          env:
+            - name: CONTROL_DB_PATH
+              value: "/app/artifacts/control_plane.sqlite3"
+            - name: MONITOR_SYMBOLS
+              value: {{ .Values.monitorApi.symbols | quote }}
+            - name: CHECK_INTERVAL_SECONDS
+              value: {{ .Values.monitorApi.checkIntervalSeconds | quote }}
+            - name: DRIFT_MIN_SAMPLES
+              value: {{ .Values.monitorApi.minSamples | quote }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.monitorApi.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          resources:
+            {{- toYaml .Values.monitorApi.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: monitor-api
+  labels:
+    app: monitor-api
+    {{- include "mlops-stock.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.monitorApi.service.type }}
+  ports:
+    - port: {{ .Values.monitorApi.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: monitor-api

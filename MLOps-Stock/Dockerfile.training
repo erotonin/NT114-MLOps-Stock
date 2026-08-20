@@ -1,0 +1,29 @@
+# syntax=docker/dockerfile:1.4
+# ============================================================
+# Training Image — Dùng bởi KFP để huấn luyện model
+# Tối ưu: CPU-only torch, chỉ cài thư viện training cần
+# ============================================================
+FROM python:3.11.15-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH="/app"
+
+WORKDIR /app
+
+# Layer 1: System deps cho LightGBM native (cached lâu dài)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Layer 2: Training-specific dependencies (cached mạnh)
+COPY requirements.training.txt .
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install -r requirements.training.txt
+
+# Layer 3: Source code & Data
+COPY src/ /app/src/
+COPY data/ /app/data/
+
+# KFP sẽ override entrypoint, default cho test local
+CMD ["python", "src/training/final_ensemble_train.py"]
