@@ -8,6 +8,4 @@ joblib
 scipy
 scikit-learn
 mlflow
-boto3
-s3fs
 kfp

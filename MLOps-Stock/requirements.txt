@@ -11,10 +11,10 @@ scipy
 matplotlib
 python-dotenv
 httpx
+requests
+pytest
 kfp
 mlflow
-boto3
-s3fs
 redis
 scikit-learn
 evidently

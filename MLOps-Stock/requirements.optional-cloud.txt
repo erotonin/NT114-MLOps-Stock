@@ -1,0 +1,3 @@
+# Optional only: install when MLflow/object storage uses an S3-compatible backend.
+boto3
+s3fs

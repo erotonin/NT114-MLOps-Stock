@@ -175,3 +175,22 @@ Nếu Docker build inference image bị pip resolver loop, kiểm tra requiremen
 Nếu `python -m pytest -q` trên Windows host báo thiếu `httpx` từ FastAPI TestClient, đó là thiếu dependency của môi trường host; chạy test trong virtual environment của project hoặc cài đầy đủ `requirements.txt`. Docker runtime smoke test vẫn là evidence độc lập và đã được thực hiện trên Compose stack.
 
 > Cảnh báo: dự báo trong smoke test là kết quả minh họa từ artifact local, không phải khuyến nghị mua/bán và không nên dùng để đặt lệnh tự động.
+
+## 13. Dependency profiles and verified test command
+
+Project dependencies are separated by purpose. `requirements.txt` is the general local development and test profile; `requirements.training.txt` adds CPU-only PyTorch, LightGBM, MLflow and KFP for training; `requirements.optional-cloud.txt` contains only `boto3` and `s3fs` for an S3-compatible artifact backend. Do not install the optional cloud profile unless the selected MLflow/object-storage deployment actually requires it, because unconstrained `s3fs` can make pip resolve many historical `fsspec`/`aiobotocore` versions.
+
+After installing the project profile and the CPU PyTorch index where needed, run the complete unit suite from the repository root:
+
+```powershell
+python -m pip install --user httpx requests redis pytest
+python -m pytest -q
+```
+
+The verified Windows host result is **28 passed**. The official Compose smoke test remains:
+
+```powershell
+python scripts\smoke_test.py
+```
+
+It verifies Ensemble and Control readiness, a real FPT prediction through the running graph, PSI drift evaluation with retraining policy, and viewer-role denial for the retraining endpoint.
