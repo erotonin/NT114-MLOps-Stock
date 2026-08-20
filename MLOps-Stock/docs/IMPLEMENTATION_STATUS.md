@@ -86,3 +86,23 @@ This is stronger evidence than a mocked endpoint response: the worker downloaded
 A second bounded retraining run was executed after a champion already existed. Candidate version `2` for `stock-ensemble-FPT-t3` was compared against champion version `1`: MAE improved from `0.2872670182790942` to `0.2867988409553559`, RMSE improved from `0.3548542435466494` to `0.35435845756971923`, and Directional Accuracy remained `46.875`. The evaluation gate returned `passed=true` and the candidate was promoted.
 
 The retraining worker now snapshots existing artifacts before training, seeds the registry from an existing local manifest when no champion exists, and restores the snapshot when a candidate is rejected. This prevents a rejected model from silently replacing the artifact used by local inference. Raw evidence is stored in `artifacts/retraining_guard_evidence.json`.
+
+## Final hardening update — 2026-08-20
+
+The final host regression command `python -m pytest -q` completed with **30 passed in 6.67 seconds**, including the CORS contract test. The test suite covers control-plane behavior, alerts, RBAC, dashboard contracts, data access, decision policy, Ensemble behavior, indicators, LightGBM, TFT and CORS allowlist behavior.
+
+The four inference services now expose explicit readiness contracts: `GET /health` on Data API (`8001`), TFT API (`8002`), LightGBM API (`8003`) and Ensemble API (`8080`). After rebuilding and restarting the containers, all four endpoints returned HTTP 200 with service-specific JSON responses. Docker Compose healthchecks and `scripts/start_local.ps1` use these endpoints instead of relying on Swagger `/docs` availability.
+
+The reproducibility verifier `scripts/verify_reproducibility.py` completed with `status=ok`. It validates the FPT manifest, the 13-feature contract, the real `data/FPT.csv` snapshot and every artifact referenced by the manifest, then records byte sizes and SHA-256 hashes in `artifacts/reproducibility_verification.json`. This evidence is intended to make the local defense demo auditable and to detect accidental artifact changes before rerunning inference.
+
+Security and configuration hardening is also recorded. Control API CORS is restricted to the local dashboard origins rather than wildcard `*`, `.env.example` documents offline MLflow and alert sink variables without containing credentials, and the repository working tree was clean after the final commits. The latest pushed commit is `3aee775` (`ops: add inference health endpoints and readiness checks`).
+
+The final acceptance sequence was:
+
+```bash
+python -m pytest -q
+python scripts/smoke_test.py
+python scripts/verify_reproducibility.py
+```
+
+The first command and the reproducibility verifier passed on the Windows host. The smoke test completed against the running Docker Compose stack, while the service-level health verification returned HTTP 200 for all four inference APIs. These checks demonstrate operational readiness of the local MVP; they do not imply that the Ensemble is more accurate than every baseline, as the documented walk-forward ablation correctly reports Naive as strongest on MAE/RMSE and TFT as strongest on directional accuracy.
