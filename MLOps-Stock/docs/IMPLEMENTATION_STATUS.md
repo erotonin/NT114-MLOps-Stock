@@ -64,3 +64,11 @@ The recorded prediction path is in `artifacts/smoke_evidence.txt`: Data API retu
 The Control API evidence is in `artifacts/control_smoke_evidence.txt` and the live policy check. Health returned `status=ok`; viewer access to `/models` returned HTTP 200; a two-feature PSI shift with two consecutive critical checks returned policy decision `severity=critical`, `action=retrain`, and policy version `v1`.
 
 The host-level `python -m pytest -q` command on the Windows Python installation was not accepted because the host FastAPI TestClient environment lacked `httpx`; this is an environment dependency issue rather than a Docker runtime failure. The sandbox verification remains **28 passed**, and the Docker acceptance evidence above was collected independently on the target laptop.
+
+## Final hardening verification
+
+The Windows host test environment was repaired by installing the declared test dependencies `httpx`, `requests`, `redis`, `pytest` and CPU-only PyTorch. The official command `python -m pytest -q` then completed with **28 passed in 14.26 seconds**.
+
+The repository smoke test `python scripts/smoke_test.py` was executed against the running Compose stack and passed all checks: Ensemble and Control readiness, real FPT prediction, drift policy evaluation returning `critical/retrain`, and RBAC denial for a viewer attempting retraining. The Control API image was rebuilt with the training packages required by the lazy retraining worker (`torch`, `lightgbm`, `mlflow`, `yfinance`) while keeping `s3fs` and `boto3` outside the default image to avoid the resolver loop.
+
+The Windows startup script now validates Compose configuration, starts the local-offline profile, waits up to three minutes for all readiness URLs, reports pending services, and prints the exact Dashboard, API, Control and optional MLflow commands.
