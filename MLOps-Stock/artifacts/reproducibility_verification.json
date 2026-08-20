@@ -1,0 +1,32 @@
+{
+  "symbol": "FPT",
+  "manifest": "models\\FPT_artifact_manifest.json",
+  "data": {
+    "path": "data\\FPT.csv",
+    "bytes": 163273
+  },
+  "model_artifacts": {
+    "FPT_scaler_x.pkl": {
+      "bytes": 879,
+      "sha256": "53677f46dc04a8d088eb90c26679d2392b2e6fef9eb6363d15f8357e44747fb7"
+    },
+    "FPT_scaler_y.pkl": {
+      "bytes": 591,
+      "sha256": "573c02ecf5dcb678f08173b2c4b8de3a87aa61df9b9be0b1ed2ab981fab191bb"
+    },
+    "FPT_tft_model.pt": {
+      "bytes": 1060743,
+      "sha256": "b84eec7e736595a8e9cff5e3d85231b3d597505ad4f8fde1970e9d6660ae4cf5"
+    },
+    "FPT_lgbm_model.pkl": {
+      "bytes": 136169,
+      "sha256": "e6601cff0857f05f8f984d9f9ec823baa9ca9c0564707724d9e0656bd6191806"
+    },
+    "FPT_meta_learner.pkl": {
+      "bytes": 647,
+      "sha256": "11f4561423d1f9adefc71a6bf0379fe36d1b77889e898f37f95d95afc063cae2"
+    }
+  },
+  "feature_count": 13,
+  "status": "ok"
+}
