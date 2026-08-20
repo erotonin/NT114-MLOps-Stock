@@ -1,13 +1,8 @@
---extra-index-url https://download.pytorch.org/whl/cpu
 fastapi
 uvicorn
 pandas
 numpy
 pydantic
-yfinance
-torch
-lightgbm
 joblib
 scikit-learn
 scipy
-mlflow

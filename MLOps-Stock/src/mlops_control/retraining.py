@@ -8,11 +8,9 @@ import threading
 from pathlib import Path
 from typing import Any
 
-from src.data_pipeline.download_latest import download_all
 from src.mlops_control.policy import evaluation_gate
 from src.mlops_control.registry import Registry
 from src.mlops_control.store import EventStore
-from src.training.ensemble_trainer import train_ensemble
 
 
 class RetrainingService:
@@ -30,6 +28,12 @@ class RetrainingService:
     def _run(self, job_id: str, symbol: str, horizon: int) -> None:
         self.store.update_job(job_id, "running")
         try:
+            # Training dependencies are intentionally lazy: the control API can
+            # serve health, drift, registry and audit endpoints without loading
+            # PyTorch/LightGBM. They are imported only when a retraining job runs.
+            from src.data_pipeline.download_latest import download_all
+            from src.training.ensemble_trainer import train_ensemble
+
             project_root = Path(os.getenv("PROJECT_ROOT", Path(__file__).resolve().parents[2]))
             data_dir = project_root / "data"
             models_dir = project_root / "models"
