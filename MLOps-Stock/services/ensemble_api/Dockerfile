@@ -15,8 +15,7 @@ WORKDIR /app
 
 # Layer 1: Dependencies (cached — không cần torch hay lightgbm)
 COPY services/ensemble_api/requirements.txt .
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Layer 2: Shared source modules
 COPY src/ /app/src/

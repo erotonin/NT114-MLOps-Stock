@@ -15,8 +15,7 @@ WORKDIR /app
 
 # Layer 1: Dependencies (cached — dùng torch CPU-only, nhẹ hơn ~1.5GB so với bản đầy đủ)
 COPY services/tft_api/requirements.txt .
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Layer 2: Shared source modules
 COPY src/ /app/src/
