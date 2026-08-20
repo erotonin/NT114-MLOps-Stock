@@ -72,3 +72,11 @@ The Windows host test environment was repaired by installing the declared test d
 The repository smoke test `python scripts/smoke_test.py` was executed against the running Compose stack and passed all checks: Ensemble and Control readiness, real FPT prediction, drift policy evaluation returning `critical/retrain`, and RBAC denial for a viewer attempting retraining. The Control API image was rebuilt with the training packages required by the lazy retraining worker (`torch`, `lightgbm`, `mlflow`, `yfinance`) while keeping `s3fs` and `boto3` outside the default image to avoid the resolver loop.
 
 The Windows startup script now validates Compose configuration, starts the local-offline profile, waits up to three minutes for all readiness URLs, reports pending services, and prints the exact Dashboard, API, Control and optional MLflow commands.
+
+## Automated retraining regression evidence — 2026-08-20
+
+A manual retraining request was executed through `POST /retrain` with role `analyst`, ticker `FPT`, horizon `3` and `epochs=1`. The first offline attempts exposed two real deployment defects: the Control API still referenced the optional `mlflow` hostname, and an existing MLflow experiment retained an unwritable `/home/ubuntu` artifact location. Both issues were fixed by enabling local SQLite tracking, mounting `mlflow.db`, creating a writable `/app/artifacts/mlflow` artifact root and isolating the offline experiment name.
+
+The final job `e3594d60-d655-46e8-bc03-f04e82f0606b` reached **promoted**. Candidate model `stock-ensemble-FPT-t3` received registry version `1`, with MAE `0.2872670182790942`, RMSE `0.3548542435466494`, and Directional Accuracy `46.875`; the evaluation gate passed because no champion existed. Raw polling output is stored in `artifacts/retraining_final_evidence.txt`.
+
+This is stronger evidence than a mocked endpoint response: the worker downloaded data, trained TFT/LightGBM/meta-learner artifacts, logged the offline MLflow run, registered the candidate and executed the promotion gate. The run used one epoch for a bounded regression check, not as the final research training configuration.
