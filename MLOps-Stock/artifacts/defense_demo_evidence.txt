@@ -1,5 +1,5 @@
 MLOps Stock defense demo evidence
-Timestamp: 2026-08-20T22:14:29.2549563+07:00
+Timestamp: 2026-08-20T22:16:12.7077186+07:00
 --- Monitor health ---
 HTTP=200
 {"status":"ok","service":"model-monitor"}
@@ -34,7 +34,7 @@ process_resident_memory_bytes 1.38153984e+08
 process_start_time_seconds 1.78722791172e+09
 # HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.
 # TYPE process_cpu_seconds_total counter
-process_cpu_seconds_total 18.919999999999998
+process_cpu_seconds_total 19.12
 # HELP process_open_fds Number of open file descriptors.
 # TYPE process_open_fds gauge
 process_open_fds 37.0
