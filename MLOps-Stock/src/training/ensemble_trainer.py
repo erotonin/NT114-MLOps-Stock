@@ -224,7 +224,7 @@ def train_ensemble(symbol="FPT", epochs=50, window_size=60, data_dir="data", mod
     if tracking_uri.startswith("file:") and os.getenv("MLFLOW_ALLOW_FILE_STORE", "false").lower() != "true":
         tracking_uri = f"sqlite:///{os.path.abspath('mlflow.db')}"
     mlflow.set_tracking_uri(tracking_uri)
-    experiment_name = "stock_ensemble_training"
+    experiment_name = "stock_ensemble_training_offline" if os.getenv("MLFLOW_OFFLINE", "0") == "1" else "stock_ensemble_training"
     if mlflow.get_experiment_by_name(experiment_name) is None:
         artifact_root = os.getenv("MLFLOW_ARTIFACT_ROOT")
         if artifact_root:
