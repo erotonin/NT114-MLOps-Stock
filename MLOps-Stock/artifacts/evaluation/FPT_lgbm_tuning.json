@@ -1,0 +1,50 @@
+{
+  "symbol": "FPT",
+  "method": "bounded_temporal_holdout_grid",
+  "seed": 42,
+  "feature_count": 13,
+  "train_rows": 554,
+  "holdout_rows": 139,
+  "target_space": "price",
+  "candidates": [
+    {
+      "candidate": 1,
+      "params": {
+        "learning_rate": 0.05,
+        "num_leaves": 15,
+        "feature_fraction": 0.8,
+        "bagging_fraction": 0.8
+      },
+      "best_iteration": 76,
+      "mae_price": 5000.5965304368765,
+      "rmse_price": 6106.122735114525
+    },
+    {
+      "candidate": 2,
+      "params": {
+        "learning_rate": 0.03,
+        "num_leaves": 31,
+        "feature_fraction": 0.9,
+        "bagging_fraction": 0.8
+      },
+      "best_iteration": 131,
+      "mae_price": 4894.845053906465,
+      "rmse_price": 5929.767501342259
+    },
+    {
+      "candidate": 3,
+      "params": {
+        "learning_rate": 0.08,
+        "num_leaves": 63,
+        "feature_fraction": 0.8,
+        "bagging_fraction": 0.9
+      },
+      "best_iteration": 52,
+      "mae_price": 4931.248014245871,
+      "rmse_price": 5971.394712639273
+    }
+  ],
+  "selected_candidate": 2,
+  "selection_rule": "lowest holdout MAE, then RMSE",
+  "status": "ok"
+}

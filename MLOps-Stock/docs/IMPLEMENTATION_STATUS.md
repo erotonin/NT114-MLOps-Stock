@@ -136,3 +136,11 @@ The feature-store API was tested both with unit tests and against the live Contr
 The project now has a root-level GitHub Actions acceptance workflow at `../.github/workflows/acceptance-tests.yml`, aligned with the repository layout where `MLOps-Stock/` is the project directory. It installs the dedicated `requirements-ci.txt` profile, runs Python 3.12 compile checks and executes the full unit/API contract suite on `ubuntu-latest`.
 
 The workflow was executed successfully in GitHub Actions run [32449547945](https://github.com/erotonin/NT114-MLOps-Stock/actions/runs/32449547945) for commit `34e546c`. The first CI attempt revealed and corrected a missing `yfinance` CI dependency; the rerun passed all steps. The hosted CI run is evidence for automated compile/test gating, while the self-hosted K3s image publishing and GitOps workflows remain deployment design/runtime-specific and are not claimed as executed here.
+
+## Bounded fine-tuning evidence — 2026-08-21
+
+The optional tuning script `scripts/tune_lgbm.py` now evaluates three LightGBM configurations using a chronological 80/20 temporal holdout, training-only scalers and deterministic seed `42`. On the FPT snapshot it evaluated 554 training rows and 139 holdout rows; candidate 2 was selected by lowest holdout MAE followed by RMSE, with price-space MAE `4894.85` and RMSE `5929.77`. The complete report is stored in `artifacts/evaluation/FPT_lgbm_tuning.json`.
+
+This is presented as a bounded hyperparameter-tuning/fine-tuning experiment, not as an Optuna/Ray Tune production search and not as proof that the tuned model dominates the Naive baseline. The default serving artifacts were intentionally not replaced by this experiment; the result is reproducible evidence for the methodology and a safe extension point for future training runs.
+
+Following feature-store and CI additions, the local regression suite collects **44 tests and passes all 44**. GitHub Actions run `32449547945` separately passed the hosted compile and full contract-test workflow.
