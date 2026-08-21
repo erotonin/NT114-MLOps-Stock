@@ -106,3 +106,11 @@ python scripts/verify_reproducibility.py
 ```
 
 The first command and the reproducibility verifier passed on the Windows host. The smoke test completed against the running Docker Compose stack, while the service-level health verification returned HTTP 200 for all four inference APIs. These checks demonstrate operational readiness of the local MVP; they do not imply that the Ensemble is more accurate than every baseline, as the documented walk-forward ablation correctly reports Naive as strongest on MAE/RMSE and TFT as strongest on directional accuracy.
+
+## Additional hardening — 2026-08-21
+
+Inference request validation was added without changing successful response schemas. A shared validator now normalizes Vietnamese stock tickers, rejects malformed symbols, requires all 13 feature columns, enforces equal-length arrays, rejects non-numeric/non-finite values and limits Data API `days` to `1..2000`. Invalid requests return HTTP 422; upstream/model failures retain their existing error handling. The new contract tests cover valid matrices, missing features, misaligned lengths, NaN values and invalid tickers.
+
+The final host regression after this change collected **38 tests and passed all 38**. Runtime verification after rebuilding Data, TFT, LightGBM and Ensemble containers returned HTTP 200 from all four `/health` endpoints. The live contract checks rejected `GET /predict/FPT-` at Ensemble and `GET /fetch/FPT?days=5000` at Data API with HTTP 422. The Compose smoke test continued to pass real FPT prediction, Control readiness, drift policy and viewer RBAC denial.
+
+A demo safety workflow was added as `scripts/backup_demo_artifacts.py`. It creates a timestamped backup of `models/`, `data/` and `artifacts/control_plane.sqlite3`, writes a `backup_manifest.json` containing file count, byte sizes and SHA-256 values, and supports an external `--output` path. The workflow was executed against a temporary destination and successfully backed up 11 files; temporary validation output was removed and `artifacts/backups/` is ignored by Git.
