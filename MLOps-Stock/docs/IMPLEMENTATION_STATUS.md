@@ -118,3 +118,9 @@ A demo safety workflow was added as `scripts/backup_demo_artifacts.py`. It creat
 ## Full-stack readiness hardening — 2026-08-21
 
 Readiness coverage was extended beyond inference services. Redis now uses `redis-cli ping`; Control API, Monitor API and Dashboard UI use HTTP healthchecks; Dashboard UI also exposes `GET /health`. After rebuilding Dashboard and restarting the Compose stack, all seven application health URLs returned HTTP 200 and Redis returned `PONG`. This gives the defense demo a consistent readiness signal for the complete local architecture rather than checking only Swagger pages.
+
+## Defense demo expansion — 2026-08-21
+
+The defense script now records all application readiness endpoints, Prometheus metrics, registry/audit/retraining views, invalid-input contracts and viewer retraining denial in one evidence file. The latest run recorded HTTP 200 for all seven application health endpoints, `PONG` for Redis in the direct runtime check, HTTP 422 for invalid Ensemble ticker and invalid Data API days, HTTP 403 for viewer retraining denial, and a successful real FPT prediction through the Ensemble graph.
+
+After adding the Dashboard health contract test, the final host regression collected **39 tests and passed all 39 in 4.74 seconds**. The repository remains synchronized with GitHub after the subsequent evidence commit.

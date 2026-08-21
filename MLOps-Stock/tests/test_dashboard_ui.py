@@ -59,3 +59,9 @@ def test_dashboard_predict_failure(mock_get):
     assert response.status_code == 200 # Returns HTML with error
     assert response.context["error"] is not None
     assert "Không thể kết nối" in response.context["error"]
+
+
+def test_dashboard_health():
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json() == {"status": "ok", "service": "dashboard-ui"}

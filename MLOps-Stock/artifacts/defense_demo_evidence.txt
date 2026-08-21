@@ -1,5 +1,20 @@
 MLOps Stock defense demo evidence
-Timestamp: 2026-08-20T22:32:37.7251127+07:00
+Timestamp: 2026-08-21T11:45:50.9267353+07:00
+--- Data health ---
+HTTP=200
+{"status":"ok","service":"data-api"}
+--- TFT health ---
+HTTP=200
+{"status":"ok","service":"tft-api"}
+--- LightGBM health ---
+HTTP=200
+{"status":"ok","service":"lgbm-api"}
+--- Ensemble health ---
+HTTP=200
+{"status":"ok","service":"ensemble-api"}
+--- Dashboard health ---
+HTTP=200
+{"status":"ok","service":"dashboard-ui"}
 --- Monitor health ---
 HTTP=200
 {"status":"ok","service":"model-monitor"}
@@ -28,13 +43,13 @@ python_info{implementation="CPython",major="3",minor="11",patchlevel="15",versio
 process_virtual_memory_bytes 1.446662144e+09
 # HELP process_resident_memory_bytes Resident memory size in bytes.
 # TYPE process_resident_memory_bytes gauge
-process_resident_memory_bytes 1.349632e+08
+process_resident_memory_bytes 1.31518464e+08
 # HELP process_start_time_seconds Start time of the process since unix epoch in seconds.
 # TYPE process_start_time_seconds gauge
-process_start_time_seconds 1.78723971314e+09
+process_start_time_seconds 1.78728744566e+09
 # HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.
 # TYPE process_cpu_seconds_total counter
-process_cpu_seconds_total 4.23
+process_cpu_seconds_total 3.79
 # HELP process_open_fds Number of open file descriptors.
 # TYPE process_open_fds gauge
 process_open_fds 31.0
@@ -66,11 +81,17 @@ HTTP=200
 --- Retrain jobs ---
 HTTP=200
 [{"id":"f933f84c-e150-4c41-9d83-6e0e8b33c295","ticker":"FPT","horizon":3,"trigger_type":"manual","status":"promoted","created_at":"2026-08-20T15:00:37.818400+00:00","updated_at":"2026-08-20T15:00:51.996827+00:00","payload":{"epochs":1,"candidate":{"version":"2","model_name":"stock-ensemble-FPT-t3","status":"candidate","metrics":{"mae":0.2867988409553559,"rmse":0.35435845756971923,"directional_acc":46.875},"artifact_path":"/app/models/FPT_artifact_manifest.json","metadata":{"ticker":"FPT","horizon":3,"trigger":"retraining","manifest":{"symbol":"FPT","run_type":"stacking_ensemble","horizon":3,"model_version":"local-fpt","code_commit":"working-tree","data_version":"local-snapshot","meta_input_space":"scaled_target","artifacts":["FPT_scaler_x.pkl","FPT_scaler_y.pkl","FPT_tft_model.pt","FPT_lgbm_model.pkl","FPT_meta_learner.pkl"],"features":["open","high","low","close","volume","sma_10","sma_20","rsi","macd","macd_signal","bb_upper","bb_lower","log_return"],"window_size":60,"tft_best_val_loss":2.0942707856496177,"mae":0.2867988409553559,"rmse":0.35435845756971923,"directional_acc":46.875,"validation_samples":32}},"created_at":"2026-08-20T15:00:51.995855+00:00"},"gate":{"passed":true,"reason":"candidate satisfies metric gate","checks":{"mae_ok":true,"rmse_ok":true,"directional_accuracy_ok":true},"candidate":{"mae":0.2867988409553559,"rmse":0.35435845756971923,"directional_acc":46.875},"champion":{"mae":0.2872670182790942,"rmse":0.3548542435466494,"directional_acc":46.875}},"baseline_metrics":{"mae":0.2872670182790942,"rmse":0.3548542435466494,"directional_acc":46.875}}},{"id":"e3594d60-d655-46e8-bc03-f04e82f0606b","ticker":"FPT","horizon":3,"trigger_type":"manual","status":"promoted","created_at":"2026-08-20T14:55:08.760715+00:00","updated_at":"2026-08-20T14:55:22.902842+00:00","payload":{"epochs":1,"candidate":{"version":"1","model_name":"stock-ensemble-FPT-t3","status":"candidate","metrics":{"mae":0.2872670182790942,"rmse":0.3548542435466494,"directional_acc":46.875},"artifact_path":"/app/models/FPT_artifact_manifest.json","metadata":{"ticker":"FPT","horizon":3,"trigger":"retraining","manifest":{"symbol":"FPT","run_type":"stacking_ensemble","horizon":3,"model_version":"local-fpt","code_commit":"working-tree","data_version":"local-snapshot","meta_input_space":"scaled_target","artifacts":["FPT_scaler_x.pkl","FPT_scaler_y.pkl","FPT_tft_model.pt","FPT_lgbm_model.pkl","FPT_meta_learner.pkl"],"features":["open","high","low","close","volume","sma_10","sma_20","rsi","macd","macd_signal","bb_upper","bb_lower","log_return"],"window_size":60,"tft_best_val_loss":2.094271103541056,"mae":0.2872670182790942,"rmse":0.3548542435466494,"directional_acc":46.875,"validation_samples":32}},"created_at":"2026-08-20T14:55:22.901050+00:00"},"gate":{"passed":true,"reason":"no champion exists","checks":{"first_model":true}}}},{"id":"0f05ed6b-6fef-41b8-bf3c-848ca4262550","ticker":"FPT","horizon":3,"trigger_type":"manual","status":"failed","created_at":"2026-08-20T14:52:33.993112+00:00","updated_at":"2026-08-20T14:52:49.118514+00:00","payload":{"epochs":1,"error":"[Errno 13] Permission denied: '/home/ubuntu'"}},{"id":"3e83fe21-fd93-4f90-998f-72451261dc45","ticker":"FPT","horizon":3,"trigger_type":"manual","status":"failed","created_at":"2026-08-20T14:48:20.107694+00:00","updated_at":"2026-08-20T14:48:39.529379+00:00","payload":{"epochs":1,"error":"[Errno 13] Permission denied: '/home/ubuntu'"}},{"id":"a327fb0f-6632-4065-a36e-67af62002b30","ticker":"FPT","horizon":3,"trigger_type":"manual","status":"failed","created_at":"2026-08-20T14:41:03.517820+00:00","updated_at":"2026-08-20T14:46:13.721132+00:00","payload":{"epochs":1,"error":"API request to http://mlflow:5000/api/2.0/mlflow/experiments/get-by-name failed with exception HTTPConnectionPool(host='mlflow', port=5000): Max retries exceeded with url: /api/2.0/mlflow/experiments/get-by-name?experiment_name=stock_ensemble_training (Caused by NameResolutionError(\"HTTPConnection(host='mlflow', port=5000): Failed to resolve 'mlflow' ([Errno -5] No address associated with hostname)\"))"}}]
+--- Invalid Ensemble ticker contract ---
+ERROR=The remote server returned an error: (422) Unprocessable Entity.
+ERROR_BODY=
+--- Invalid Data days contract ---
+ERROR=The remote server returned an error: (422) Unprocessable Entity.
+ERROR_BODY=
 --- Viewer retrain denial ---
 EXPECTED_HTTP=403
 --- Official smoke test ---
 health ensemble: ok
 health control: ok
-prediction: ok {"ticker": "FPT", "current_price": 68800.0, "model_version": "local-fpt", "feature_version": "local-snapshot", "horizon": 3, "predicted_t3": 72646.32186951733, "predicted_t3_tft": 91865.71875, "predicted_t3_lgbm": 70749.73788562209, "expected_return_pct": -16.09369874352792, "decision": "SELL", "metrics": {"confidence": 0.46735462906309044, "reason": "Negative expected edge after costs and uncertainty adjustment", "uncertainty_pct": 30.69183265171208}}
+prediction: ok {"ticker": "FPT", "current_price": 68800.0, "model_version": "local-fpt", "feature_version": "local-snapshot", "horizon": 3, "predicted_t3": 73136.45197993433, "predicted_t3_tft": 92754.6640625, "predicted_t3_lgbm": 70379.87271210655, "expected_return_pct": -16.6620668100888, "decision": "SELL", "metrics": {"confidence": 0.46640738080013655, "reason": "Negative expected edge after costs and uncertainty adjustment", "uncertainty_pct": 32.52149905580444}}
 drift evaluation: ok {'severity': 'critical', 'action': 'retrain', 'reason': 'persistent drift or performance degradation passed retraining policy', 'policy_version': 'v1', 'details': {'critical_features': 2, 'performance': {}}}
 RBAC viewer denial: ok
