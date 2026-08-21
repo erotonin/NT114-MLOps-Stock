@@ -2,10 +2,11 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
 from typing import Dict, Any
 from src.data_pipeline.yahoo_data import YahooData
+from src.models_logic.request_validation import normalize_ticker
 import pandas as pd
 import math
 
@@ -17,10 +18,15 @@ def health() -> Dict[str, str]:
     return {"status": "ok", "service": "data-api"}
 
 @app.get("/fetch/{ticker}")
-def fetch_data(ticker: str, days: int = 200) -> Dict[str, Any]:
+def fetch_data(ticker: str, days: int = Query(200, ge=1, le=2000)) -> Dict[str, Any]:
+    try:
+        symbol = normalize_ticker(ticker)
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+
     try:
         data_provider = YahooData()
-        df = data_provider.get_historical_data(ticker, days=days)
+        df = data_provider.get_historical_data(symbol, days=days)
         if df is None or df.empty:
             raise ValueError(f"No data found for {ticker}")
         
@@ -32,7 +38,7 @@ def fetch_data(ticker: str, days: int = 200) -> Dict[str, Any]:
         features = df.to_dict(orient="list")
         
         return {
-            "ticker": ticker,
+            "ticker": symbol,
             "status": "success",
             "features": features
         }

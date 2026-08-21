@@ -96,5 +96,5 @@ def test_predict_tft_insufficient_data(mock_exists, mock_download):
     }
     
     response = client.post("/predict/tft", json=payload)
-    assert response.status_code == 500
-    assert "Not enough data" in response.json()["detail"]
+    assert response.status_code == 422
+    assert "Not enough data to form a 60-day window" in response.json()["detail"]

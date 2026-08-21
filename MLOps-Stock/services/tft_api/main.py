@@ -10,6 +10,7 @@ import torch
 import joblib
 from src.models_logic.tft_model import TFTSkeleton
 from src.models_logic.model_loader import download_model_artifacts, load_manifest
+from src.models_logic.request_validation import normalize_ticker, validate_feature_matrix
 
 app = FastAPI(title="TFT Inference Service")
 
@@ -25,7 +26,8 @@ class DataPayload(BaseModel):
 @app.post("/predict/tft")
 def predict_tft(payload: DataPayload):
     try:
-        sym = payload.ticker.upper()
+        sym = normalize_ticker(payload.ticker)
+        validate_feature_matrix(payload.features)
         
         # Tải weights từ MLflow/MinIO (có cache)
         MODELS_DIR = download_model_artifacts(sym)
@@ -73,6 +75,8 @@ def predict_tft(payload: DataPayload):
             "feature_version": manifest.get("data_version", "unknown"),
             "horizon": int(manifest.get("horizon", 3))
         }
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
     except FileNotFoundError as e:
         return {"model": "Temporal Fusion Transformer", "predicted_t3": None, "model_version": "unknown", "error": str(e)}
     except Exception as e:

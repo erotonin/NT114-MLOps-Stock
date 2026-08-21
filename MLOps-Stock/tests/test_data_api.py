@@ -37,3 +37,14 @@ def test_fetch_data_no_data():
         response = client.get("/fetch/INVALID")
         assert response.status_code == 500
         assert "No data found" in response.json()["detail"]
+
+
+def test_fetch_data_invalid_ticker_is_rejected():
+    response = client.get("/fetch/FPT-")
+    assert response.status_code == 422
+    assert "alphanumeric" in response.json()["detail"]
+
+
+def test_fetch_data_days_has_upper_bound():
+    response = client.get("/fetch/FPT?days=5000")
+    assert response.status_code == 422

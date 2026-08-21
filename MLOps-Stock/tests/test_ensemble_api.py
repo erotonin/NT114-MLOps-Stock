@@ -62,3 +62,9 @@ def test_ensemble_predict_api_failure(mock_fetch_async):
     response = client.get("/predict/VNM")
     assert response.status_code == 500
     assert "API Connection Refused" in response.json()["detail"]
+
+
+def test_ensemble_invalid_ticker_is_rejected():
+    response = client.get("/predict/FPT-")
+    assert response.status_code == 422
+    assert "alphanumeric" in response.json()["detail"]

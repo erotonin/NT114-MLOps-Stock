@@ -11,6 +11,7 @@ import json
 import redis.asyncio as redis
 from src.models_logic.decision_policy import build_decision, DecisionContext
 from src.models_logic.model_loader import download_model_artifacts, load_manifest
+from src.models_logic.request_validation import normalize_ticker
 from src.mlops_control.store import EventStore
 
 REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
@@ -41,7 +42,7 @@ async def fetch_async(client, url, payload=None):
 @app.get("/predict/{ticker}")
 async def ensemble_predict(ticker: str):
     try:
-        sym = ticker.upper()
+        sym = normalize_ticker(ticker)
         cache_key = f"predict:{sym}"
         
         # Kiểm tra Cache trước
@@ -55,10 +56,10 @@ async def ensemble_predict(ticker: str):
 
         async with httpx.AsyncClient() as client:
             # 1. Gọi lấy dữ liệu
-            data_res = await fetch_async(client, DATA_URL.format(ticker))
+            data_res = await fetch_async(client, DATA_URL.format(sym))
             
             # 2. Bắn request song song cho 2 AI con (TFT và LGBM)
-            payload = {"ticker": ticker, "features": data_res["features"]}
+            payload = {"ticker": sym, "features": data_res["features"]}
             
             tft_task = fetch_async(client, TFT_URL, payload)
             lgbm_task = fetch_async(client, LGBM_URL, payload)
@@ -148,6 +149,8 @@ async def ensemble_predict(ticker: str):
             
         return result_dict
         
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
