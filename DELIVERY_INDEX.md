@@ -23,9 +23,9 @@ Project được tiếp tục từ hai repository public. `MLOps-Stock` là repo
 
 ## Evidence đã kiểm tra
 
-- **46 unit/API contract tests passed** trên Windows host.
+- **47 unit/API contract tests passed** trên Windows host.
 - Python compileall và actionlint acceptance workflow passed.
-- GitHub Actions hosted acceptance runs `32449547945` and latest `32451716049` passed.
+- GitHub Actions hosted acceptance runs `32449547945`, `32451716049` and latest `32452225372` passed.
 - Real Yahoo Finance snapshots downloaded for four Vietnamese tickers.
 - FPT Ensemble trained and served through Data → TFT/LightGBM → Ensemble.
 - Walk-forward report and historical drift replay report generated.
