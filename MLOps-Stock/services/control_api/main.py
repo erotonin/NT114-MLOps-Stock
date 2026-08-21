@@ -16,7 +16,7 @@ from typing import Any
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 import pandas as pd
-from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -124,7 +124,7 @@ def feature_detail(ticker: str, _: str = Depends(require_role("viewer"))) -> dic
 
 
 @app.get("/predictions")
-def get_predictions(ticker: str | None = None, limit: int = 100, _: str = Depends(require_role("viewer"))) -> list[dict[str, Any]]:
+def get_predictions(ticker: str | None = None, limit: int = Query(default=100, ge=1, le=1000), _: str = Depends(require_role("viewer"))) -> list[dict[str, Any]]:
     return store.list_predictions(ticker=ticker, limit=min(limit, 1000))
 
 
@@ -137,7 +137,7 @@ def label_prediction(prediction_id: str, payload: GroundTruth, _: str = Depends(
 
 
 @app.get("/performance")
-def performance(ticker: str | None = None, limit: int = 100, _: str = Depends(require_role("viewer"))) -> dict[str, Any]:
+def performance(ticker: str | None = None, limit: int = Query(default=100, ge=1, le=1000), _: str = Depends(require_role("viewer"))) -> dict[str, Any]:
     return store.performance_summary(ticker=ticker, limit=min(limit, 1000))
 
 
@@ -154,7 +154,7 @@ def evaluate_drift(payload: DriftRequest, _: str = Depends(require_role("analyst
 
 
 @app.get("/drift/events")
-def drift_events(ticker: str | None = None, limit: int = 100, _: str = Depends(require_role("viewer"))) -> list[dict[str, Any]]:
+def drift_events(ticker: str | None = None, limit: int = Query(default=100, ge=1, le=1000), _: str = Depends(require_role("viewer"))) -> list[dict[str, Any]]:
     return store.list_drift_events(ticker=ticker, limit=min(limit, 1000))
 
 
@@ -164,7 +164,7 @@ def trigger_retrain(payload: RetrainRequest, _: str = Depends(require_role("anal
 
 
 @app.get("/retrain/jobs")
-def retrain_jobs(limit: int = 100, _: str = Depends(require_role("viewer"))) -> list[dict[str, Any]]:
+def retrain_jobs(limit: int = Query(default=100, ge=1, le=1000), _: str = Depends(require_role("viewer"))) -> list[dict[str, Any]]:
     return store.list_jobs(limit=min(limit, 1000))
 
 
@@ -192,5 +192,5 @@ def rollback(payload: PromoteRequest, role: str = Depends(require_role("admin"))
 
 
 @app.get("/audit")
-def audit(limit: int = 100, _: str = Depends(require_role("viewer"))) -> list[dict[str, Any]]:
+def audit(limit: int = Query(default=100, ge=1, le=1000), _: str = Depends(require_role("viewer"))) -> list[dict[str, Any]]:
     return registry.audit(limit=min(limit, 1000))

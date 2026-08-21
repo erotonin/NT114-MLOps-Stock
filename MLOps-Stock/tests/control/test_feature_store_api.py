@@ -28,3 +28,11 @@ def test_feature_detail_contains_schema_and_hash():
 def test_feature_detail_rejects_invalid_ticker():
     response = client.get("/features/FPT-", headers={"X-Role": "viewer"})
     assert response.status_code == 422
+
+
+def test_control_query_limit_rejects_invalid_boundaries():
+    for path in ("/predictions", "/performance", "/drift/events", "/retrain/jobs", "/audit"):
+        response = client.get(path + "?limit=0", headers={"X-Role": "viewer"})
+        assert response.status_code == 422, path
+        response = client.get(path + "?limit=1001", headers={"X-Role": "viewer"})
+        assert response.status_code == 422, path
