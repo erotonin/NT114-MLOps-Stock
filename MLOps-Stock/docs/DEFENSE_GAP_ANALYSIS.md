@@ -65,3 +65,12 @@ Chạy `python -m pytest -q` và lưu kết quả **39 passed**. Chạy `python 
 The project now includes `scripts/run_walk_forward_ensemble.py`, which evaluates Naive, LightGBM, TFT and an equal-weight Ensemble on the same seven expanding folds with gap 3 and a 60-step temporal window. The final report is stored at `artifacts/evaluation/FPT_walk_forward_ensemble_final.json`. The local feature store is materialized by `scripts/materialize_feature_store.py` into versioned per-symbol snapshots with a catalog and metadata hashes; Control API exposes these read-only artifacts to viewer users.
 
 The benchmark is intentionally labeled **bounded** because TFT uses one CPU epoch per fold to keep the acceptance run reproducible on a laptop. Results are now available for defense, but they should not be presented as a tuned or production-quality TFT study. In the current run, Naive remains strongest on MAE/RMSE, while TFT reaches the highest Directional Accuracy among the four at 50.00%; the equal-weight Ensemble does not dominate all metrics. This is a valid negative/ablation result and supports the thesis claim that model lifecycle and evaluation gates are necessary rather than assuming Ensemble superiority.
+
+
+## CI acceptance evidence — 2026-08-21
+
+The repository has a root-level workflow at `.github/workflows/acceptance-tests.yml` because the GitHub repository contains the project under the `MLOps-Stock/` directory. The workflow uses a GitHub-hosted Ubuntu runner, Python 3.12, the dedicated `requirements-ci.txt` profile, compile checks and the complete unit/API contract suite.
+
+The workflow was manually dispatched on commit `34e546c` and completed successfully as GitHub Actions run `32449547945`. The run installed dependencies, compiled `src`, `services` and `scripts`, and completed the full test suite without requiring the private K3s runner. This is CI acceptance evidence; it does not claim that the self-hosted image-publish/GitOps deployment workflow was executed in the public project environment.
+
+The workflow initially exposed a missing `yfinance` entry in the CI profile. That real CI failure was fixed in commit `34e546c`, then the rerun passed. Recording this correction is useful evidence that the acceptance workflow itself has been exercised rather than merely committed as configuration.
