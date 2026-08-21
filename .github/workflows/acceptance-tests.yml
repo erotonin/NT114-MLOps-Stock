@@ -1,0 +1,53 @@
+name: "NT114 Acceptance Tests"
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - "MLOps-Stock/src/**"
+      - "MLOps-Stock/services/**"
+      - "MLOps-Stock/tests/**"
+      - "MLOps-Stock/scripts/**"
+      - "MLOps-Stock/requirements-ci.txt"
+      - "MLOps-Stock/pyproject.toml"
+  pull_request:
+    branches: [main, dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-and-contract-tests:
+    name: "Unit and API contract tests"
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: MLOps-Stock
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: MLOps-Stock/requirements-ci.txt
+
+      - name: Install CI dependencies
+        run: python -m pip install --upgrade pip && python -m pip install --extra-index-url https://download.pytorch.org/whl/cpu -r requirements-ci.txt
+
+      - name: Compile source and services
+        run: python -m compileall -q src services scripts
+
+      - name: Run full test suite
+        run: python -m pytest -q
+
+      - name: Write job summary
+        if: always()
+        working-directory: .
+        run: |
+          echo "## NT114 acceptance test evidence" >> "$GITHUB_STEP_SUMMARY"
+          echo "Executed compile checks and the complete unit/API contract suite on Python 3.12." >> "$GITHUB_STEP_SUMMARY"
