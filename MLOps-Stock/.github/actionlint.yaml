@@ -1,0 +1,5 @@
+# Custom labels used by the self-hosted K3s GitHub Actions runner.
+self-hosted-runner:
+  labels:
+    - k3s
+    - mlops
