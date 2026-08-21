@@ -1,0 +1,16 @@
+numpy
+pandas
+scipy
+scikit-learn
+lightgbm
+joblib
+fastapi
+uvicorn
+jinja2
+httpx
+requests
+redis
+pytest
+pydantic
+# CPU-only index is supplied by the acceptance workflow.
+torch
