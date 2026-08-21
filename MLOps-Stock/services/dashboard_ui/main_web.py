@@ -8,6 +8,11 @@ from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(title="Dashboard Web UI")
 
+
+@app.get("/health")
+def health() -> dict[str, str]:
+    return {"status": "ok", "service": "dashboard-ui"}
+
 base_dir = os.path.dirname(__file__)
 templates = Jinja2Templates(directory=os.path.join(base_dir, "templates"))
 app.mount("/static", StaticFiles(directory=os.path.join(base_dir, "static")), name="static")

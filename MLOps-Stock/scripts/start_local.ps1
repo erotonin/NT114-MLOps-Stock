@@ -21,7 +21,7 @@ $readiness = @(
     @{ Name = "Ensemble API"; Url = "http://127.0.0.1:8080/health" },
     @{ Name = "Monitor API"; Url = "http://127.0.0.1:8084/health" },
     @{ Name = "Control API"; Url = "http://127.0.0.1:8085/health" },
-    @{ Name = "Dashboard"; Url = "http://127.0.0.1:8081/" }
+    @{ Name = "Dashboard"; Url = "http://127.0.0.1:8081/health" }
 )
 
 Write-Host "Waiting for service readiness..."

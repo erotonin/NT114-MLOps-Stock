@@ -114,3 +114,7 @@ Inference request validation was added without changing successful response sche
 The final host regression after this change collected **38 tests and passed all 38**. Runtime verification after rebuilding Data, TFT, LightGBM and Ensemble containers returned HTTP 200 from all four `/health` endpoints. The live contract checks rejected `GET /predict/FPT-` at Ensemble and `GET /fetch/FPT?days=5000` at Data API with HTTP 422. The Compose smoke test continued to pass real FPT prediction, Control readiness, drift policy and viewer RBAC denial.
 
 A demo safety workflow was added as `scripts/backup_demo_artifacts.py`. It creates a timestamped backup of `models/`, `data/` and `artifacts/control_plane.sqlite3`, writes a `backup_manifest.json` containing file count, byte sizes and SHA-256 values, and supports an external `--output` path. The workflow was executed against a temporary destination and successfully backed up 11 files; temporary validation output was removed and `artifacts/backups/` is ignored by Git.
+
+## Full-stack readiness hardening — 2026-08-21
+
+Readiness coverage was extended beyond inference services. Redis now uses `redis-cli ping`; Control API, Monitor API and Dashboard UI use HTTP healthchecks; Dashboard UI also exposes `GET /health`. After rebuilding Dashboard and restarting the Compose stack, all seven application health URLs returned HTTP 200 and Redis returned `PONG`. This gives the defense demo a consistent readiness signal for the complete local architecture rather than checking only Swagger pages.
