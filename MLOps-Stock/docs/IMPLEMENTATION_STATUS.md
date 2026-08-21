@@ -144,3 +144,9 @@ The optional tuning script `scripts/tune_lgbm.py` now evaluates three LightGBM c
 This is presented as a bounded hyperparameter-tuning/fine-tuning experiment, not as an Optuna/Ray Tune production search and not as proof that the tuned model dominates the Naive baseline. The default serving artifacts were intentionally not replaced by this experiment; the result is reproducible evidence for the methodology and a safe extension point for future training runs.
 
 Following feature-store and CI additions, the local regression suite collects **44 tests and passes all 44**. GitHub Actions run `32449547945` separately passed the hosted compile and full contract-test workflow.
+
+## Alert connector contract evidence — 2026-08-21
+
+Alert delivery now has explicit contract coverage for the offline JSONL sink, successful webhook status reporting and non-blocking webhook failure handling. A notification outage is recorded in the alert payload and does not interrupt monitoring/retraining decisions. Real Slack, Telegram or email delivery is intentionally not invoked without a user-owned endpoint and credentials.
+
+The local regression suite now collects **46 tests** after these two webhook contract tests were added; the targeted alert suite passes all 3 tests.
