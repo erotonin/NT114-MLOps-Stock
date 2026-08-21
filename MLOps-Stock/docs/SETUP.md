@@ -168,7 +168,7 @@ Không xóa volume `control_data` nếu muốn giữ prediction logs, drift even
 & 'C:\Program Files\Docker\cli-plugins\docker-compose.exe' down
 ```
 
-Smoke test đã được lưu tại `artifacts/smoke_evidence.txt` và `artifacts/control_smoke_evidence.txt`. Contract đúng của prediction graph là `GET /fetch/FPT`, sau đó `POST /predict/tft` và `POST /predict/lgbm` với JSON `{ticker, features}`, rồi `GET /predict/FPT` trên Ensemble API. Các endpoint `/health` chỉ được cung cấp bởi Monitor và Control API; Data/TFT/LightGBM/Ensemble dùng `/docs` hoặc route nghiệp vụ tương ứng.
+Smoke test đã được lưu tại `artifacts/smoke_evidence.txt` và `artifacts/control_smoke_evidence.txt`. Contract đúng của prediction graph là `GET /fetch/FPT`, sau đó `POST /predict/tft` và `POST /predict/lgbm` với JSON `{ticker, features}`, rồi `GET /predict/FPT` trên Ensemble API. Các service đều có readiness endpoint: Data `:8001/health`, TFT `:8002/health`, LightGBM `:8003/health`, Ensemble `:8080/health`, Monitor `:8084/health` và Control `:8085/health`. Prediction services reject ticker không hợp lệ, feature thiếu/lệch chiều dài/NaN và days ngoài giới hạn bằng HTTP 422.
 
 Nếu Docker build inference image bị pip resolver loop, kiểm tra requirements của image đó không chứa `s3fs`, `mlflow` hoặc `boto3` nếu service chỉ phục vụ local artifacts. MLflow và các dependency training được lazy-load hoặc giữ ở training/control worker khi cần; không thêm lại chúng vào inference image nếu không có yêu cầu triển khai artifact qua MLflow.
 
@@ -187,10 +187,26 @@ python -m pip install --user httpx requests redis pytest
 python -m pytest -q
 ```
 
-The verified Windows host result is **28 passed**. The official Compose smoke test remains:
+The verified Windows host result is **38 passed**. The official Compose smoke test remains:
 
 ```powershell
 python scripts\smoke_test.py
 ```
 
 It verifies Ensemble and Control readiness, a real FPT prediction through the running graph, PSI drift evaluation with retraining policy, and viewer-role denial for the retraining endpoint.
+
+## 14. Backup trước demo
+
+Trước khi chạy retraining hoặc demo bảo vệ, tạo một bản snapshot của các file quan trọng bằng lệnh sau:
+
+```powershell
+python scripts\backup_demo_artifacts.py
+```
+
+Script tạo thư mục timestamped dưới `artifacts/backups/`, sao lưu `models/`, `data/` và `artifacts/control_plane.sqlite3`, đồng thời sinh `backup_manifest.json` với số byte và SHA-256 của từng file. Có thể chỉ định thư mục ngoài repository khi cần:
+
+```powershell
+python scripts\backup_demo_artifacts.py --output "$env:USERPROFILE\Desktop\NT114-demo-backup"
+```
+
+Bản backup giúp khôi phục nhanh artifact local nếu candidate retraining bị reject hoặc nếu demo làm thay đổi registry/prediction logs. Không commit các thư mục backup timestamped vào repository.

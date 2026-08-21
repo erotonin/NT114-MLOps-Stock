@@ -47,5 +47,6 @@ cosign.pub
 *.sqlite3
 mlflow.db
 artifacts/control_plane.sqlite3
+artifacts/backups/
 artifacts/registry/*.json
 /tmp/mlops-*.pid
