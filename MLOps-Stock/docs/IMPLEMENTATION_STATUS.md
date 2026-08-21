@@ -143,13 +143,13 @@ The optional tuning script `scripts/tune_lgbm.py` now evaluates three LightGBM c
 
 This is presented as a bounded hyperparameter-tuning/fine-tuning experiment, not as an Optuna/Ray Tune production search and not as proof that the tuned model dominates the Naive baseline. The default serving artifacts were intentionally not replaced by this experiment; the result is reproducible evidence for the methodology and a safe extension point for future training runs.
 
-Following feature-store and CI additions, the local regression suite collects **44 tests and passes all 44**. GitHub Actions run `32449547945` separately passed the hosted compile and full contract-test workflow.
+Following feature-store and CI additions, the local regression suite collects **49 tests and passes all 49**. GitHub Actions run `32449547945` separately passed the hosted compile and full contract-test workflow.
 
 ## Alert connector contract evidence — 2026-08-21
 
 Alert delivery now has explicit contract coverage for the offline JSONL sink, successful webhook status reporting and non-blocking webhook failure handling. A notification outage is recorded in the alert payload and does not interrupt monitoring/retraining decisions. Real Slack, Telegram or email delivery is intentionally not invoked without a user-owned endpoint and credentials.
 
-The local regression suite now collects **47 tests** after the webhook and Control API query-boundary contract tests were added; the targeted alert suite passes all 3 tests and the targeted Control API suite passes 12 tests. GitHub Actions runs [32451716049](https://github.com/erotonin/NT114-MLOps-Stock/actions/runs/32451716049) and latest [32452225372](https://github.com/erotonin/NT114-MLOps-Stock/actions/runs/32452225372) completed successfully.
+The local regression suite now collects **49 tests** after the webhook, Control API query-boundary and inference error-surface contract tests were added; the targeted alert suite passes all 3 tests, the targeted Control API suite passes 12 tests and the targeted inference suite passes 14 tests. GitHub Actions run [32452225372](https://github.com/erotonin/NT114-MLOps-Stock/actions/runs/32452225372) passed for the preceding query-hardening commit; the error-surface commit is verified locally and will be rerun in hosted CI.
 
 ## Control query boundary hardening — 2026-08-21
 
