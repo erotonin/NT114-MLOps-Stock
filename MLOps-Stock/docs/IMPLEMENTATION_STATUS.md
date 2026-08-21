@@ -124,3 +124,9 @@ Readiness coverage was extended beyond inference services. Redis now uses `redis
 The defense script now records all application readiness endpoints, Prometheus metrics, registry/audit/retraining views, invalid-input contracts and viewer retraining denial in one evidence file. The latest run recorded HTTP 200 for all seven application health endpoints, `PONG` for Redis in the direct runtime check, HTTP 422 for invalid Ensemble ticker and invalid Data API days, HTTP 403 for viewer retraining denial, and a successful real FPT prediction through the Ensemble graph.
 
 After adding the Dashboard health contract test, the final host regression collected **39 tests and passed all 39 in 4.74 seconds**. The repository remains synchronized with GitHub after the subsequent evidence commit.
+
+## Feature store and dashboard management — 2026-08-21
+
+A local versioned feature store MVP is now materialized for `FPT`, `VCB`, `VNM` and `HPG` under `artifacts/feature_store/`. Each symbol has a `v1/features.csv` snapshot and `metadata.json` containing schema, date range, row count, null count, byte size and SHA-256. The catalog is exposed through Control API `GET /features` and `GET /features/{ticker}` with viewer RBAC, and the Dashboard now renders the feature-store version, symbols, row counts and feature counts alongside registry/drift/retraining panels.
+
+The feature-store API was tested both with unit tests and against the live Control API container. The Dashboard root returned HTTP 200 and contained the Feature store panel. The final host suite now collects **44 tests and passes all 44**; reproducibility verification and Compose smoke test also passed after integration. This demonstrates the requested feature-management path as a verified local MVP, while the production cloud version would replace filesystem snapshots with an object-backed/managed feature store.
