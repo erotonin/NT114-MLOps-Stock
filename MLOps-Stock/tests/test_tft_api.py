@@ -98,3 +98,14 @@ def test_predict_tft_insufficient_data(mock_exists, mock_download):
     response = client.post("/predict/tft", json=payload)
     assert response.status_code == 422
     assert "Not enough data to form a 60-day window" in response.json()["detail"]
+
+
+@patch("services.tft_api.main.download_model_artifacts")
+def test_predict_tft_sanitizes_unexpected_error(mock_download, valid_payload):
+    mock_download.side_effect = RuntimeError("/secret/internal/path leaked")
+
+    response = client.post("/predict/tft", json=valid_payload)
+
+    assert response.status_code == 500
+    assert response.json()["detail"] == "tft inference unavailable"
+    assert "/secret/internal/path" not in response.text

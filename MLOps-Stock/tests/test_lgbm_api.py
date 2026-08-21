@@ -63,3 +63,14 @@ def test_predict_lgbm_model_not_found(mock_exists, mock_download, valid_payload)
     data = response.json()
     assert data["predicted_t3"] is None
     assert "Model not trained" in data["error"]
+
+
+@patch("services.lgbm_api.main.download_model_artifacts")
+def test_predict_lgbm_sanitizes_unexpected_error(mock_download, valid_payload):
+    mock_download.side_effect = RuntimeError("/secret/internal/path leaked")
+
+    response = client.post("/predict/lgbm", json=valid_payload)
+
+    assert response.status_code == 500
+    assert response.json()["detail"] == "lightgbm inference unavailable"
+    assert "/secret/internal/path" not in response.text

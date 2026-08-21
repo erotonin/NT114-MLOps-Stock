@@ -42,8 +42,12 @@ def fetch_data(ticker: str, days: int = Query(200, ge=1, le=2000)) -> Dict[str, 
             "status": "success",
             "features": features
         }
-    except Exception as e:
+    except ValueError as e:
+        # Known data-quality failures are safe and actionable for the client.
         raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        # Do not expose provider URLs, filesystem paths or library internals.
+        raise HTTPException(status_code=502, detail="data provider unavailable")
 
 if __name__ == "__main__":
     import uvicorn

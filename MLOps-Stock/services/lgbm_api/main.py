@@ -69,8 +69,9 @@ def predict_lgbm(payload: DataPayload):
         raise HTTPException(status_code=422, detail=str(e))
     except FileNotFoundError as e:
         return {"model": "LightGBM", "predicted_t3": None, "model_version": "unknown", "error": str(e)}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        # Keep implementation details and local paths out of the public API.
+        raise HTTPException(status_code=500, detail="lightgbm inference unavailable")
 
 if __name__ == "__main__":
     import uvicorn

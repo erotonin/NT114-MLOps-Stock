@@ -61,7 +61,8 @@ def test_ensemble_predict_api_failure(mock_fetch_async):
     
     response = client.get("/predict/VNM")
     assert response.status_code == 500
-    assert "API Connection Refused" in response.json()["detail"]
+    assert response.json()["detail"] == "ensemble inference unavailable"
+    assert "API Connection Refused" not in response.json()["detail"]
 
 
 def test_ensemble_invalid_ticker_is_rejected():

@@ -151,8 +151,9 @@ async def ensemble_predict(ticker: str):
         
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        # Do not expose downstream URLs, filesystem paths or library internals.
+        raise HTTPException(status_code=500, detail="ensemble inference unavailable")
 
 if __name__ == "__main__":
     import uvicorn

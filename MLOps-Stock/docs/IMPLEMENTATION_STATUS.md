@@ -154,3 +154,7 @@ The local regression suite now collects **47 tests** after the webhook and Contr
 ## Control query boundary hardening — 2026-08-21
 
 Viewer collection endpoints now validate `limit` with FastAPI query constraints `1 <= limit <= 1000` for predictions, performance, drift events, retraining jobs and audit history. Invalid values are rejected with HTTP 422 before store/registry access. The targeted Control API validation suite passed all 12 tests after this change.
+
+## Public error-surface hardening — 2026-08-21
+
+Unexpected exceptions in Data, LightGBM, TFT and Ensemble serving paths no longer expose filesystem paths, downstream URLs or library internals. Known client validation errors remain HTTP 422 with actionable details; known no-data/model-not-trained fallbacks remain compatible; unexpected inference/provider failures return sanitized public messages. The targeted inference failure-contract suite passed **14/14 tests**, and the four rebuilt inference containers returned healthy `/health` responses while the live Ensemble prediction remained HTTP 200.
