@@ -1,0 +1,29 @@
+{
+  "symbol": "VNM",
+  "feature_store_version": "v1",
+  "created_at_utc": "2026-08-21T04:52:43.456557+00:00",
+  "source": "C:\\Users\\Admin\\Desktop\\NT114\\MLOps-Stock\\data\\VNM.csv",
+  "feature_columns": [
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "sma_10",
+    "sma_20",
+    "rsi",
+    "macd",
+    "macd_signal",
+    "bb_upper",
+    "bb_lower",
+    "log_return",
+    "target"
+  ],
+  "row_count": 683,
+  "date_min": "2023-12-21",
+  "date_max": "2026-08-14",
+  "null_count": 0,
+  "sha256": "b0bf16cb318edcfd12215b7b339cc62f9ae70c30c4fda60a21f69121a0fe4294",
+  "bytes": 161447,
+  "status": "ok"
+}

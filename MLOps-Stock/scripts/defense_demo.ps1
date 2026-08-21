@@ -33,6 +33,8 @@ Get-Endpoint "Control health" "http://127.0.0.1:8085/health"
 Get-Endpoint "Registry" "http://127.0.0.1:8085/models" @{"X-Role"="viewer"}
 Get-Endpoint "Audit" "http://127.0.0.1:8085/audit?limit=10" @{"X-Role"="viewer"}
 Get-Endpoint "Retrain jobs" "http://127.0.0.1:8085/retrain/jobs?limit=10" @{"X-Role"="viewer"}
+Get-Endpoint "Feature store catalog" "http://127.0.0.1:8085/features" @{"X-Role"="viewer"}
+Get-Endpoint "FPT feature metadata" "http://127.0.0.1:8085/features/FPT" @{"X-Role"="viewer"}
 Get-Endpoint "Invalid Ensemble ticker contract" "http://127.0.0.1:8080/predict/FPT-"
 Get-Endpoint "Invalid Data days contract" "http://127.0.0.1:8001/fetch/FPT?days=5000"
 "--- Viewer retrain denial ---" | Add-Content $out

@@ -7,8 +7,10 @@ backed by PostgreSQL/MLflow in the Kubernetes deployment.
 
 from __future__ import annotations
 
+import json
 import os
 import sys
+from pathlib import Path
 from typing import Any
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
@@ -40,6 +42,7 @@ app.add_middleware(
 store = EventStore(os.getenv("CONTROL_DB_PATH", "artifacts/control_plane.sqlite3"))
 registry = Registry(os.getenv("REGISTRY_PATH", "artifacts/registry/registry.json"))
 retraining = RetrainingService(store=store, registry=registry)
+FEATURE_STORE_ROOT = Path(os.getenv("FEATURE_STORE_ROOT", "artifacts/feature_store"))
 
 
 class PredictionLog(BaseModel):
@@ -99,6 +102,25 @@ def health() -> dict[str, str]:
 @app.post("/predictions")
 def log_prediction(payload: PredictionLog, _: str = Depends(require_role("analyst"))) -> dict[str, Any]:
     return store.add_prediction(payload.model_dump())
+
+
+@app.get("/features")
+def feature_catalog(_: str = Depends(require_role("viewer"))) -> dict[str, Any]:
+    catalog_path = FEATURE_STORE_ROOT / "catalog.json"
+    if not catalog_path.exists():
+        raise HTTPException(status_code=404, detail="feature store catalog not found")
+    return json.loads(catalog_path.read_text(encoding="utf-8"))
+
+
+@app.get("/features/{ticker}")
+def feature_detail(ticker: str, _: str = Depends(require_role("viewer"))) -> dict[str, Any]:
+    symbol = ticker.strip().upper()
+    if not symbol or not symbol.isalnum() or len(symbol) > 12:
+        raise HTTPException(status_code=422, detail="ticker must be 1-12 alphanumeric characters")
+    metadata_path = FEATURE_STORE_ROOT / symbol / "v1" / "metadata.json"
+    if not metadata_path.exists():
+        raise HTTPException(status_code=404, detail="feature snapshot not found")
+    return json.loads(metadata_path.read_text(encoding="utf-8"))
 
 
 @app.get("/predictions")

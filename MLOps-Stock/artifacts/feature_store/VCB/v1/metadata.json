@@ -1,0 +1,29 @@
+{
+  "symbol": "VCB",
+  "feature_store_version": "v1",
+  "created_at_utc": "2026-08-21T04:52:43.411816+00:00",
+  "source": "C:\\Users\\Admin\\Desktop\\NT114\\MLOps-Stock\\data\\VCB.csv",
+  "feature_columns": [
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "sma_10",
+    "sma_20",
+    "rsi",
+    "macd",
+    "macd_signal",
+    "bb_upper",
+    "bb_lower",
+    "log_return",
+    "target"
+  ],
+  "row_count": 683,
+  "date_min": "2023-12-21",
+  "date_max": "2026-08-14",
+  "null_count": 0,
+  "sha256": "5e6fda4dd773991ab22dad0a1b1f435c00a5c1f51961bf52d84a6f2b9b96092f",
+  "bytes": 160467,
+  "status": "ok"
+}

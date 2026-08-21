@@ -1,0 +1,29 @@
+{
+  "symbol": "HPG",
+  "feature_store_version": "v1",
+  "created_at_utc": "2026-08-21T04:52:43.588837+00:00",
+  "source": "C:\\Users\\Admin\\Desktop\\NT114\\MLOps-Stock\\data\\HPG.csv",
+  "feature_columns": [
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "sma_10",
+    "sma_20",
+    "rsi",
+    "macd",
+    "macd_signal",
+    "bb_upper",
+    "bb_lower",
+    "log_return",
+    "target"
+  ],
+  "row_count": 692,
+  "date_min": "2023-12-21",
+  "date_max": "2026-08-14",
+  "null_count": 0,
+  "sha256": "1edbd513709bbb8316eac87e557a06ef47dde859649dbc8eb62118f4a74aff20",
+  "bytes": 167041,
+  "status": "ok"
+}

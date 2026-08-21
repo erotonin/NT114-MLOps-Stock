@@ -8,12 +8,13 @@ Tài liệu này là checklist trung thực trước khi bảo vệ đề tài �
 
 | Yêu cầu | Trạng thái | Evidence được phép trình bày |
 |---|---|---|
-| Feature engineering OHLCV và technical indicators | Đã triển khai | Source code, FPT snapshot, feature contract |
+| Feature engineering OHLCV và technical indicators | Đã triển khai | Source code, FPT snapshot, 13-feature contract |
+| Feature store versioning và catalog | Đã triển khai ở local MVP | `scripts/materialize_feature_store.py`, `artifacts/feature_store/catalog.json`, Control API `/features` và `/features/{ticker}` |
 | LightGBM inference | Đã kiểm thử | `/predict/lgbm`, Docker smoke output |
 | TFT inference | Đã kiểm thử | `/predict/tft`, Docker smoke output |
 | Stacking Ensemble | Đã triển khai và serving | Ensemble response, manifest `meta_input_space=scaled_target` |
 | Walk-forward validation | Đã triển khai cho Naive/LightGBM | `FPT_walk_forward.json`, 7 expanding folds, gap=3 |
-| Walk-forward TFT/Ensemble | Chưa phải evidence chính thức | Không tuyên bố đã có nếu chưa chạy evaluator chuyên biệt |
+| Walk-forward TFT/Ensemble | Đã có bounded evidence | `FPT_walk_forward_ensemble_final.json`, 4 model, 7 expanding folds, gap=3; TFT dùng cấu hình bounded trên laptop |
 | Data drift | Đã kiểm thử | PSI, drift replay, Control API `/drift/evaluate` |
 | Performance/concept drift | Đã triển khai primitive | Delayed-label metrics, Page-Hinkley; cần label thật theo thời gian để kết luận production |
 | Automated retraining | Đã chạy thật | `retraining_final_evidence.txt`, job promoted |
@@ -21,7 +22,7 @@ Tài liệu này là checklist trung thực trước khi bảo vệ đề tài �
 | Artifact rollback safety | Đã triển khai | Retraining worker backup/restore logic; nên demo bằng candidate reject fixture nếu cần |
 | Model registry/audit | Đã triển khai | Control API `/models`, `/audit`, SQLite event store và filesystem registry |
 | RBAC | Đã kiểm thử | Viewer retraining request trả HTTP 403 |
-| Web Dashboard | Đã kiểm thử | HTTP 200, prediction/control-plane widgets |
+| Web Dashboard | Đã kiểm thử | HTTP 200, prediction/control-plane widgets và `/health` |
 | Hybrid Cloud | Đã thiết kế và có manifests | K3s/EKS architecture, Helm/GitOps; không tuyên bố cluster production đã chạy nếu chưa có cluster evidence |
 | CI/CD | Đã cấu hình | GitHub Actions workflow; cần phân biệt workflow definition với deployed pipeline run |
 
@@ -57,10 +58,10 @@ Không nói hệ thống dự đoán chính xác giá, không nói đảm bảo 
 
 ## 7. Checklist trước ngày bảo vệ
 
-Chạy `python -m pytest -q` và lưu kết quả 28 passed. Chạy `python scripts/smoke_test.py` trên Compose stack. Kiểm tra `docker-compose ps` có đủ project services. Mở Dashboard, Ensemble Swagger và Control Swagger. Chuẩn bị sẵn `IMPLEMENTATION_STATUS.md`, `SETUP.md`, `DEFENSE_NOTES.md`, `FPT_walk_forward.json`, `FPT_drift_replay.json`, `final_smoke_output.txt` và `retraining_guard_evidence.json`. Cuối cùng, tắt background retraining jobs không cần thiết và giữ một snapshot backup của `models/`, `data/`, `artifacts/control_plane.sqlite3` trước buổi demo.
+Chạy `python -m pytest -q` và lưu kết quả **39 passed**. Chạy `python scripts\verify_reproducibility.py`, `python scripts\smoke_test.py` và `powershell -ExecutionPolicy Bypass -File scripts\defense_demo.ps1` trên Compose stack. Kiểm tra `docker-compose ps` có đủ project services và healthchecks ở trạng thái healthy. Mở Dashboard, Ensemble Swagger và Control Swagger; trình diễn thêm Control API `/features` để chứng minh feature-store catalog. Chuẩn bị sẵn `IMPLEMENTATION_STATUS.md`, `SETUP.md`, `DEFENSE_NOTES.md`, `FPT_walk_forward_ensemble_final.json`, `FPT_drift_replay_final.json`, `defense_demo_evidence.txt` và `retraining_guard_evidence.json`. Cuối cùng, tắt background retraining jobs không cần thiết và chạy `python scripts\backup_demo_artifacts.py` trước buổi demo.
 
 ## Update: TFT/Ensemble walk-forward evaluator
 
-The project now includes `scripts/run_walk_forward_ensemble.py`, which evaluates Naive, LightGBM, TFT and an equal-weight Ensemble on the same seven expanding folds with gap 3 and a 60-step temporal window. The final report is stored at `artifacts/evaluation/FPT_walk_forward_ensemble_final.json`.
+The project now includes `scripts/run_walk_forward_ensemble.py`, which evaluates Naive, LightGBM, TFT and an equal-weight Ensemble on the same seven expanding folds with gap 3 and a 60-step temporal window. The final report is stored at `artifacts/evaluation/FPT_walk_forward_ensemble_final.json`. The local feature store is materialized by `scripts/materialize_feature_store.py` into versioned per-symbol snapshots with a catalog and metadata hashes; Control API exposes these read-only artifacts to viewer users.
 
 The benchmark is intentionally labeled **bounded** because TFT uses one CPU epoch per fold to keep the acceptance run reproducible on a laptop. Results are now available for defense, but they should not be presented as a tuned or production-quality TFT study. In the current run, Naive remains strongest on MAE/RMSE, while TFT reaches the highest Directional Accuracy among the four at 50.00%; the equal-weight Ensemble does not dominate all metrics. This is a valid negative/ablation result and supports the thesis claim that model lifecycle and evaluation gates are necessary rather than assuming Ensemble superiority.

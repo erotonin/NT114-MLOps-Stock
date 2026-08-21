@@ -130,11 +130,13 @@ services:
       TFT_WINDOW_SIZE: 60
       LOCAL_MODELS_DIR: /app/models
       MLFLOW_OFFLINE: "1"
+      FEATURE_STORE_ROOT: /app/feature_store
     volumes:
       - ./src:/app/src:ro
       - ./data:/app/data
       - ./models:/app/models
       - ./mlflow.db:/app/mlflow.db
+      - ./artifacts/feature_store:/app/feature_store:ro
       - control_data:/app/artifacts
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8085/health')"]
