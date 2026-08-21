@@ -158,3 +158,7 @@ Viewer collection endpoints now validate `limit` with FastAPI query constraints 
 ## Public error-surface hardening — 2026-08-21
 
 Unexpected exceptions in Data, LightGBM, TFT and Ensemble serving paths no longer expose filesystem paths, downstream URLs or library internals. Known client validation errors remain HTTP 422 with actionable details; known no-data/model-not-trained fallbacks remain compatible; unexpected inference/provider failures return sanitized public messages. The targeted inference failure-contract suite passed **14/14 tests**, and the four rebuilt inference containers returned healthy `/health` responses while the live Ensemble prediction remained HTTP 200.
+
+## Latest hosted CI verification — 2026-08-21
+
+After the public-safe error handling changes, hosted GitHub Actions run [32452934855](https://github.com/erotonin/NT114-MLOps-Stock/actions/runs/32452934855) completed successfully for commit `1dfec17`. It completed dependency installation, compile checks and the full acceptance suite on the GitHub-hosted runner. Local verification after the same code changes collected **49 tests and passed all 49**, in addition to reproducibility and Docker smoke checks.
