@@ -12,6 +12,7 @@ def test_dashboard_home():
     assert "text/html" in response.headers["content-type"]
     assert "predictions" in response.context
     assert response.context["predictions"] == {}
+    assert "Feature store" in response.text
 
 @patch("httpx.AsyncClient.get")
 def test_dashboard_predict_success(mock_get):

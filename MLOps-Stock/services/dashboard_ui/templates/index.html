@@ -96,6 +96,10 @@
             <h2>Model registry</h2>
             <div id="models"><span class="muted">Đang tải...</span></div>
         </article>
+        <article class="card">
+            <h2>Feature store</h2>
+            <div id="features"><span class="muted">Đang tải...</span></div>
+        </article>
 
         <article class="card wide">
             <h2>Retraining control</h2>
@@ -126,9 +130,9 @@ async function getJson(path) {
 function rows(items) { return items.map(x => `<div class="row"><span>${x.label}</span><strong>${x.value}</strong></div>`).join(''); }
 async function refreshControlPlane() {
     try {
-        const [perf, drift, models, jobs, events] = await Promise.all([
+        const [perf, drift, models, jobs, events, features] = await Promise.all([
             getJson('/performance?ticker=FPT'), getJson('/drift/events?ticker=FPT&limit=8'),
-            getJson('/models'), getJson('/retrain/jobs?limit=8'), getJson('/audit?limit=8')
+            getJson('/models'), getJson('/retrain/jobs?limit=8'), getJson('/audit?limit=8'), getJson('/features')
         ]);
         document.getElementById('performance').innerHTML = rows([
             {label:'Sample size',value:fmt(perf.sample_size)}, {label:'MAE',value:fmt(perf.mae)},
@@ -136,6 +140,7 @@ async function refreshControlPlane() {
         ]);
         document.getElementById('drift').innerHTML = drift.length ? drift.slice(0,4).map(e => `<div class="row"><span>${e.ticker}</span><span class="status ${e.severity}">${e.severity}</span></div>`).join('') : '<span class="muted">Chưa có drift event</span>';
         document.getElementById('models').innerHTML = models.length ? models.map(m => `<div class="row"><span>${m.model_name}</span><strong>${m.champion || 'no champion'} · ${m.version_count} versions</strong></div>`).join('') : '<span class="muted">Chưa có model trong registry</span>';
+        document.getElementById('features').innerHTML = features.symbols?.length ? `<div class="row"><span>Version</span><strong>${features.feature_store_version}</strong></div>${features.symbols.map(s => `<div class="row"><span>${s.symbol}</span><strong>${s.row_count} rows · ${s.feature_columns.length} cols</strong></div>`).join('')}` : '<span class="muted">Chưa có feature snapshot</span>';
         document.getElementById('jobs').innerHTML = jobs.length ? `<table><tr><th>Job</th><th>Ticker</th><th>Trigger</th><th>Status</th><th>Updated</th></tr>${jobs.map(j => `<tr><td>${j.id.slice(0,8)}</td><td>${j.ticker}</td><td>${j.trigger_type}</td><td><span class="status ${j.status}">${j.status}</span></td><td>${j.updated_at}</td></tr>`).join('')}</table>` : '<span class="muted">Chưa có retraining job</span>';
         document.getElementById('events').innerHTML = events.length ? `<table><tr><th>Time</th><th>Ticker</th><th>Severity</th><th>Action</th></tr>${events.map(e => `<tr><td>${e.created_at}</td><td>${e.ticker}</td><td><span class="status ${e.severity}">${e.severity}</span></td><td>${e.action}</td></tr>`).join('')}</table>` : '<span class="muted">Chưa có audit/drift event</span>';
     } catch (err) {
