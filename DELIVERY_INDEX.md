@@ -18,7 +18,8 @@ Project được tiếp tục từ hai repository public. `MLOps-Stock` là repo
 | 8 | `MLOps-Stock/artifacts/evaluation/FPT_lgbm_tuning.json` | Bounded LightGBM fine-tuning trên temporal holdout |
 | 9 | `MLOps-Stock/scripts/defense_demo.ps1` | Thu thập evidence tự động trước bảo vệ |
 | 10 | `.github/workflows/acceptance-tests.yml` | Hosted CI acceptance workflow ở repository root |
-| 11 | `NT114_manifests/DEPLOYMENT.md` | K3s/Kubeflow/ArgoCD và Hybrid Cloud |
+| 11 | `MLOps-Stock/docs/REMAINING_LIMITATIONS.md` | Phân biệt phần đã kiểm chứng và phần cần hạ tầng/credentials |
+| 12 | `NT114_manifests/DEPLOYMENT.md` | K3s/Kubeflow/ArgoCD và Hybrid Cloud |
 
 ## Evidence đã kiểm tra
 
