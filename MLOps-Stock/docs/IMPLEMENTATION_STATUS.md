@@ -172,3 +172,7 @@ The host-only research profile `requirements.optional-research.txt` now pins Opt
 Optuna `4.9.0` and SHAP `0.52.0` are installed on the Windows host through the optional research profile and verified by `scripts/verify_optional_tools.py`. They remain outside the serving image dependency profile.
 
 The host machine also had an unrelated Node application listening on port 8080. Compose now supports `ENSEMBLE_HOST_PORT` while keeping the internal service on port 8080; using `ENSEMBLE_HOST_PORT=18080` successfully recreated the container, returned Ensemble `/health` HTTP 200, and passed the full prediction/drift/RBAC smoke test. The portability change passed local **49/49 tests** and hosted GitHub Actions run [32558949856](https://github.com/erotonin/NT114-MLOps-Stock/actions/runs/32558949856).
+
+## Optional cloud tooling verification — 2026-08-22
+
+The optional cloud profile is now pinned to `boto3==1.43.56` and `s3fs==2026.7.0`, a compatible Python 3.12 set verified with `pip check`. The optional-tool verifier reports Optuna `4.9.0`, SHAP `0.52.0`, boto3 `1.43.56` and an installed s3fs module. No AWS call or credential lookup was performed; the packages are extension tooling only and remain outside the serving-container profile.

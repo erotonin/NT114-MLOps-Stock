@@ -1,3 +1,4 @@
 # Optional only: install when MLflow/object storage uses an S3-compatible backend.
-boto3
-s3fs
+# Compatible Python 3.12 set verified with pip check.
+boto3==1.43.56
+s3fs==2026.7.0
