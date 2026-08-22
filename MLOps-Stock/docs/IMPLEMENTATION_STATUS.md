@@ -166,3 +166,9 @@ After the public-safe error handling changes, hosted GitHub Actions run [3245293
 ## Optional research tooling verification — 2026-08-21
 
 The host-only research profile `requirements.optional-research.txt` now pins Optuna `4.9.0` and SHAP `0.52.0`. `scripts/verify_optional_tools.py` imported both packages successfully and completed its compile check. These tools remain outside the serving-container requirements so the runtime image stays deterministic and lightweight.
+
+## Toolchain and host-port portability evidence — 2026-08-22
+
+Optuna `4.9.0` and SHAP `0.52.0` are installed on the Windows host through the optional research profile and verified by `scripts/verify_optional_tools.py`. They remain outside the serving image dependency profile.
+
+The host machine also had an unrelated Node application listening on port 8080. Compose now supports `ENSEMBLE_HOST_PORT` while keeping the internal service on port 8080; using `ENSEMBLE_HOST_PORT=18080` successfully recreated the container, returned Ensemble `/health` HTTP 200, and passed the full prediction/drift/RBAC smoke test. The portability change passed local **49/49 tests** and hosted GitHub Actions run [32558949856](https://github.com/erotonin/NT114-MLOps-Stock/actions/runs/32558949856).
