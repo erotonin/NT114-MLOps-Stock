@@ -18,9 +18,11 @@ cd MLOps-Stock
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+# Optional: bounded tuning and SHAP explainability experiments
+pip install -r requirements.optional-research.txt
 ```
 
-Nếu môi trường dùng Python được quản lý bởi hệ điều hành, có thể dùng `pip install --user` hoặc package manager tương ứng; không commit virtual environment vào Git.
+`requirements.optional-research.txt` chỉ dành cho tuning/explainability trên host; không cần cài vào serving containers. Nếu môi trường dùng Python được quản lý bởi hệ điều hành, có thể dùng `pip install --user` hoặc package manager tương ứng; không commit virtual environment vào Git.
 
 ## 4. Tải dữ liệu thật và huấn luyện
 

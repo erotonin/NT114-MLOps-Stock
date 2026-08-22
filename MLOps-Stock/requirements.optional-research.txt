@@ -1,0 +1,4 @@
+# Optional research tooling for bounded tuning and explainability experiments.
+# Keep separate from the serving/runtime profile.
+optuna==4.9.0
+shap==0.52.0
