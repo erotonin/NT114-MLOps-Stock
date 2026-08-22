@@ -7,6 +7,14 @@
 - FPT training completed successfully with 692 cleaned rows.
 - FPT artifact manifest contains `model_version=local-fpt`, `data_version=local-snapshot`, `meta_input_space=scaled_target`, MAE, RMSE and Directional Accuracy after automated retraining.
 
+## Current verification — 2026-08-22
+
+The current Windows host regression command `python -m pytest -q` completed with **49 passed in 6.48 seconds**. `pip check`, the optional tooling verifier for Optuna/SHAP/boto3/s3fs, the reproducibility verifier and Compose configuration validation also passed.
+
+The target laptop Docker Desktop runtime was rechecked with the standalone Docker Compose v5.2.0 plugin. All eight application/Redis containers were healthy and `scripts/smoke_test.py` passed with the Ensemble container port 8080 mapped to host port 18081. The hardened `scripts/start_local.ps1` detected the existing listener on host port 8080, selected free port 18081 automatically, rebuilt/recreated the stack and reached the runtime post-check successfully.
+
+The GitOps chart at `NT114_manifests/argocd/apps/mlops-stock` passed `helm lint` with default values and `values-dev.yaml`. `helm template` rendered 24 Kubernetes documents, and the repository's offline YAML validator confirmed required Kubernetes document metadata. No real Kubernetes cluster apply, ArgoCD sync, Terraform validation or cloud deployment was performed.
+
 ## Tests
 
 Command:
@@ -15,7 +23,7 @@ Command:
 python3 -m pytest -q
 ```
 
-Verified result: **28 passed**.
+Verified result: **49 passed**. Earlier historical sections below retain older counts as dated evidence.
 
 Compile check:
 
@@ -47,11 +55,11 @@ The raw values are evidence that the service graph runs; they are not a claim of
 
 The local control plane supports prediction logs, delayed ground-truth updates, PSI drift, JS/KL primitives, Page-Hinkley primitive, policy severity, retrain jobs, candidate/champion registry, promotion/rejection/rollback, audit events, RBAC demo and CORS configuration. The dashboard displays prediction, performance, drift events, model registry, retrain jobs and audit.
 
-The GitOps repository contains Helm templates and values for Control API and Monitor API, an ingress route, and CI matrix entries to build/scan/sign/update image tags for Control API.
+The GitOps tree contains a Helm chart and environment values for the seven application services plus Redis, ArgoCD dev/prod Applications, ingress and infrastructure manifests. The chart has been linted and rendered locally; API-server validation and cluster sync remain unperformed.
 
 ## Known limitations
 
-The local registry is filesystem-backed and SQLite-backed for portability; production should use MLflow Model Registry/PostgreSQL/object storage. The current TFT is a research skeleton rather than a full industrial TFT implementation. Sentiment, online learning, production A/B testing and high-availability disaster recovery are not part of the verified MVP. Kubernetes rendering could not be executed in the sandbox because Helm and Docker are not installed; the manifests were edited consistently with the existing chart conventions and must be linted in the user's cluster/CI.
+The local registry is filesystem-backed and SQLite-backed for portability; production should use MLflow Model Registry/PostgreSQL/object storage. The current TFT is a research skeleton rather than a full industrial TFT implementation. Sentiment, online learning, production A/B testing and high-availability disaster recovery are not part of the verified MVP. Helm lint/template and offline YAML structural validation now pass locally, but Kubernetes API-server validation, ArgoCD sync, EKS/K3s deployment and cloud credentials remain unverified.
 
 ## Docker Compose acceptance evidence — 2026-08-20
 
@@ -63,7 +71,7 @@ The recorded prediction path is in `artifacts/smoke_evidence.txt`: Data API retu
 
 The Control API evidence is in `artifacts/control_smoke_evidence.txt` and the live policy check. Health returned `status=ok`; viewer access to `/models` returned HTTP 200; a two-feature PSI shift with two consecutive critical checks returned policy decision `severity=critical`, `action=retrain`, and policy version `v1`.
 
-The host-level `python -m pytest -q` command on the Windows Python installation was not accepted because the host FastAPI TestClient environment lacked `httpx`; this is an environment dependency issue rather than a Docker runtime failure. The sandbox verification remains **28 passed**, and the Docker acceptance evidence above was collected independently on the target laptop.
+Historical note: an earlier Windows host run lacked `httpx`, which was subsequently installed together with the declared test dependencies. The current host verification is **49 passed**; this older paragraph is retained only to explain the progression of the evidence.
 
 ## Final hardening verification
 
