@@ -81,7 +81,7 @@ docker compose ps
 docker compose logs -f control-api
 ```
 
-Compose khởi tạo Redis, MLflow, Data API, TFT API, LightGBM API, Ensemble API, Control API, Monitor API và Dashboard UI. Trước khi dự đoán, cần có model artifact. Có thể chạy training container riêng hoặc mount artifact đã train vào `models/`.
+Compose khởi tạo Redis, MLflow, Data API, TFT API, LightGBM API, Ensemble API, Control API, Monitor API và Dashboard UI. Trước khi dự đoán, cần có model artifact. Có thể chạy training container riêng hoặc mount artifact đã train vào `models/`. Internal Ensemble vẫn lắng nghe port 8080; nếu host port 8080 đã được ứng dụng khác sử dụng, đặt `ENSEMBLE_HOST_PORT=18080` trong `.env` rồi dùng `http://127.0.0.1:18080` cho Ensemble. `scripts/smoke_test.py` tự đọc biến này.
 
 ```bash
 docker compose down

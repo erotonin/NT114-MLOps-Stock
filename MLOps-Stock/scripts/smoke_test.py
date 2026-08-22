@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -14,7 +15,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main() -> None:
-    base = {"ensemble": "http://127.0.0.1:8080", "control": "http://127.0.0.1:8085"}
+    ensemble_port = os.getenv("ENSEMBLE_HOST_PORT", "8080")
+    base = {"ensemble": f"http://127.0.0.1:{ensemble_port}", "control": "http://127.0.0.1:8085"}
     for service, url in [("ensemble", base["ensemble"] + "/docs"), ("control", base["control"] + "/health")]:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
