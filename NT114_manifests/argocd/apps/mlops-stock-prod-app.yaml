@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/Quackusarle/NT114_manifests.git
+    repoURL: https://github.com/erotonin/NT114-MLOps-Stock.git
     targetRevision: HEAD
     path: argocd/apps/mlops-stock
     helm:

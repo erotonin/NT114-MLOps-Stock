@@ -2,7 +2,7 @@
 
 ## Chọn repository
 
-Project được tiếp tục từ hai repository public. `MLOps-Stock` là repository mã nguồn ứng dụng, training, inference, dashboard, monitoring, tests và CI. `NT114_manifests` là repository GitOps chứa Helm chart, ArgoCD applications, infra manifests và deployment guide.
+Project được tiếp tục từ hai repository public. Repository canonical hiện tại là `erotonin/NT114-MLOps-Stock`; trong checkout này, mã nguồn ứng dụng nằm ở `MLOps-Stock/` và GitOps manifests nằm ở `NT114_manifests/`. ArgoCD hiện trỏ về repository canonical này tại path `NT114_manifests/argocd/apps/mlops-stock`.
 
 ## Thứ tự đọc và chạy
 
@@ -20,12 +20,13 @@ Project được tiếp tục từ hai repository public. `MLOps-Stock` là repo
 | 10 | `.github/workflows/acceptance-tests.yml` | Hosted CI acceptance workflow ở repository root |
 | 11 | `MLOps-Stock/docs/REMAINING_LIMITATIONS.md` | Phân biệt phần đã kiểm chứng và phần cần hạ tầng/credentials |
 | 12 | `NT114_manifests/DEPLOYMENT.md` | K3s/Kubeflow/ArgoCD và Hybrid Cloud |
+| 13 | `NT114_manifests/docs/GITOPS_VALIDATION.md` | Kết quả Helm lint/template và giới hạn kiểm chứng cluster |
 
 ## Evidence đã kiểm tra
 
-- **47 unit/API contract tests passed** trên Windows host.
+- **49 unit/API contract tests passed** trên Windows host.
 - Python compileall và actionlint acceptance workflow passed.
-- GitHub Actions hosted acceptance runs `32449547945`, `32451716049` and latest `32452225372` passed.
+- GitHub Actions hosted acceptance runs `32449547945`, `32451716049`, `32452225372`, `32558949856` và `32559770677` passed.
 - Real Yahoo Finance snapshots downloaded for four Vietnamese tickers.
 - FPT Ensemble trained and served through Data → TFT/LightGBM → Ensemble.
 - Walk-forward report and historical drift replay report generated.
@@ -38,4 +39,4 @@ Project được tiếp tục từ hai repository public. `MLOps-Stock` là repo
 
 ## Lưu ý
 
-Docker Desktop trên máy Windows đã được dùng để build/restart images và chạy Compose runtime evidence. Helm/Kubernetes cluster render và production deployment vẫn phải được xác nhận trong CI/cluster mục tiêu; không được trình bày local Compose là Hybrid Cloud production. Không commit credential, API key hoặc file `.env` thật.
+Docker Desktop trên máy Windows đã được dùng để build/restart images và chạy Compose runtime evidence. Helm lint/template và offline YAML structural validation đã passed cho chart dev; Kubernetes API-server validation, ArgoCD sync và production deployment vẫn cần cluster mục tiêu, nên không được trình bày local Compose hoặc Helm render là Hybrid Cloud production. Không commit credential, API key hoặc file `.env` thật.
