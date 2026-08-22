@@ -13,8 +13,8 @@ Môi trường local cần Python 3.11 trở lên, pip, Git, khoảng 4 GB RAM c
 ## 3. Cài đặt local
 
 ```bash
-git clone https://github.com/Quackusarle/MLOps-Stock.git
-cd MLOps-Stock
+git clone https://github.com/erotonin/NT114-MLOps-Stock.git
+cd NT114-MLOps-Stock/MLOps-Stock
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -118,12 +118,12 @@ Báo cáo được ghi vào `artifacts/evaluation/FPT_walk_forward.json`. Prepro
 
 ## 9. Kubernetes/ArgoCD
 
-Sử dụng repository `NT114_manifests`. Cần build và push các image `data-api`, `tft-api`, `lgbm-api`, `ensemble-api`, `dashboard`, `control-api` và `monitor-api`; không lưu credential trong Git. Cập nhật tag image trong `values-dev.yaml` hoặc để GitHub Actions cập nhật tự động.
+Sử dụng repository canonical `https://github.com/erotonin/NT114-MLOps-Stock`; chart nằm tại `NT114_manifests/argocd/apps/mlops-stock`. Cần build và push các image `data-api`, `tft-api`, `lgbm-api`, `ensemble-api`, `dashboard`, `control-api` và `monitor-api`; không lưu credential trong Git. Cập nhật tag image trong `values-dev.yaml` hoặc để pipeline có quyền cập nhật tự động.
 
 ```bash
-helm lint argocd/apps/mlops-stock
-helm template mlops-stock argocd/apps/mlops-stock -f argocd/apps/mlops-stock/values-dev.yaml
-kubectl apply -f argocd/apps/mlops-stock/...
+helm lint ../NT114_manifests/argocd/apps/mlops-stock
+helm template mlops-stock ../NT114_manifests/argocd/apps/mlops-stock -f ../NT114_manifests/argocd/apps/mlops-stock/values-dev.yaml
+kubectl apply -f ../NT114_manifests/argocd/apps/mlops-stock-dev-app.yaml
 ```
 
 Trong kiến trúc Hybrid Cloud, K3s/private cluster giữ training, dữ liệu nhạy cảm và control plane; EKS/public cluster phục vụ inference có giới hạn. Artifact phải đi qua object storage, IAM/IRSA và model promotion gate; không copy secret vào image hoặc manifest plaintext.
@@ -158,7 +158,7 @@ Set-Location 'C:\Users\Admin\Desktop\NT114\MLOps-Stock'
 & 'C:\Program Files\Docker\cli-plugins\docker-compose.exe' ps
 ```
 
-Compose mặc định chạy **local-offline mode**: MLflow được đặt dưới profile tùy chọn `mlflow`, còn các service inference đọc artifact từ thư mục `models/` được mount vào container. Cách này phù hợp cho demo bảo vệ và không phụ thuộc việc kéo image MLflow từ GHCR. Khi cần bật MLflow server, chạy:
+Compose mặc định chạy **local-offline mode**: MLflow được đặt dưới profile tùy chọn `mlflow`, còn các service inference đọc artifact từ thư mục `models/` được mount vào container. `scripts/start_local.ps1` tự dùng Compose plugin tương thích và tự chuyển Ensemble host port khỏi 8080 nếu port này đang bận; có thể đặt `ENSEMBLE_HOST_PORT` thủ công để cố định port. Cách này phù hợp cho demo bảo vệ và không phụ thuộc việc kéo image MLflow từ GHCR. Khi cần bật MLflow server, chạy:
 
 ```powershell
 & 'C:\Program Files\Docker\cli-plugins\docker-compose.exe' --profile mlflow up -d
@@ -170,7 +170,7 @@ Không xóa volume `control_data` nếu muốn giữ prediction logs, drift even
 & 'C:\Program Files\Docker\cli-plugins\docker-compose.exe' down
 ```
 
-Smoke test đã được lưu tại `artifacts/smoke_evidence.txt` và `artifacts/control_smoke_evidence.txt`. Contract đúng của prediction graph là `GET /fetch/FPT`, sau đó `POST /predict/tft` và `POST /predict/lgbm` với JSON `{ticker, features}`, rồi `GET /predict/FPT` trên Ensemble API. Các service đều có readiness endpoint: Data `:8001/health`, TFT `:8002/health`, LightGBM `:8003/health`, Ensemble `:8080/health`, Monitor `:8084/health` và Control `:8085/health`. Prediction services reject ticker không hợp lệ, feature thiếu/lệch chiều dài/NaN và days ngoài giới hạn bằng HTTP 422.
+Smoke test đã được lưu tại `artifacts/smoke_evidence.txt` và `artifacts/control_smoke_evidence.txt`. Contract đúng của prediction graph là `GET /fetch/FPT`, sau đó `POST /predict/tft` và `POST /predict/lgbm` với JSON `{ticker, features}`, rồi `GET /predict/FPT` trên Ensemble API. Các service đều có readiness endpoint: Data `:8001/health`, TFT `:8002/health`, LightGBM `:8003/health`, Ensemble host port mặc định `:8080` hoặc giá trị `ENSEMBLE_HOST_PORT`, Monitor `:8084/health` và Control `:8085/health`. Prediction services reject ticker không hợp lệ, feature thiếu/lệch chiều dài/NaN và days ngoài giới hạn bằng HTTP 422.
 
 Nếu Docker build inference image bị pip resolver loop, kiểm tra requirements của image đó không chứa `s3fs`, `mlflow` hoặc `boto3` nếu service chỉ phục vụ local artifacts. MLflow và các dependency training được lazy-load hoặc giữ ở training/control worker khi cần; không thêm lại chúng vào inference image nếu không có yêu cầu triển khai artifact qua MLflow.
 
