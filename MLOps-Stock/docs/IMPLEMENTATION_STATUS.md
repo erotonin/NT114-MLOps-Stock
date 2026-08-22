@@ -176,3 +176,5 @@ The host machine also had an unrelated Node application listening on port 8080. 
 ## Optional cloud tooling verification — 2026-08-22
 
 The optional cloud profile is now pinned to `boto3==1.43.56` and `s3fs==2026.7.0`, a compatible Python 3.12 set verified with `pip check`. The optional-tool verifier reports Optuna `4.9.0`, SHAP `0.52.0`, boto3 `1.43.56` and an installed s3fs module. No AWS call or credential lookup was performed; the packages are extension tooling only and remain outside the serving-container profile.
+
+GitHub Actions run [32559770677](https://github.com/erotonin/NT114-MLOps-Stock/actions/runs/32559770677) passed after the optional cloud profile/verifier commit. The hosted workflow does not install optional cloud packages; it validates the repository's required runtime profile, compile checks and full contract suite.
