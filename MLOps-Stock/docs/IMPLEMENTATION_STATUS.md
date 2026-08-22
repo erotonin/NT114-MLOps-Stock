@@ -162,3 +162,7 @@ Unexpected exceptions in Data, LightGBM, TFT and Ensemble serving paths no longe
 ## Latest hosted CI verification — 2026-08-21
 
 After the public-safe error handling changes, hosted GitHub Actions run [32452934855](https://github.com/erotonin/NT114-MLOps-Stock/actions/runs/32452934855) completed successfully for commit `1dfec17`. It completed dependency installation, compile checks and the full acceptance suite on the GitHub-hosted runner. Local verification after the same code changes collected **49 tests and passed all 49**, in addition to reproducibility and Docker smoke checks.
+
+## Optional research tooling verification — 2026-08-21
+
+The host-only research profile `requirements.optional-research.txt` now pins Optuna `4.9.0` and SHAP `0.52.0`. `scripts/verify_optional_tools.py` imported both packages successfully and completed its compile check. These tools remain outside the serving-container requirements so the runtime image stays deterministic and lightweight.
